@@ -1,0 +1,20 @@
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
