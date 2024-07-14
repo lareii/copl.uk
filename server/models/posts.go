@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type Posts struct {
+type Post struct {
 	ID        primitive.ObjectID  `bson:"_id,omitempty" json:"id"`
 	CreatedAt time.Time           `bson:"created_at" json:"created_at"`
 	AuthorID  *primitive.ObjectID `bson:"author_id" json:"author_id"`
@@ -19,8 +19,8 @@ type Posts struct {
 	Likes     int                 `bson:"likes" json:"likes"`
 }
 
-func GetPostByID(postID primitive.ObjectID) (Posts, error) {
-	var post Posts
+func GetPostByID(postID primitive.ObjectID) (Post, error) {
+	var post Post
 	err := db.Posts.FindOne(context.Background(), bson.M{"_id": postID}).Decode(&post)
 	if err != nil {
 		return post, fmt.Errorf("error fetching post: %v", err)
@@ -29,7 +29,7 @@ func GetPostByID(postID primitive.ObjectID) (Posts, error) {
 	return post, nil
 }
 
-func CreatePost(post Posts) error {
+func CreatePost(post Post) error {
 	post.ID = primitive.NewObjectID()
 	post.CreatedAt = time.Now()
 	post.Likes = 0

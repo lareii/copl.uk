@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Comments struct {
+type Comment struct {
 	ID        string    `bson:"_id,omitempty" json:"id"`
 	CreatedAt time.Time `bson:"created_at" json:"created_at"`
 	AuthorID  string    `bson:"author_id" json:"author_id"`

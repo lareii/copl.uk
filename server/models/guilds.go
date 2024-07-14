@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Guilds struct {
+type Guild struct {
 	ID          string    `bson:"_id,omitempty" json:"id"`
 	CreatedAt   time.Time `bson:"created_at" json:"created_at"`
 	OwnerID     string    `bson:"owner_id" json:"owner_id"`

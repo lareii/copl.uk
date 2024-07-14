@@ -31,7 +31,7 @@ func NewPost(c *gin.Context) {
 	}
 
 	userID := user.(models.User).ID
-	post := models.Posts{
+	post := models.Post{
 		AuthorID: &userID,
 		Title:    body.Title,
 		Content:  body.Content,
