@@ -1,4 +1,4 @@
-module github.com/lareii/copl.uk/client
+module github.com/lareii/copl.uk
 
 go 1.22.1
 

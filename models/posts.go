@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lareii/copl.uk/client/db"
+	"github.com/lareii/copl.uk/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

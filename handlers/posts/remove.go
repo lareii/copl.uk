@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lareii/copl.uk/client/models"
+	"github.com/lareii/copl.uk/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
