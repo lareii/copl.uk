@@ -4,10 +4,10 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lareii/copl.uk/client/handlers"
-	"github.com/lareii/copl.uk/client/handlers/auth"
-	"github.com/lareii/copl.uk/client/handlers/posts"
-	"github.com/lareii/copl.uk/client/middlewares"
+	"github.com/lareii/copl.uk/server/handlers"
+	"github.com/lareii/copl.uk/server/handlers/auth"
+	"github.com/lareii/copl.uk/server/handlers/posts"
+	"github.com/lareii/copl.uk/server/middlewares"
 )
 
 func StartServer() error {

@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
-	"github.com/lareii/copl.uk/client/db"
-	"github.com/lareii/copl.uk/client/routes"
+	"github.com/lareii/copl.uk/server/db"
+	"github.com/lareii/copl.uk/server/routes"
 )
 
 func init() {

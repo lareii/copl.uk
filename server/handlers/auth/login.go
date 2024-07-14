@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
-	"github.com/lareii/copl.uk/client/models"
+	"github.com/lareii/copl.uk/server/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
