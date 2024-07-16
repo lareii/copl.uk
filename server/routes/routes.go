@@ -13,6 +13,7 @@ import (
 func StartServer() error {
 	port := ":" + os.Getenv("PORT")
 
+	gin.SetMode(os.Getenv("GIN_MODE"))
 	router := SetupRouter()
 	err := router.Run(port)
 	return err
