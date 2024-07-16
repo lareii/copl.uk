@@ -62,7 +62,7 @@ func Login(c *gin.Context) {
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
-		Secure:   true,
+		Secure:   os.Getenv("GIN_MODE") == "release",
 	}
 
 	c.SetCookie(cookie.Name, cookie.Value, cookie.Expires.Year(), cookie.Path, cookie.Domain, cookie.Secure, cookie.HttpOnly)
