@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -46,7 +47,7 @@ func CreateUser(user User) error {
 func ValidateUser(c *gin.Context) AuthStatus {
 	cookie, _ := c.Cookie("jwt")
 	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
+		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
 		return AuthStatus{IsAuthenticated: false, Message: "Unauthorized.", Id: "0"}
@@ -69,6 +70,7 @@ func GetUserByID(id string) (user User, err error) {
 	}
 
 	err = db.Users.FindOne(context.Background(), bson.M{"_id": oid}).Decode(&user)
+
 	if err != nil && err == mongo.ErrNoDocuments {
 		return user, nil
 	}
