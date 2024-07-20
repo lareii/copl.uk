@@ -50,7 +50,7 @@ func ValidateUser(c *gin.Context) AuthStatus {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
-		return AuthStatus{IsAuthenticated: false, Message: "Unauthorized.", Id: "0"}
+		return AuthStatus{IsAuthenticated: false, Message: "User not authenticated.", Id: "0"}
 	}
 
 	claims := token.Claims.(*jwt.StandardClaims)
@@ -60,7 +60,7 @@ func ValidateUser(c *gin.Context) AuthStatus {
 		return AuthStatus{IsAuthenticated: false, Message: "User not found.", Id: user.ID.Hex()}
 	}
 
-	return AuthStatus{IsAuthenticated: true, Message: "Authorized", Id: user.ID.Hex()}
+	return AuthStatus{IsAuthenticated: true, Message: "User authenticated.", Id: user.ID.Hex()}
 }
 
 func GetUserByID(id string) (user User, err error) {

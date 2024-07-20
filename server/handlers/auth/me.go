@@ -14,7 +14,7 @@ func User(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Authenticated.",
+		"message": "User authenticated.",
 		"user":    user,
 	})
 }

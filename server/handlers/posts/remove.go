@@ -43,7 +43,7 @@ func RemovePost(c *gin.Context) {
 	}
 
 	if post.AuthorID.Hex() != user.(models.User).ID.Hex() {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized."})
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 		return
 	}
 

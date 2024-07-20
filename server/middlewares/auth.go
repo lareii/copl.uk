@@ -13,7 +13,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cookie, err := c.Cookie("jwt")
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthenticated."})
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 			c.Abort()
 			return
 		}
@@ -22,7 +22,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthenticated."})
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 			c.Abort()
 			return
 		}
