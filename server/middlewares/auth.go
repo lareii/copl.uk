@@ -28,6 +28,11 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		claims := token.Claims.(*jwt.StandardClaims)
+		if claims.ExpiresAt < 0 {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
+			c.Abort()
+			return
+		}
 		user, err := models.GetUserByID(claims.Issuer)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{

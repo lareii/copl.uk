@@ -65,7 +65,7 @@ func Login(c *gin.Context) {
 		Secure:   os.Getenv("GIN_MODE") == "release",
 	}
 
-	c.SetCookie(cookie.Name, cookie.Value, cookie.Expires.Year(), cookie.Path, cookie.Domain, cookie.Secure, cookie.HttpOnly)
+	c.SetCookie(cookie.Name, cookie.Value, int(time.Until(cookie.Expires).Seconds()), cookie.Path, cookie.Domain, cookie.Secure, cookie.HttpOnly)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "User authenticated.",
