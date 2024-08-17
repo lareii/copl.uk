@@ -10,6 +10,7 @@ import (
 
 type RegisterBody struct {
 	Email    string `json:"email"`
+	Name     string `json:"name"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -21,7 +22,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	if body.Email == "" || body.Username == "" || body.Password == "" {
+	if body.Email == "" || body.Name == "" || body.Username == "" || body.Password == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return
 	}
@@ -39,6 +40,7 @@ func Register(c *gin.Context) {
 	hash, _ := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 	user := models.User{
 		Email:    body.Email,
+		Name:     body.Name,
 		Username: body.Username,
 		Password: string(hash),
 	}

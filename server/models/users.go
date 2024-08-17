@@ -18,8 +18,9 @@ type User struct {
 	ID        primitive.ObjectID  `bson:"_id,omitempty" json:"id"`
 	CreatedAt primitive.Timestamp `bson:"created_at" json:"created_at"`
 	Email     string              `bson:"email" json:"email"`
+	Name      string              `bson:"name" json:"name"`
 	Username  string              `bson:"username" json:"username"`
-	Password  string              `bson:"password" json:"password"`
+	Password  string              `bson:"password,omitempty" json:"password,omitempty"`
 	GuildID   *primitive.ObjectID `bson:"guild_id" json:"guild_id"`
 }
 

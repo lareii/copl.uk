@@ -20,7 +20,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
+import { me } from '@/lib/api/auth/me';
 import { logout } from '@/lib/api/auth/logout';
 
 const NavItem = ({ href, icon: Icon, label, isActive }) => {
@@ -44,6 +46,7 @@ export default function Navbar({ className }) {
   const router = useRouter();
   const pathname = usePathname();
   const [icon, setIcon] = useState(<Home className='h-4 w-4' />);
+  const [user, setUser] = useState(null);
   const isActive = (route) => pathname === route;
 
   useEffect(() => {
@@ -57,6 +60,15 @@ export default function Navbar({ className }) {
       setIcon(<Menu className='h-4 w-4' />);
     }
   }, [pathname]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await me();
+      setUser(response.data.user);
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -93,8 +105,8 @@ export default function Navbar({ className }) {
                   <DropdownMenuLabel className="flex items-start">
                     <div className="mr-3 w-10 h-10 rounded-lg bg-zinc-800"></div>
                     <div className="flex flex-col mr-2">
-                      <div className="text-sm">emirhan</div>
-                      <div className="text-xs text-zinc-400">@larei</div>
+                      <div className="text-sm">user.name</div>
+                      <div className="text-xs text-zinc-400">@{user ? user.username : "user.username"}</div>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -165,8 +177,18 @@ export default function Navbar({ className }) {
                 <DropdownMenuLabel className="flex items-start">
                   <div className="mr-3 w-10 h-10 rounded-lg bg-zinc-800"></div>
                   <div className="flex flex-col mr-2">
-                    <div className="text-sm">emirhan</div>
-                    <div className="text-xs text-zinc-400">@larei</div>
+                    {user ? (
+                      <>
+                        <div className="text-sm">{user.name}</div>
+                        <div className="text-xs text-zinc-400">@{user.username}</div>
+                      </>
+                    ) : (
+                      <>
+                        <Skeleton className="w-20 h-4 mb-1 bg-zinc-800" />
+                        <Skeleton className="w-10 h-3 bg-zinc-800" />
+                      </>
+                    )
+                    }
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

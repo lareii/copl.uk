@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lareii/copl.uk/server/models"
 )
 
 func User(c *gin.Context) {
@@ -13,8 +14,16 @@ func User(c *gin.Context) {
 		return
 	}
 
+	userModel, ok := user.(models.User)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "User data is not in the expected format."})
+		return
+	}
+
+	userModel.Password = ""
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "User authenticated.",
-		"user":    user,
+		"user":    userModel,
 	})
 }
