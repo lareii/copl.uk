@@ -17,9 +17,9 @@ type LoginBody struct {
 }
 
 func Login(c *gin.Context) {
-	body := &LoginBody{}
-	if c.Bind(body) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request body."})
+	var body LoginBody
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return
 	}
 

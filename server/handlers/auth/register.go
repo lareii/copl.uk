@@ -15,9 +15,9 @@ type RegisterBody struct {
 }
 
 func Register(c *gin.Context) {
-	body := &RegisterBody{}
-	if c.Bind(body) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request body."})
+	var body RegisterBody
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return
 	}
 

@@ -18,9 +18,9 @@ func NewPost(c *gin.Context) {
 		return
 	}
 
-	body := &NewPostBody{}
-	if c.Bind(body) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request body."})
+	var body NewPostBody
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return
 	}
 
