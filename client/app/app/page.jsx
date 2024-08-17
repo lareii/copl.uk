@@ -1,4 +1,6 @@
-import Post from "@/components/app/post";
+import { Suspense } from 'react';
+
+import { Post, PostSkeleton } from "@/components/app/post";
 
 export const metadata = {
   title: "akış"
@@ -6,8 +8,10 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <div>
-      <Post />
+    <div className='flex flex-col gap-y-3'>
+      <Suspense fallback={<PostSkeleton />}>
+        <Post />
+      </Suspense>
     </div>
   );
 }
