@@ -7,8 +7,7 @@ import (
 	"github.com/lareii/copl.uk/server/models"
 )
 
-type PostBody struct {
-	Title   string `json:"title"`
+type NewPostBody struct {
 	Content string `json:"content"`
 }
 
@@ -19,13 +18,13 @@ func NewPost(c *gin.Context) {
 		return
 	}
 
-	body := &PostBody{}
+	body := &NewPostBody{}
 	if c.Bind(body) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request body."})
 		return
 	}
 
-	if body.Title == "" || body.Content == "" {
+	if body.Content == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return
 	}
@@ -33,7 +32,6 @@ func NewPost(c *gin.Context) {
 	userID := user.(models.User).ID
 	post := models.Post{
 		AuthorID: &userID,
-		Title:    body.Title,
 		Content:  body.Content,
 	}
 

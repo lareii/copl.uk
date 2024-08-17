@@ -8,8 +8,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func RemovePost(c *gin.Context) {
-	user, exists := c.Get("user")
+type GetPostsBody struct {
+	Limit  int64 `json:"limit"`
+	Offset int64 `json:"offset"`
+}
+
+func GetPost(c *gin.Context) {
+	_, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 		return
@@ -33,15 +38,31 @@ func RemovePost(c *gin.Context) {
 		return
 	}
 
-	if post.AuthorID.Hex() != user.(models.User).ID.Hex() {
+	c.JSON(http.StatusOK, gin.H{"post": post})
+}
+
+func GetPosts(c *gin.Context) {
+	_, exists := c.Get("user")
+	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 		return
 	}
 
-	if err := models.DeletePost(postID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error deleting post."})
+	var body GetPostsBody
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Post deleted."})
+	if body.Limit == 0 {
+		body.Limit = 10
+	}
+
+	posts, err := models.GetPosts(body.Limit, body.Offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching posts."})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"posts": posts})
 }

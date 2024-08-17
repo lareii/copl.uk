@@ -8,13 +8,13 @@ import (
 	"github.com/lareii/copl.uk/server/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Post struct {
 	ID        primitive.ObjectID  `bson:"_id,omitempty" json:"id"`
 	CreatedAt time.Time           `bson:"created_at" json:"created_at"`
 	AuthorID  *primitive.ObjectID `bson:"author_id" json:"author_id"`
-	Title     string              `bson:"title" json:"title"`
 	Content   string              `bson:"content" json:"content"`
 	Likes     int                 `bson:"likes" json:"likes"`
 }
@@ -27,6 +27,25 @@ func GetPostByID(postID primitive.ObjectID) (Post, error) {
 	}
 
 	return post, nil
+}
+
+func GetPosts(limit, offset int64) ([]Post, error) {
+	var posts []Post
+	cursor, err := db.Posts.Find(context.Background(), bson.M{}, &options.FindOptions{
+		Limit: &limit,
+		Skip:  &offset,
+		Sort:  bson.M{"created_at": -1},
+	})
+	if err != nil {
+		return posts, fmt.Errorf("error fetching posts: %v", err)
+	}
+
+	err = cursor.All(context.Background(), &posts)
+	if err != nil {
+		return posts, fmt.Errorf("error decoding posts: %v", err)
+	}
+
+	return posts, nil
 }
 
 func CreatePost(post Post) error {

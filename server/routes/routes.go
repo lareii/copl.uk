@@ -38,8 +38,10 @@ func SetupRouter() *gin.Engine {
 	}
 	postsGroup := router.Group("/posts")
 	{
-		postsGroup.POST("/new", middlewares.AuthMiddleware(), posts.NewPost)
-		postsGroup.POST("/remove", middlewares.AuthMiddleware(), posts.RemovePost)
+		postsGroup.GET("", middlewares.AuthMiddleware(), posts.GetPosts)
+		postsGroup.PUT("", middlewares.AuthMiddleware(), posts.NewPost)
+		postsGroup.GET("/:id", middlewares.AuthMiddleware(), posts.GetPost)
+		postsGroup.DELETE("/:id", middlewares.AuthMiddleware(), posts.RemovePost)
 	}
 
 	return router
