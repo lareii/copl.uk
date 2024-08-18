@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Home, Compass, Bell, User, Menu, ChevronUp } from "lucide-react";
+import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
-import Link from 'next/link';
 
 import {
   Sheet,
@@ -42,11 +42,70 @@ const NavItem = ({ href, icon: Icon, label, isActive }) => {
   );
 };
 
-export default function Navbar({ className }) {
+const Dropdown = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [icon, setIcon] = useState(<Home className='h-4 w-4' />);
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await me();
+      setUser(response.data.user);
+    };
+
+    fetchUser();
+  }, []);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant={pathname === `/app/users/${user?.username}` ? "secondary" : "ghost"} className="justify-start flex justify-between items-center">
+          <div className="flex items-center">
+            <User className="mr-5 h-4 w-4" />
+            profilim
+          </div>
+          <ChevronUp className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel className="flex items-start">
+          <div className="mr-3 w-10 h-10 rounded-lg bg-zinc-800"></div>
+          <div className="flex flex-col">
+            {user ? (
+              <>
+                <div className="font-medium text-sm">{user.name}</div>
+                <div className="text-zinc-400 text-xs">@{user.username}</div>
+              </>
+            ) : (
+              <>
+                <Skeleton className="w-20 h-4 mb-1" />
+                <Skeleton className="w-10 h-3" />
+              </>
+            )}
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href={"/app/users/" + user?.username}>profile git</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={
+          async (e) => {
+            e.preventDefault();
+            await logout();
+            router.push("/login");
+            router.refresh();
+          }
+        }>
+          çıkış yap
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+export default function Navbar({ className }) {
+  const pathname = usePathname();
+  const [icon, setIcon] = useState(<Home className='h-4 w-4' />);
   const isActive = (route) => pathname === route;
 
   useEffect(() => {
@@ -60,15 +119,6 @@ export default function Navbar({ className }) {
       setIcon(<Menu className='h-4 w-4' />);
     }
   }, [pathname]);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await me();
-      setUser(response.data.user);
-    };
-
-    fetchUser();
-  }, []);
 
   return (
     <>
@@ -91,48 +141,7 @@ export default function Navbar({ className }) {
               </div>
             </div>
             <div className="flex flex-col">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="justify-start flex justify-between items-center">
-                    <div className="flex items-center">
-                      <User className="mr-5 h-4 w-4" />
-                      profilim
-                    </div>
-                    <ChevronUp className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel className="flex items-start">
-                    <div className="mr-3 w-10 h-10 rounded-lg bg-zinc-800"></div>
-                    <div className="flex flex-col mr-2">
-                      <div className="text-sm">user.name</div>
-                      <div className="text-xs text-zinc-400">@{user ? user.username : "user.username"}</div>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>profile git</DropdownMenuItem>
-                  <DropdownMenuItem onClick={
-                    async (e) => {
-                      e.preventDefault();
-                      const response = await logout();
-
-                      if (!response) {
-                        toast({
-                          title: "Hay aksi, bir şeyler ters gitti!",
-                          description: "Sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.",
-                          duration: 3000
-                        });
-                        return;
-                      }
-
-                      router.push("/login");
-                      router.refresh();
-                    }
-                  }>
-                    çıkış yap
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Dropdown />
               <hr className="mb-5 mt-3" />
               <div>
                 <Image src="/copluk.png" alt="copl.uk logo" width={120} height={120} />
@@ -163,48 +172,7 @@ export default function Navbar({ className }) {
             </div>
           </div>
           <div className="flex flex-col">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="justify-start flex justify-between items-center">
-                  <div className="flex items-center">
-                    <User className="mr-5 h-4 w-4" />
-                    profilim
-                  </div>
-                  <ChevronUp className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel className="flex items-start">
-                  <div className="mr-3 w-10 h-10 rounded-lg bg-zinc-800"></div>
-                  <div className="flex flex-col mr-2">
-                    {user ? (
-                      <>
-                        <div className="text-sm">{user.name}</div>
-                        <div className="text-xs text-zinc-400">@{user.username}</div>
-                      </>
-                    ) : (
-                      <>
-                        <Skeleton className="w-20 h-4 mb-1 bg-zinc-800" />
-                        <Skeleton className="w-10 h-3 bg-zinc-800" />
-                      </>
-                    )
-                    }
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>profile git</DropdownMenuItem>
-                <DropdownMenuItem onClick={
-                  async (e) => {
-                    e.preventDefault();
-                    logout();
-                    router.push("/login");
-                    router.refresh();
-                  }
-                }>
-                  çıkış yap
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Dropdown />
             <hr className="mb-3 mt-2" />
             <div className="text-zinc-400 text-xs">
               <div>copl.uk GNU GPL v3 lisansı altında lisanslanmıştır.</div>

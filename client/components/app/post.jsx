@@ -1,4 +1,4 @@
-import { Leaf, Ellipsis, Trash, X } from "lucide-react"
+import { Leaf, Ellipsis, Trash, X, MessageCircle } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -9,9 +9,9 @@ import {
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 
-function Post({ className }) {
+function Post({ post }) {
   return (
-    <div className={`p-5 bg-zinc-900 rounded-lg ${className}`}>
+    <div className="p-5 bg-zinc-900 rounded-lg">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-start">
           <div className="mr-3 w-10 h-10 rounded-lg bg-zinc-800"></div>
@@ -41,9 +41,13 @@ function Post({ className }) {
       <div className="text-zinc-400 text-sm">
         hello world.
       </div>
-      <div className="mt-3 flex gap-3">
-        <Button variant="ghost" className="px-2 h-7 text-xs">
+      <div className="mt-4 flex gap-2">
+        <Button variant="secondary" className="px-2 h-7 text-xs">
           <Trash className="w-3 h-3 mr-2" />
+          123
+        </Button>
+        <Button variant="ghost" className="px-2 h-7 text-xs">
+          <MessageCircle className="w-3 h-3 mr-2" />
           123
         </Button>
       </div>
@@ -51,9 +55,9 @@ function Post({ className }) {
   );
 }
 
-function PostSkeleton({ className }) {
+function PostSkeleton() {
   return (
-    <div className={`p-5 bg-zinc-900 rounded-lg ${className}`}>
+    <div className="p-5 bg-zinc-900 rounded-lg ${className}">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-start">
           <Skeleton className="w-10 h-10 mr-3 rounded-lg bg-zinc-800" />
@@ -68,7 +72,8 @@ function PostSkeleton({ className }) {
       <div className="text-zinc-400 text-sm">
         <Skeleton className="w-5/6 h-4 bg-zinc-800" />
       </div>
-      <div className="mt-3 flex gap-3">
+      <div className="mt-4 flex gap-2">
+        <Skeleton className="w-16 h-7 bg-zinc-800" />
         <Skeleton className="w-16 h-7 bg-zinc-800" />
       </div>
     </div>

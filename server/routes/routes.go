@@ -7,6 +7,7 @@ import (
 	"github.com/lareii/copl.uk/server/handlers"
 	"github.com/lareii/copl.uk/server/handlers/auth"
 	"github.com/lareii/copl.uk/server/handlers/posts"
+	"github.com/lareii/copl.uk/server/handlers/users"
 	"github.com/lareii/copl.uk/server/middlewares"
 )
 
@@ -35,6 +36,10 @@ func SetupRouter() *gin.Engine {
 		authGroup.POST("/register", auth.Register)
 		authGroup.POST("/login", auth.Login)
 		authGroup.GET("/logout", auth.Logout)
+	}
+	userGroup := router.Group("/users")
+	{
+		userGroup.GET("/:slug", middlewares.AuthMiddleware(), users.GetUser)
 	}
 	postsGroup := router.Group("/posts")
 	{

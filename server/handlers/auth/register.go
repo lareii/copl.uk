@@ -13,6 +13,7 @@ type RegisterBody struct {
 	Name     string `json:"name"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+	About    string `json:"about"`
 }
 
 func Register(c *gin.Context) {

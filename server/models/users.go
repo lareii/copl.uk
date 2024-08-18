@@ -17,10 +17,11 @@ import (
 type User struct {
 	ID        primitive.ObjectID  `bson:"_id,omitempty" json:"id"`
 	CreatedAt primitive.Timestamp `bson:"created_at" json:"created_at"`
-	Email     string              `bson:"email" json:"email"`
+	Email     string              `bson:"email,omitempty" json:"email,omitempty"`
 	Name      string              `bson:"name" json:"name"`
 	Username  string              `bson:"username" json:"username"`
 	Password  string              `bson:"password,omitempty" json:"password,omitempty"`
+	About     string              `bson:"about" json:"about"`
 	GuildID   *primitive.ObjectID `bson:"guild_id" json:"guild_id"`
 }
 
@@ -35,6 +36,7 @@ func CreateUser(user User) error {
 	user.CreatedAt = primitive.Timestamp{
 		T: uint32(time.Now().Unix()),
 	}
+	user.About = "hello world"
 	user.GuildID = nil
 
 	_, err := db.Users.InsertOne(context.Background(), user)
