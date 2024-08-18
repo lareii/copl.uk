@@ -29,19 +29,23 @@ func NewPost(c *gin.Context) {
 		return
 	}
 
-	userID := user.(models.User).ID
+	author := user.(models.User)
+	author.Password = ""
+	author.Email = ""
+
 	post := models.Post{
-		AuthorID: &userID,
-		Content:  body.Content,
+		Author:  author,
+		Content: body.Content,
 	}
 
-	if err := models.CreatePost(post); err != nil {
+	createdPost, err := models.CreatePost(post)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating post."})
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Post created.",
-		"post":    post,
+		"post":    createdPost,
 	})
 }

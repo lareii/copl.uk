@@ -12,11 +12,12 @@ import (
 )
 
 type Post struct {
-	ID        primitive.ObjectID  `bson:"_id,omitempty" json:"id"`
-	CreatedAt time.Time           `bson:"created_at" json:"created_at"`
-	AuthorID  *primitive.ObjectID `bson:"author_id" json:"author_id"`
-	Content   string              `bson:"content" json:"content"`
-	Likes     int                 `bson:"likes" json:"likes"`
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	CreatedAt time.Time          `bson:"created_at" json:"created_at"`
+	Author    User               `bson:"author" json:"author"`
+	Content   string             `bson:"content" json:"content"`
+	Likes     int                `bson:"likes" json:"likes"`
+	Comments  int                `bson:"comments" json:"comments"`
 }
 
 func GetPostByID(postID primitive.ObjectID) (Post, error) {
@@ -48,17 +49,18 @@ func GetPosts(limit, offset int64) ([]Post, error) {
 	return posts, nil
 }
 
-func CreatePost(post Post) error {
+func CreatePost(post Post) (Post, error) {
 	post.ID = primitive.NewObjectID()
 	post.CreatedAt = time.Now()
 	post.Likes = 0
+	post.Comments = 0
 
 	_, err := db.Posts.InsertOne(context.Background(), post)
 	if err != nil {
-		return fmt.Errorf("error creating post: %v", err)
+		return Post{}, fmt.Errorf("error creating post: %v", err)
 	}
 
-	return nil
+	return post, nil
 }
 
 func DeletePost(postID primitive.ObjectID) error {

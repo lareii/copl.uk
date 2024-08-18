@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "bildirimler"
+  title: 'bildirimler'
 };
 
 export default function Page() {

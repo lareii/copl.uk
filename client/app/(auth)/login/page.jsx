@@ -1,13 +1,12 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -15,14 +14,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
-
-import { login } from "@/lib/api/auth/login";
+} from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
+import { login } from '@/lib/api/auth';
 
 const formSchema = z.object({
-  username: z.string().min(1, "kullanıcı adı boş bırakılamaz"),
-  password: z.string().min(1, "şifre boş bırakılamaz"),
+  username: z.string().min(1, 'kullanıcı adı boş bırakılamaz'),
+  password: z.string().min(1, 'şifre boş bırakılamaz'),
 });
 
 export default function Page() {
@@ -32,8 +30,8 @@ export default function Page() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
   });
 
@@ -42,26 +40,26 @@ export default function Page() {
 
     if (!response) {
       toast({
-        title: "Hay aksi, bir şeyler ters gitti!",
-        description: "Sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.",
+        title: 'Hay aksi, bir şeyler ters gitti!',
+        description: 'Sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
       return;
     }
 
     if (response.status === 200) {
-      router.push("/app");
+      router.push('/app');
       router.refresh();
     } else if (response.status === 401) {
       toast({
-        title: "Hay aksi, bir şeyler ters gitti!",
-        description: "Kullanıcı adı veya şifre yanlış.",
+        title: 'Hay aksi, bir şeyler ters gitti!',
+        description: 'Kullanıcı adı veya şifre yanlış.',
         duration: 3000
       });
     } else {
       toast({
-        title: "Hay aksi, bir şeyler ters gitti!",
-        description: "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+        title: 'Hay aksi, bir şeyler ters gitti!',
+        description: 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
     }
@@ -69,15 +67,15 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex max-sm:flex-col justify-between items-start gap-10">
-        <div className="basis-1/2">
-          <div className="text-2xl font-bold">oturum açın</div>
-          <div className="text-sm">
+      <div className='flex max-sm:flex-col justify-between items-start gap-10'>
+        <div className='basis-1/2'>
+          <div className='text-2xl font-bold'>oturum açın</div>
+          <div className='text-sm'>
             çöplüğe giriş yapmak için lütfen bilgilerinizi girin.
           </div>
-          <div className="text-muted-foreground text-xs mt-5">
-            henüz bir hesabın yok mu? {" "}
-            <Link href="/register" className="underline">
+          <div className='text-muted-foreground text-xs mt-5'>
+            henüz bir hesabın yok mu? {' '}
+            <Link href='/register' className='underline'>
               yeni bir tane oluştur!
             </Link>
           </div>
@@ -85,17 +83,17 @@ export default function Page() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-5 basis-1/2 w-full"
+            className='flex flex-col gap-y-5 basis-1/2 w-full'
           >
-            <div className="space-y-2">
+            <div className='flex flex-col gap-y-2'>
               <FormField
                 control={form.control}
-                name="username"
+                name='username'
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
+                  <FormItem className='space-y-1'>
                     <FormLabel>kullanıcı adı</FormLabel>
                     <FormControl>
-                      <Input placeholder="larei" {...field} />
+                      <Input placeholder='copcu1337' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,19 +101,19 @@ export default function Page() {
               />
               <FormField
                 control={form.control}
-                name="password"
+                name='password'
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
+                  <FormItem className='space-y-1'>
                     <FormLabel>şifre</FormLabel>
                     <FormControl>
-                      <Input type="password" className="text-xs" {...field} />
+                      <Input type='password' className='text-xs' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type='submit' className='w-full'>
               giriş yapıyorum
             </Button>
           </form>

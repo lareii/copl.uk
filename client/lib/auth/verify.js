@@ -1,7 +1,7 @@
-import { jwtVerify } from "jose";
+import { jwtVerify } from 'jose';
 
 export async function verifyToken(token) {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET)
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
   try {
     return await jwtVerify(token, secret);
