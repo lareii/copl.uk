@@ -40,8 +40,8 @@ export default function Page() {
 
     if (!response) {
       toast({
-        title: 'Hay aksi, bir şeyler ters gitti!',
-        description: 'Sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.',
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
       return;
@@ -52,14 +52,14 @@ export default function Page() {
       router.refresh();
     } else if (response.status === 401) {
       toast({
-        title: 'Hay aksi, bir şeyler ters gitti!',
-        description: 'Kullanıcı adı veya şifre yanlış.',
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'kullanıcı adı veya şifre yanlış.',
         duration: 3000
       });
     } else {
       toast({
-        title: 'Hay aksi, bir şeyler ters gitti!',
-        description: 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.',
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
     }

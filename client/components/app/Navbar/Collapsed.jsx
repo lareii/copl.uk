@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Home, Compass, Bell, Menu, User } from 'lucide-react';
 import Item from '@/components/app/Navbar/Item';
 import Dropdown from '@/components/app/Navbar/Dropdown';
+import PostModal from '@/components/app/Navbar/PostModal';
 import {
   Sheet,
   SheetContent,
@@ -49,6 +50,10 @@ export default function Collapsed({ router, pathname }) {
                 <Item pathname={pathname} href='/app' icon={Home} label='akış' />
                 <Item pathname={pathname} href='/app/explore' icon={Compass} label='keşfet' />
                 <Item pathname={pathname} href='/app/notifications' icon={Bell} label='bildirimler' />
+              </div>
+              <div className='mt-5 mb-3 font-medium text-xs text-muted-foreground'>yaratıcılık</div>
+              <div className='flex flex-col'>
+                <PostModal />
               </div>
             </div>
             <div className='flex flex-col'>

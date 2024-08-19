@@ -1,12 +1,30 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CalendarFold, SearchX } from 'lucide-react';
-import { getUser } from '@/lib/api/users';
+import { CalendarFold } from 'lucide-react';
+import { getUser, getUserPosts } from '@/lib/api/users';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import Post from '@/components/app/Post';
 
 export default function Page({ params }) {
   const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [offset, setOffset] = useState(10); // posts per page
+  const [hasMorePost, setHasMorePost] = useState(true);
+
+  const loadMorePosts = async () => {
+    if (!hasMorePost) return;
+
+    const response = await getUserPosts({ limit: 10, offset });
+    if (!response.data.posts) {
+      setHasMorePost(false);
+      return;
+    }
+
+    setPosts([...posts, ...response.data.posts]);
+    setOffset(offset + 10);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -18,7 +36,14 @@ export default function Page({ params }) {
       }
     };
 
+    const fetchPosts = async () => {
+      const response = await getUserPosts(params, { limit: 10, offset: 0 });
+      if (!response.data.posts) return;
+      setPosts(response.data.posts);
+    };
+
     fetchUser();
+    fetchPosts();
   }, []);
 
   return (
@@ -67,12 +92,28 @@ export default function Page({ params }) {
           }
           <div className='mt-10'>
             <div className='text-xs text-zinc-400 mb-5'>gönderiler</div>
-            <div className='text-sm text-center'>henüz bir gönderi yok.</div>
+            <div className='flex flex-col gap-3'>
+              {posts.length > 0 ? (
+                <>
+                  {posts.map((post) => <Post key={post.id} post={post} />)}
+                  {hasMorePost ? (
+                    <Button onClick={loadMorePosts} className='w-full'>
+                      daha fazla göster
+                    </Button>
+                  ) : (
+                    <div className='text-center text-sm'>sona ulaştın. 👀</div>
+                  )
+                  }
+                </>
+              ) : (
+                <div className='text-sm text-center'>buralar şimdilik sessiz.</div>
+              )}
+            </div>
           </div>
         </div>
       ) : (
-        <div className='h-full flex flex-col justify-center items-center'>
-          <div className='text-sm'>maalesef böyle bir kullanıcı yok.</div>
+        <div className='flex flex-col justify-center items-center'>
+          <div className='text-sm'>maalesef böyle bir çöpçü yok.</div>
         </div>
       )
       }

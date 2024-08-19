@@ -18,6 +18,15 @@ export async function getPosts({ limit, offset }) {
   }
 }
 
+export async function createPost({ content }) {
+  try {
+    const response = await api.put('/posts', { content });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
 export async function deletePost({ id }) {
   try {
     const response = await api.delete(`/posts/${id}`);
