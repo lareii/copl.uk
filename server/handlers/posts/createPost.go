@@ -7,18 +7,18 @@ import (
 	"github.com/lareii/copl.uk/server/models"
 )
 
-type NewPostBody struct {
+type PostBody struct {
 	Content string `json:"content"`
 }
 
-func NewPost(c *gin.Context) {
+func CreatePost(c *gin.Context) {
 	user, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 		return
 	}
 
-	var body NewPostBody
+	var body PostBody
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return

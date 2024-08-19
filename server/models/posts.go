@@ -49,6 +49,25 @@ func GetPosts(limit, offset int64) ([]Post, error) {
 	return posts, nil
 }
 
+func GetPostsByAuthor(authorID primitive.ObjectID, limit, offset int64) ([]Post, error) {
+	var posts []Post
+	cursor, err := db.Posts.Find(context.Background(), bson.M{"author._id": authorID}, &options.FindOptions{
+		Limit: &limit,
+		Skip:  &offset,
+		Sort:  bson.M{"created_at": -1},
+	})
+	if err != nil {
+		return posts, fmt.Errorf("error fetching posts: %v", err)
+	}
+
+	err = cursor.All(context.Background(), &posts)
+	if err != nil {
+		return posts, fmt.Errorf("error decoding posts: %v", err)
+	}
+
+	return posts, nil
+}
+
 func CreatePost(post Post) (Post, error) {
 	post.ID = primitive.NewObjectID()
 	post.CreatedAt = time.Now()

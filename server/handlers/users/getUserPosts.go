@@ -1,4 +1,4 @@
-package posts
+package users
 
 import (
 	"net/http"
@@ -6,41 +6,23 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lareii/copl.uk/server/models"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetPost(c *gin.Context) {
+func GetUserPosts(c *gin.Context) {
 	_, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
 		return
 	}
 
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
-	}
-
-	postID, err := primitive.ObjectIDFromHex(id)
+	slug := c.Param("slug")
+	user, err := models.GetUserByUsername(slug)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error getting user."})
 		return
 	}
-
-	post, err := models.GetPostByID(postID)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching post."})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"post": post})
-}
-
-func GetPosts(c *gin.Context) {
-	_, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
+	if user.Username == "" {
+		c.JSON(http.StatusNotFound, gin.H{"message": "User not found."})
 		return
 	}
 
@@ -59,9 +41,14 @@ func GetPosts(c *gin.Context) {
 		return
 	}
 
-	posts, err := models.GetPosts(limit, offset)
+	posts, err := models.GetPostsByAuthor(user.ID, limit, offset)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching posts."})
+		return
+	}
+
+	if len(posts) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No posts found."})
 		return
 	}
 
