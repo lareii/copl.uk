@@ -11,14 +11,26 @@ export default function Page({ params }) {
     const fetchUser = async () => {
       const response = await getPost(params);
       setPost(response.data.post);
+
+      if (response.status === 404) {
+        setPost(404);
+      }
     };
 
     fetchUser();
   }, []);
 
   return (
-    <div>
-      <Post post={post} />
-    </div>
+    <>
+      {post != 404 ? (
+        <div>
+          <Post post={post} />
+        </div>
+      ) : (
+        <div className='h-full flex flex-col justify-center items-center'>
+          <div>maalesef böyle bir gönderi yok.</div>
+        </div>
+      )}
+    </>
   );
 }

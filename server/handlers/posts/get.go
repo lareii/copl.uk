@@ -28,7 +28,7 @@ func GetPost(c *gin.Context) {
 
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid post ID."})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
 		return
 	}
 

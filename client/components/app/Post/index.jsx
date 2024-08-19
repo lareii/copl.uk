@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { Ellipsis, X, Trash, MessageCircle } from 'lucide-react';
 import {
