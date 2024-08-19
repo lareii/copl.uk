@@ -72,7 +72,7 @@ export default function Page({ params }) {
         </div>
       ) : (
         <div className='h-full flex flex-col justify-center items-center'>
-          <div>maalesef böyle bir kullanıcı yok.</div>
+          <div className='text-sm'>maalesef böyle bir kullanıcı yok.</div>
         </div>
       )
       }

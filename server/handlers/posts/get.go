@@ -2,16 +2,12 @@ package posts
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lareii/copl.uk/server/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type GetPostsBody struct {
-	Limit  int64 `json:"limit"`
-	Offset int64 `json:"offset"`
-}
 
 func GetPost(c *gin.Context) {
 	_, exists := c.Get("user")
@@ -48,17 +44,22 @@ func GetPosts(c *gin.Context) {
 		return
 	}
 
-	var body GetPostsBody
-	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
+	limitStr := c.DefaultQuery("limit", "10")
+	offsetStr := c.DefaultQuery("offset", "0")
+
+	limit, err := strconv.ParseInt(limitStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid limit value."})
 		return
 	}
 
-	if body.Limit == 0 {
-		body.Limit = 10
+	offset, err := strconv.ParseInt(offsetStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid offset value."})
+		return
 	}
 
-	posts, err := models.GetPosts(body.Limit, body.Offset)
+	posts, err := models.GetPosts(limit, offset)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching posts."})
 		return

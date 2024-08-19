@@ -9,6 +9,15 @@ export async function getPost({ id }) {
   }
 }
 
+export async function getPosts({ limit, offset }) {
+  try {
+    const response = await api.get('/posts', { params: { limit, offset } });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
 export async function deletePost({ id }) {
   try {
     const response = await api.delete(`/posts/${id}`);
