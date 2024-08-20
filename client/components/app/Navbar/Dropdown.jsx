@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { User, ChevronUp } from 'lucide-react';
+import { User, ChevronUp, LoaderCircle } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,8 +20,8 @@ export default function Dropdown({ router, pathname }) {
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    await logout();
     setUser('loading');
+    await logout();
     router.push('/login');
     router.refresh();
   }
@@ -58,7 +58,8 @@ export default function Dropdown({ router, pathname }) {
           <Link href={'/app/users/' + user?.username}>profile git</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem onClick={handleLogout} disabled={user === 'loading'}>
+          {user === 'loading' && <LoaderCircle className='mr-2 h-4 w-4' />}
           çıkış yap
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -9,11 +9,9 @@ export async function getUser({ slug }) {
   }
 }
 
-export async function getUserPosts({ slug, limit, offset }) {
+export async function getUserPosts(slug, limit, offset) {
   try {
-    const response = await api.get(`/users/${slug}/posts`, {
-      params: { limit, offset },
-    });
+    const response = await api.get(`/users/${slug}/posts`, { params: { limit, offset } });
     return response;
   } catch (error) {
     return error.response;

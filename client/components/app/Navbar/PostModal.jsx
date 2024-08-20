@@ -22,8 +22,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { createPost } from '@/lib/api/posts';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Plus } from 'lucide-react';
+import { set, useForm } from 'react-hook-form';
+import { Plus, LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -32,6 +32,7 @@ const formSchema = z.object({
 });
 
 export default function PostModal() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -44,6 +45,7 @@ export default function PostModal() {
   });
 
   async function onSubmit(values) {
+    setIsSubmitting(true);
     const response = await createPost({ content: values.content });
 
     if (!response) {
@@ -59,6 +61,7 @@ export default function PostModal() {
       router.push(`/app/posts/${response.data.post.id}`);
       router.refresh();
       setIsOpen(false);
+      setIsSubmitting(false);
     } else {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -98,7 +101,10 @@ export default function PostModal() {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='mt-5'>gönderiyorum</Button>
+            <Button type='submit' className='mt-5' disabled={isSubmitting}>
+              {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
+              gönderiyorum
+            </Button>
           </form>
         </Form>
       </DialogContent>

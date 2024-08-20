@@ -27,8 +27,8 @@ export default function Page({ params }) {
           <Post post={post} />
         </div>
       ) : (
-        <div className='h-full flex flex-col justify-center items-center'>
-          <div>maalesef böyle bir gönderi yok.</div>
+        <div className='h-full flex flex-col justify-center items-center text-sm'>
+          maalesef böyle bir gönderi yok.
         </div>
       )}
     </>

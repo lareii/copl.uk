@@ -49,7 +49,7 @@ func GetPosts(limit, offset int64) ([]Post, error) {
 	return posts, nil
 }
 
-func GetPostsByAuthor(authorID primitive.ObjectID, limit, offset int64) ([]Post, error) {
+func GetPostsByUser(authorID primitive.ObjectID, limit, offset int64) ([]Post, error) {
 	var posts []Post
 	cursor, err := db.Posts.Find(context.Background(), bson.M{"author._id": authorID}, &options.FindOptions{
 		Limit: &limit,

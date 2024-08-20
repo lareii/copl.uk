@@ -41,7 +41,7 @@ func GetUserPosts(c *gin.Context) {
 		return
 	}
 
-	posts, err := models.GetPostsByAuthor(user.ID, limit, offset)
+	posts, err := models.GetPostsByUser(user.ID, limit, offset)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching posts."})
 		return

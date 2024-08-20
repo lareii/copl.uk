@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Ellipsis, X, Trash, MessageCircle } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Ellipsis, X, Trash, MessageCircle, LoaderCircle } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,15 +13,24 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { deletePost } from '@/lib/api/posts';
 
-export default function Post({ post }) {
+export default function Post({ post, onDelete }) {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const pathname = usePathname();
   const router = useRouter();
 
   const handleDelete = async (e) => {
     e.preventDefault();
 
-    await deletePost({ id: post.id });
-    router.push('/app');
-    router.refresh();
+    setIsDeleting(true);
+    const response = await deletePost({ id: post.id });
+    if (response && response.status === 200) {
+      if (pathname.startsWith('/app/posts')) {
+        router.push('/app');
+        router.refresh();
+        return;
+      }
+      onDelete(post.id);
+    }
   }
 
   return (
@@ -31,8 +41,8 @@ export default function Post({ post }) {
           <div className='flex flex-col mr-2'>
             {post ? (
               <>
-                <div className='text-sm'>{ post.author.name  }</div>
-                <div className='text-xs text-zinc-400'>@{ post.author.username }</div>
+                <div className='text-sm'>{post.author.name}</div>
+                <div className='text-xs text-zinc-400'>@{post.author.username}</div>
               </>
             ) : (
               <>
@@ -53,9 +63,13 @@ export default function Post({ post }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem className='flex items-center text-red-500' onClick={handleDelete}>
-              <X className='h-4 w-4 mr-2' />
-              <div>çöpü kaldır</div>
+            <DropdownMenuItem className='flex items-center text-red-500' onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? (
+                <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+              ) : (
+                <X className='w-4 h-4 mr-2' />
+              )}
+              çöpü kaldır
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

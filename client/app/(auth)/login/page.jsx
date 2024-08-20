@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -24,6 +26,7 @@ const formSchema = z.object({
 });
 
 export default function Page() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -36,6 +39,7 @@ export default function Page() {
   });
 
   async function onSubmit(values) {
+    setIsSubmitting(true);
     const response = await login(values.username, values.password);
 
     if (!response) {
@@ -112,7 +116,8 @@ export default function Page() {
               )}
             />
           </div>
-          <Button type='submit' className='w-full'>
+          <Button type='submit' className='w-full' disabled={isSubmitting}>
+            {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
             giriş yapıyorum
           </Button>
         </form>
