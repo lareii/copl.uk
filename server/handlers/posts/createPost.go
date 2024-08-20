@@ -7,7 +7,7 @@ import (
 	"github.com/lareii/copl.uk/server/models"
 )
 
-type PostBody struct {
+type NewPostBody struct {
 	Content string `json:"content"`
 }
 
@@ -18,7 +18,7 @@ func CreatePost(c *gin.Context) {
 		return
 	}
 
-	var body PostBody
+	var body NewPostBody
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
 		return

@@ -23,11 +23,6 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	if body.Email == "" || body.Name == "" || body.Username == "" || body.Password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
-	}
-
 	userExists, err := models.GetUserByUsername(body.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error checking if user exists."})

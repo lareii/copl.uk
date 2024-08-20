@@ -16,11 +16,6 @@ func DeletePost(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
-	}
-
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid post ID."})
@@ -29,7 +24,7 @@ func DeletePost(c *gin.Context) {
 
 	post, err := models.GetPostByID(postID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching post."})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
 		return
 	}
 

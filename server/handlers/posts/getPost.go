@@ -23,13 +23,13 @@ func GetPost(c *gin.Context) {
 
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid post ID."})
 		return
 	}
 
 	post, err := models.GetPostByID(postID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching post."})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
 		return
 	}
 

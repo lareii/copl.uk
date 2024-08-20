@@ -16,8 +16,6 @@ type Post struct {
 	CreatedAt time.Time          `bson:"created_at" json:"created_at"`
 	Author    User               `bson:"author" json:"author"`
 	Content   string             `bson:"content" json:"content"`
-	Likes     int                `bson:"likes" json:"likes"`
-	Comments  int                `bson:"comments" json:"comments"`
 }
 
 func GetPostByID(postID primitive.ObjectID) (Post, error) {
@@ -71,8 +69,6 @@ func GetPostsByUser(authorID primitive.ObjectID, limit, offset int64) ([]Post, e
 func CreatePost(post Post) (Post, error) {
 	post.ID = primitive.NewObjectID()
 	post.CreatedAt = time.Now()
-	post.Likes = 0
-	post.Comments = 0
 
 	_, err := db.Posts.InsertOne(context.Background(), post)
 	if err != nil {
