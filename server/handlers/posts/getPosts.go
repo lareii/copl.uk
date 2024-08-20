@@ -9,12 +9,6 @@ import (
 )
 
 func GetPosts(c *gin.Context) {
-	_, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
-	}
-
 	limitStr := c.DefaultQuery("limit", "10")
 	offsetStr := c.DefaultQuery("offset", "0")
 

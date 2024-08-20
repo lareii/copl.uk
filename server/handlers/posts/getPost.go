@@ -9,12 +9,6 @@ import (
 )
 
 func GetPost(c *gin.Context) {
-	_, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
-	}
-
 	id := c.Param("id")
 	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})

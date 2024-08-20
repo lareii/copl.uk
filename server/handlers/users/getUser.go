@@ -8,12 +8,6 @@ import (
 )
 
 func GetUser(c *gin.Context) {
-	_, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
-	}
-
 	slug := c.Param("slug")
 	user, err := models.GetUserByUsername(slug)
 	if err != nil {
