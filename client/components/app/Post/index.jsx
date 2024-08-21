@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Ellipsis, X, Trash, MessageCircle, LoaderCircle } from 'lucide-react';
+import { Ellipsis, X, Trash, MessageCircle, LoaderCircle, SquareArrowOutUpRight } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +13,11 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import { deletePost } from '@/lib/api/posts';
+import useAuthStore from '@/stores/auth';
+import Link from 'next/link';
 
 export default function Post({ post, onDelete }) {
+  const user = useAuthStore((state) => state.user);
   const [isDeleting, setIsDeleting] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -23,7 +26,7 @@ export default function Post({ post, onDelete }) {
   const handleDelete = async (e) => {
     e.preventDefault();
     setIsDeleting(true);
-    
+
     const response = await deletePost({ id: post.id });
     if (!response) {
       toast({
@@ -80,14 +83,22 @@ export default function Post({ post, onDelete }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem className='flex items-center text-red-500' onClick={handleDelete} disabled={isDeleting}>
-              {isDeleting ? (
-                <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
-              ) : (
-                <X className='w-4 h-4 mr-2' />
-              )}
-              çöpü kaldır
+            <DropdownMenuItem asChild>
+              <Link href={`/app/posts/${post.id}`}>
+                <SquareArrowOutUpRight className='w-4 h-4 mr-2' />
+                çöpe git
+              </Link>
             </DropdownMenuItem>
+            {user.id === post.author.id && (
+              <DropdownMenuItem onClick={handleDelete} disabled={isDeleting} className='flex items-center text-red-500'>
+                {isDeleting ? (
+                  <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+                ) : (
+                  <X className='w-4 h-4 mr-2' />
+                )}
+                çöpü kaldır
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
