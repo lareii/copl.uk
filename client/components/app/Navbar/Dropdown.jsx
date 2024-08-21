@@ -59,7 +59,7 @@ export default function Dropdown({ router, pathname }) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} disabled={user === 'loading'}>
-          {user === 'loading' && <LoaderCircle className='mr-2 h-4 w-4' />}
+          {user === 'loading' && <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />}
           çıkış yap
         </DropdownMenuItem>
       </DropdownMenuContent>
