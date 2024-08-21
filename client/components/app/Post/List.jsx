@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import Post from '@/components/app/Post';
 
 export default function PostList({ fetchPosts }) {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(10);
   const [hasMorePost, setHasMorePost] = useState(true);
+  const { toast } = useToast();
 
   const handleDelete = (postId) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
@@ -17,6 +19,15 @@ export default function PostList({ fetchPosts }) {
     if (!hasMorePost) return;
 
     const response = await fetchPosts(offset);
+    if (!response) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+        duration: 3000
+      });
+      return;
+    }
+
     const newPosts = response.data.posts || [];
 
     if (newPosts.length > 10) {
@@ -32,6 +43,14 @@ export default function PostList({ fetchPosts }) {
   useEffect(() => {
     const fetchInitialPosts = async () => {
       const response = await fetchPosts(0);
+      if (!response) {
+        toast({
+          title: 'hay aksi, bir şeyler ters gitti!',
+          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+          duration: 3000
+        });
+        return;
+      }
       const initialPosts = response.data.posts || [];
 
       if (initialPosts.length > 10) {

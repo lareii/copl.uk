@@ -11,26 +11,43 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/components/ui/use-toast';
 import { deletePost } from '@/lib/api/posts';
 
 export default function Post({ post, onDelete }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleDelete = async (e) => {
     e.preventDefault();
-
     setIsDeleting(true);
+    
     const response = await deletePost({ id: post.id });
-    if (response && response.status === 200) {
-      if (pathname.startsWith('/app/posts')) {
-        router.push('/app');
-        router.refresh();
-        return;
-      }
-      onDelete(post.id);
+    if (!response) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+        duration: 3000
+      });
+      return;
     }
+    if (response.status !== 200) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'gönderi silinemedi.',
+        duration: 3000
+      });
+      return;
+    }
+
+    if (pathname.startsWith('/app/posts')) {
+      router.push('/app');
+      router.refresh();
+      return;
+    }
+    onDelete(post.id);
   }
 
   return (

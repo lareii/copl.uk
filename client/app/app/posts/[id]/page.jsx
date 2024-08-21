@@ -2,19 +2,27 @@
 
 import { useState, useEffect } from 'react'
 import Post from '@/components/app/Post';
+import { useToast } from '@/components/ui/use-toast';
 import { getPost } from '@/lib/api/posts';
 
 export default function Page({ params }) {
   const [post, setPost] = useState(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchUser = async () => {
       const response = await getPost(params);
-      setPost(response.data.post);
 
-      if (response.status === 404) {
-        setPost(404);
+      if (!response) {
+        toast({
+          title: 'hay aksi, bir şeyler ters gitti!',
+          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+          duration: 3000
+        });
+        return;
       }
+
+      setPost(response.data.post);
     };
 
     fetchUser();
@@ -22,12 +30,12 @@ export default function Page({ params }) {
 
   return (
     <>
-      {post != 404 ? (
+      {post ? (
         <div>
           <Post post={post} />
         </div>
       ) : (
-        <div className='h-full flex flex-col justify-center items-center text-sm'>
+        <div className='flex flex-col justify-center items-center text-sm'>
           maalesef böyle bir gönderi yok.
         </div>
       )}

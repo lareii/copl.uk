@@ -51,24 +51,25 @@ export default function PostModal() {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.',
+        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
       return;
     }
 
-    if (response.status === 201) {
-      router.push(`/app/posts/${response.data.post.id}`);
-      router.refresh();
-      setIsOpen(false);
-      setIsSubmitting(false);
-    } else {
+    if (response.status !== 201) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
+      return;
     }
+
+    router.push(`/app/posts/${response.data.post.id}`);
+    router.refresh();
+    setIsOpen(false);
+    setIsSubmitting(false);
   }
 
   return (

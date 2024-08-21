@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { CalendarFold } from 'lucide-react';
 import { getUser, getUserPosts } from '@/lib/api/users';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/components/ui/use-toast';
 import PostList from '@/components/app/Post/List';
 
 export default function Page({ params }) {
   const [user, setUser] = useState(null);
+  const { toast } = useToast();
 
   const fetchPosts = async (offset) => {
     return await getUserPosts(params.slug, 11, offset);
@@ -17,11 +19,21 @@ export default function Page({ params }) {
     const fetchUser = async () => {
       const response = await getUser(params);
 
+      if (!response) {
+        toast({
+          title: 'hay aksi, bir şeyler ters gitti!',
+          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+          duration: 3000,
+        });
+        return;
+      }
+
       if (response.status === 404) {
         setUser(404);
-      } else {
-        setUser(response.data.user);
+        return;
       }
+
+      setUser(response.data.user);
     };
 
     fetchUser();

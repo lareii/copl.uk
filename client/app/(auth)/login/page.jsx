@@ -40,8 +40,8 @@ export default function Page() {
 
   async function onSubmit(values) {
     setIsSubmitting(true);
-    const response = await login(values.username, values.password);
 
+    const response = await login(values.username, values.password);
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -50,23 +50,25 @@ export default function Page() {
       });
       return;
     }
-
-    if (response.status === 200) {
-      router.push('/app');
-      router.refresh();
-    } else if (response.status === 401) {
+    if (response.status === 401) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'kullanıcı adı veya şifre yanlış.',
         duration: 3000
       });
-    } else {
+      return;
+    }
+    if (response.status !== 200) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
+      return;
     }
+
+    router.push('/app');
+    router.refresh();
   };
 
   return (
