@@ -27,4 +27,5 @@ func SetupRouter(app *fiber.App) {
 	postGroup.Post("/", middlewares.AuthMiddleware(), posts.CreatePost)
 	postGroup.Get("/:id", middlewares.AuthMiddleware(), posts.GetPost)
 	postGroup.Delete("/:id", middlewares.AuthMiddleware(), posts.DeletePost)
+	postGroup.Patch("/:id", middlewares.AuthMiddleware(), posts.UpdatePost)
 }

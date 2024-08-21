@@ -12,11 +12,12 @@ import (
 )
 
 type Post struct {
-	ID        primitive.ObjectID  `bson:"_id" json:"id"`
-	CreatedAt primitive.Timestamp `bson:"created_at" json:"created_at"`
-	UpdatedAt primitive.Timestamp `bson:"updated_at" json:"updated_at"`
-	Author    User                `bson:"author" json:"author"`
-	Content   string              `bson:"content" json:"content"`
+	ID        primitive.ObjectID   `bson:"_id" json:"id"`
+	CreatedAt primitive.Timestamp  `bson:"created_at" json:"created_at"`
+	UpdatedAt primitive.Timestamp  `bson:"updated_at" json:"updated_at"`
+	Author    User                 `bson:"author" json:"author"`
+	Content   string               `bson:"content" json:"content"`
+	Likes     []primitive.ObjectID `bson:"likes" json:"likes,omitempty"`
 }
 
 func GetPostByID(postID primitive.ObjectID) (Post, error) {
@@ -73,6 +74,7 @@ func CreatePost(post Post) (Post, error) {
 	timeNow := primitive.Timestamp{T: uint32(time.Now().Unix())}
 	post.CreatedAt = timeNow
 	post.UpdatedAt = timeNow
+	post.Likes = []primitive.ObjectID{}
 
 	_, err := database.Posts.InsertOne(context.Background(), post)
 	if err != nil {
@@ -89,4 +91,16 @@ func DeletePost(postID primitive.ObjectID) error {
 	}
 
 	return nil
+}
+
+func UpdatePost(postID primitive.ObjectID, update bson.M) (Post, error) {
+	var post Post
+	options := options.FindOneAndUpdate().SetReturnDocument(options.After)
+	err := database.Posts.FindOneAndUpdate(context.Background(), bson.M{"_id": postID}, update, options).Decode(&post)
+	if err != nil {
+		fmt.Printf("Update error: %v\n", err)
+		return post, fmt.Errorf("error updating post: %v", err)
+	}
+
+	return post, nil
 }
