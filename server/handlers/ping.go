@@ -1,14 +1,11 @@
 package handlers
 
 import (
-	"fmt"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
-	fmt.Println("pong")
+func Ping(c *fiber.Ctx) error {
+	c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "pong"})
+
+	return nil
 }

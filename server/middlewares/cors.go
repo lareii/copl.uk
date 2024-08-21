@@ -3,21 +3,25 @@ package middlewares
 import (
 	"os"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func CORSMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", os.Getenv("CLIENT_HOST"))
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
-			return
+func CORSMiddleware() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		clientHost := os.Getenv("CLIENT_HOST")
+		if clientHost == "" {
+			clientHost = "*"
 		}
 
-		c.Next()
+		c.Set("Access-Control-Allow-Origin", clientHost)
+		c.Set("Access-Control-Allow-Methods", "GET, POST, DELETE")
+		c.Set("Access-Control-Allow-Headers", "Content-Type")
+		c.Set("Access-Control-Allow-Credentials", "true")
+
+		if c.Method() == "OPTIONS" {
+			return c.SendStatus(fiber.StatusNoContent)
+		}
+
+		return c.Next()
 	}
 }

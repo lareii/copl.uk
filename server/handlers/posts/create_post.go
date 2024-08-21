@@ -1,50 +1,46 @@
 package posts
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 )
 
 type NewPostBody struct {
-	Content string `json:"content"`
+	Content string `json:"content" validate:"required"`
 }
 
-func CreatePost(c *gin.Context) {
-	user, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
+func CreatePost(c *fiber.Ctx) error {
+	user, ok := c.Locals("user").(models.User)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "User not authenticated."})
 	}
 
 	var body NewPostBody
-	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body."})
 	}
 
-	if body.Content == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
+	var validate = validator.New()
+	if err := validate.Struct(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing or invalid fields."})
 	}
 
-	author := user.(models.User)
-	author.Password = ""
-	author.Email = ""
+	user.Email = ""
+	user.Password = ""
+	user.About = ""
 
 	post := models.Post{
-		Author:  author,
+		Author:  user,
 		Content: body.Content,
 	}
 
 	createdPost, err := models.CreatePost(post)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating post."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error creating post."})
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Post created.",
 		"post":    createdPost,
 	})

@@ -1,50 +1,42 @@
 package users
 
 import (
-	"net/http"
-	"strconv"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 )
 
-func GetUserPosts(c *gin.Context) {
-	slug := c.Param("slug")
+func GetUserPosts(c *fiber.Ctx) error {
+	slug := c.Params("slug")
 	user, err := models.GetUserByUsername(slug)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error getting user."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching user.",
+		})
 	}
 	if user.Username == "" {
-		c.JSON(http.StatusNotFound, gin.H{"message": "User not found."})
-		return
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "User not found.",
+		})
 	}
 
-	limitStr := c.DefaultQuery("limit", "10")
-	offsetStr := c.DefaultQuery("offset", "0")
+	limit := c.QueryInt("limit", 10)
+	offset := c.QueryInt("offset", 0)
 
-	limit, err := strconv.ParseInt(limitStr, 10, 64)
+	posts, err := models.GetPostsByUser(user, int64(limit), int64(offset))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid limit value."})
-		return
-	}
-
-	offset, err := strconv.ParseInt(offsetStr, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid offset value."})
-		return
-	}
-
-	posts, err := models.GetPostsByUser(user.ID, limit, offset)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching posts."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching user posts.",
+		})
 	}
 
 	if len(posts) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"message": "No posts found."})
-		return
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "No posts found.",
+		})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"posts": posts})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "User posts found.",
+		"posts":   posts,
+	})
 }
