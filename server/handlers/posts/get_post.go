@@ -1,31 +1,29 @@
 package posts
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetPost(c *gin.Context) {
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
-	}
-
+func GetPost(c *fiber.Ctx) error {
+	id := c.Params("id")
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid post ID."})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid post ID.",
+		})
 	}
 
 	post, err := models.GetPostByID(postID)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching post.",
+		})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"post": post})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Post found.",
+		"post":    post,
+	})
 }

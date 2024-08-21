@@ -14,8 +14,12 @@ __*
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# DotEnv formatted file
-.env
+# dotenv formatted file
+.env*
+!.env.example
+
+# log files
+*.log
 
 # Dependency directories (remove the comment below to include it)
 # vendor/

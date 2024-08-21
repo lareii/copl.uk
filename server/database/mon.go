@@ -1,4 +1,4 @@
-package db
+package database
 
 import (
 	"context"
@@ -10,13 +10,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+const DatabaseName = "db"
+
 var (
-	db     *mongo.Database
-	Client *mongo.Client
+	Client   *mongo.Client
+	database *mongo.Database
 )
 
 func Setup() {
 	uri := os.Getenv("MONGO_URI")
+	if uri == "" {
+		log.Fatal("MONGO_URI environment variable not set")
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -27,11 +32,13 @@ func Setup() {
 		log.Fatal("Error connecting to MongoDB: ", err)
 	}
 
-	db = Client.Database(os.Getenv("MONGO_DB"))
-	if err := createDatabase(ctx, os.Getenv("MONGO_DB")); err != nil {
+	database = Client.Database(DatabaseName)
+	if err := createDatabase(ctx, DatabaseName); err != nil {
 		log.Fatal("Error creating database: ", err)
 	}
-	initCollections(db)
+
+	initCollections(database)
+	log.Println("MongoDB setup completed successfully")
 }
 
 func Disconnect() {

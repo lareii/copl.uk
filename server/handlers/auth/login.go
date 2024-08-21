@@ -1,74 +1,69 @@
 package auth
 
 import (
-	"net/http"
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 	"github.com/lareii/copl.uk/server/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginBody struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }
 
-func Login(c *gin.Context) {
+func Login(c *fiber.Ctx) error {
 	var body LoginBody
-	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing required fields."})
-		return
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body."})
+	}
+
+	var validate = validator.New()
+	if err := validate.Struct(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing or invalid fields."})
 	}
 
 	auth := models.ValidateUser(c)
 	if auth.IsAuthenticated {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-			"message": "User already authenticated.",
-			"userId":  auth.Id,
-		})
-		return
+		c.Status(fiber.StatusConflict).JSON(fiber.Map{"message": "User already authenticated."})
+		return nil
 	}
 
 	user, err := models.GetUserByUsername(body.Username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error getting user."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error fetching user."})
 	}
 	if user.Username == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not found."})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid credentials."})
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid username or password."})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid credentials."})
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    user.ID.Hex(),
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	})
+
 	token, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating token."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error creating token."})
 	}
 
-	cookie := &http.Cookie{
+	cookie := &fiber.Cookie{
 		Name:     "jwt",
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
-		HttpOnly: true,
-		Secure:   os.Getenv("GIN_MODE") == "release",
+		HTTPOnly: true,
+		Secure:   os.Getenv("MODE") == "production",
+		SameSite: "Strict",
 	}
+	c.Cookie(cookie)
 
-	c.SetSameSite(http.SameSiteStrictMode)
-	c.SetCookie(cookie.Name, cookie.Value, int(time.Until(cookie.Expires).Seconds()), cookie.Path, cookie.Domain, cookie.Secure, cookie.HttpOnly)
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "User authenticated.",
-	})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "User authenticated."})
 }

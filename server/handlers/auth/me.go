@@ -1,29 +1,20 @@
 package auth
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 )
 
-func User(c *gin.Context) {
-	user, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
-	}
-
-	userModel, ok := user.(models.User)
+func User(c *fiber.Ctx) error {
+	user, ok := c.Locals("user").(models.User)
 	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "User data is not in the expected format."})
-		return
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "User not authenticated."})
 	}
 
-	userModel.Password = ""
+	user.Password = ""
 
-	c.JSON(http.StatusOK, gin.H{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User authenticated.",
-		"user":    userModel,
+		"user":    user,
 	})
 }

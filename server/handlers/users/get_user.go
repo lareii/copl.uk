@@ -1,28 +1,28 @@
 package users
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 )
 
-func GetUser(c *gin.Context) {
-	slug := c.Param("slug")
+func GetUser(c *fiber.Ctx) error {
+	slug := c.Params("slug")
 	user, err := models.GetUserByUsername(slug)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error getting user."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching user.",
+		})
 	}
 	if user.Username == "" {
-		c.JSON(http.StatusNotFound, gin.H{"message": "User not found."})
-		return
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "User not found.",
+		})
 	}
 
 	user.Email = ""
 	user.Password = ""
 
-	c.JSON(http.StatusOK, gin.H{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User found.",
 		"user":    user,
 	})

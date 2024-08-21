@@ -1,42 +1,47 @@
 package posts
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func DeletePost(c *gin.Context) {
-	user, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
+func DeletePost(c *fiber.Ctx) error {
+	user, ok := c.Locals("user").(models.User)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authenticated.",
+		})
 	}
 
-	id := c.Param("id")
+	id := c.Params("id")
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid post ID."})
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid post ID.",
+		})
 	}
 
 	post, err := models.GetPostByID(postID)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Post not found."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching post.",
+		})
 	}
 
-	if post.Author.ID.Hex() != user.(models.User).ID.Hex() {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-		return
+	if post.Author.ID != user.ID {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authorized.",
+		})
 	}
 
 	if err := models.DeletePost(postID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error deleting post."})
-		return
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error deleting post.",
+		})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Post deleted."})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Post deleted.",
+	})
 }

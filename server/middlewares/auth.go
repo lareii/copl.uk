@@ -1,49 +1,46 @@
 package middlewares
 
 import (
-	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 	"github.com/lareii/copl.uk/server/models"
 )
 
-func AuthMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		cookie, err := c.Cookie("jwt")
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-			c.Abort()
-			return
+func AuthMiddleware() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		cookie := c.Cookies("jwt")
+		if cookie == "" {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "User not authenticated.",
+			})
 		}
 
 		token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-			c.Abort()
-			return
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "User not authenticated.",
+			})
 		}
 
 		claims := token.Claims.(*jwt.StandardClaims)
 		if claims.ExpiresAt < 0 {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "User not authenticated."})
-			c.Abort()
-			return
-		}
-		user, err := models.GetUserByID(claims.Issuer)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{
-				"message": "User not found.",
-				"userID":  user.ID,
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "User not authenticated.",
 			})
-			c.Abort()
-			return
 		}
 
-		c.Set("user", user)
-		c.Next()
+		user, err := models.GetUserByID(claims.Issuer)
+		if err != nil {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"message": "User not found.",
+			})
+		}
+
+		c.Locals("user", user)
+		return c.Next()
 	}
 }
