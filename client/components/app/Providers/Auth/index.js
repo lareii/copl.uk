@@ -12,8 +12,10 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       const response = await me();
-      setUser(response.data.user);
-      setLoading(false);
+      if (response) {
+        setUser(response.data.user);
+        setLoading(false);
+      }
     };
 
     fetchUser();
