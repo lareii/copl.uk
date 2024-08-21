@@ -20,7 +20,7 @@ export async function getPosts(limit, offset) {
 
 export async function createPost({ content }) {
   try {
-    const response = await api.put('/posts', { content });
+    const response = await api.post('/posts', { content });
     return response;
   } catch (error) {
     return error.response;
