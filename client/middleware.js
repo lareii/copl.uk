@@ -9,21 +9,12 @@ export async function middleware(request) {
   const isVerified = token && (await verifyToken(token));
 
   if (nextUrl.pathname.startsWith("/login") || nextUrl.pathname.startsWith("/register")) {
-    if (!isVerified) {
-      const response = NextResponse.next();
-      response.cookies.delete("jwt");
-      return response;
-    }
+    if (!isVerified) return NextResponse.next();
 
     return NextResponse.redirect(new URL(`/app`, url));
   }
 
-  if (!isVerified) {
-    const response = NextResponse.redirect(new URL(`/login`, url));
-    response.cookies.delete("jwt");
-
-    return response;
-  }
+  if (!isVerified) return NextResponse.redirect(new URL(`/login`, url));
 
   return NextResponse.next();
 }
