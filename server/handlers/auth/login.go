@@ -58,7 +58,7 @@ func Login(c *fiber.Ctx) error {
 	cookie := &fiber.Cookie{
 		Name:     "jwt",
 		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24),
+		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		HTTPOnly: true,
 		Secure:   os.Getenv("MODE") == "production",
 		SameSite: "Strict",
