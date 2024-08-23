@@ -12,12 +12,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
-import { deletePost } from '@/lib/api/posts';
+import { deletePost, likePost } from '@/lib/api/posts';
 import useAuthStore from '@/stores/auth';
 import Link from 'next/link';
 
-export default function Post({ post, onDelete }) {
+export default function Post({ post: initialPost, onDelete }) {
   const user = useAuthStore((state) => state.user);
+  const [post, setPost] = useState(initialPost);
   const [isDeleting, setIsDeleting] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -52,6 +53,30 @@ export default function Post({ post, onDelete }) {
     }
     onDelete(post.id);
   }
+
+  const handleLike = async (e, isLiked) => {
+    e.preventDefault();
+
+    const response = await likePost({ id: post.id, like: !isLiked });
+    if (response && response.status === 200) {
+      setPost((prevPost) => {
+        const currentLikes = prevPost.likes || [];
+
+        return {
+          ...prevPost,
+          likes: isLiked
+            ? currentLikes.filter((like) => like !== user.id)
+            : [...currentLikes, user.id],
+        };
+      });
+    } else {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'gönderi beğenilemedi.',
+        duration: 3000
+      });
+    }
+  };
 
   return (
     <div className='p-5 bg-zinc-900 rounded-lg'>
@@ -106,10 +131,25 @@ export default function Post({ post, onDelete }) {
         {post ? post.content : <Skeleton className='w-full h-5' />}
       </div>
       <div className='mt-4 flex gap-2'>
-        <Button variant='ghost' className='px-2 h-7 text-xs'>
-          <Trash className='w-3 h-3 mr-2' />
-          {post ? post.likes : <Skeleton className='w-7 h-5' />}
-        </Button>
+        {post ? (
+          (() => {
+            const isLiked = post.likes?.includes(user.id);
+
+            return (
+              <Button
+                variant={isLiked ? '' : 'ghost'}
+                className='px-2 h-7 text-xs'
+                onClick={(e) => handleLike(e, isLiked)}
+              >
+                <Trash className='w-3 h-3 mr-2' />
+                {post.likes ? post.likes.length : 0}
+              </Button>
+            );
+          })()
+        ) : (
+          <Skeleton className='w-7 h-5' />
+        )}
+
         <Button variant='ghost' className='px-2 h-7 text-xs'>
           <MessageCircle className='w-3 h-3 mr-2' />
           {post ? post.comments : <Skeleton className='w-7 h-5' />}
