@@ -20,11 +20,11 @@ After making the changes in the fork you want to work with, you can throw a pull
 ## Send Pull Request
 After making the contribution you want to make, you have reached the stage of sending it as a PR request.
 
-Before send a PR;
+Before send a PR:
 + Be sure to document the necessary places in the code.
 + Make sure the code is readable.
 
-There are some points to be considered for an understandable PR;
+There are some points to be considered for an understandable PR:
 + The PR title should be short and concise and give information about the PR.
 + Changes should be noted in the PR statement, reviewers should understand the purpose of PR.
 + If there are, possible errors and conflicts that may occur in the case of combining the PR should be mentioned.

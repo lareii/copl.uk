@@ -16,6 +16,7 @@ After making the contribution you want to make, you have reached the stage of se
 Before send a PR:
 - Be sure to document the necessary places in the code.
 - Make sure the code is readable.
+
 There are some points to be considered for an understandable PR:
 - The PR title should be short and concise and give information about the PR.
 - Changes should be noted in the PR statement, reviewers should understand the purpose of PR.
