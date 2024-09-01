@@ -22,7 +22,7 @@ type User struct {
 	Name      string              `bson:"name" json:"name"`
 	Username  string              `bson:"username" json:"username"`
 	Password  string              `bson:"password,omitempty" json:"password,omitempty"`
-	About     string              `bson:"about,omitempty" json:"about,omitempty"`
+	About     string              `bson:"about" json:"about,omitempty"`
 }
 
 type AuthStatus struct {

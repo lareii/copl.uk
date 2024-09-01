@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
+import UserHoverCard from '@/components/app/HoverCard';
 import { deletePost, likePost } from '@/lib/api/posts';
 import useAuthStore from '@/stores/auth';
 import Link from 'next/link';
@@ -86,7 +87,7 @@ export default function Post({ post: initialPost, onDelete }) {
           <div className='flex flex-col mr-2'>
             {post ? (
               <>
-                <div className='text-sm'>{post.author.name}</div>
+                <UserHoverCard user={post.author} />
                 <div className='text-xs text-zinc-400'>@{post.author.username}</div>
               </>
             ) : (

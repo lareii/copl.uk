@@ -28,7 +28,6 @@ func CreatePost(c *fiber.Ctx) error {
 
 	user.Email = ""
 	user.Password = ""
-	user.About = ""
 
 	post := models.Post{
 		Author:  user,
