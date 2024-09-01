@@ -22,7 +22,7 @@ import { login } from '@/lib/api/auth';
 
 const formSchema = z.object({
   username: z.string().min(1, 'kullanıcı adı boş bırakılamaz'),
-  password: z.string().min(1, 'şifre boş bırakılamaz'),
+  password: z.string().min(1, 'parola boş bırakılamaz'),
 });
 
 export default function Page() {
@@ -53,7 +53,7 @@ export default function Page() {
     if (response.status === 401) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'kullanıcı adı veya şifre yanlış.',
+        description: 'kullanıcı adı veya parola yanlış.',
         duration: 3000
       });
       return;
@@ -109,7 +109,7 @@ export default function Page() {
               name='password'
               render={({ field }) => (
                 <FormItem className='space-y-1'>
-                  <FormLabel>şifre</FormLabel>
+                  <FormLabel>parola</FormLabel>
                   <FormControl>
                     <Input type='password' className='text-xs' {...field} />
                   </FormControl>
