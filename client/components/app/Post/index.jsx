@@ -33,25 +33,18 @@ export default function Post({ post: initialPost, onDelete }) {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-        duration: 3000
-      });
-      return;
-    }
-    if (response.status !== 200) {
-      toast({
-        title: 'hay aksi, bir şeyler ters gitti!',
         description: 'gönderi silinemedi.',
         duration: 3000
       });
       return;
     }
-
     if (pathname.startsWith('/app/posts')) {
       router.push('/app');
       router.refresh();
       return;
     }
+    
+    setIsDeleting(false);
     onDelete(post.id);
   }
 
@@ -69,12 +62,6 @@ export default function Post({ post: initialPost, onDelete }) {
             ? currentLikes.filter((like) => like !== user.id)
             : [...currentLikes, user.id],
         };
-      });
-    } else {
-      toast({
-        title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'gönderi beğenilemedi.',
-        duration: 3000
       });
     }
   };

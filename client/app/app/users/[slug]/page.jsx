@@ -18,7 +18,6 @@ export default function Page({ params }) {
   useEffect(() => {
     const fetchUser = async () => {
       const response = await getUser(params);
-
       if (!response) {
         toast({
           title: 'hay aksi, bir şeyler ters gitti!',
@@ -26,8 +25,7 @@ export default function Page({ params }) {
           duration: 3000,
         });
         return;
-      }
-
+      };
       if (response.status === 404) {
         setUser(404);
         return;

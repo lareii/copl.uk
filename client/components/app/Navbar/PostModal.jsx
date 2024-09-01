@@ -46,18 +46,9 @@ export default function PostModal() {
 
   async function onSubmit(values) {
     setIsSubmitting(true);
+
     const response = await createPost({ content: values.content });
-
     if (!response) {
-      toast({
-        title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-        duration: 3000
-      });
-      return;
-    }
-
-    if (response.status !== 201) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
@@ -66,10 +57,10 @@ export default function PostModal() {
       return;
     }
 
-    router.push(`/app/posts/${response.data.post.id}`);
-    router.refresh();
     setIsOpen(false);
     setIsSubmitting(false);
+    router.push(`/app/posts/${response.data.post.id}`);
+    router.refresh();
   }
 
   return (

@@ -12,7 +12,6 @@ export default function Page({ params }) {
   useEffect(() => {
     const fetchUser = async () => {
       const response = await getPost(params);
-
       if (!response) {
         toast({
           title: 'hay aksi, bir şeyler ters gitti!',
@@ -24,7 +23,6 @@ export default function Page({ params }) {
 
       setPost(response.data.post);
     };
-
     fetchUser();
   }, []);
 

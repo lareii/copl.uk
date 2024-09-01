@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -45,11 +45,11 @@ export default function Page() {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+        description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
       return;
-    }
+    };
     if (response.status === 401) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -57,16 +57,9 @@ export default function Page() {
         duration: 3000
       });
       return;
-    }
-    if (response.status !== 200) {
-      toast({
-        title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
-        duration: 3000
-      });
-      return;
-    }
+    };
 
+    setIsSubmitting(false);
     router.push('/app');
     router.refresh();
   };

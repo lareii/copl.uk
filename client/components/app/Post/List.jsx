@@ -51,6 +51,7 @@ export default function PostList({ fetchPosts }) {
         });
         return;
       }
+
       const initialPosts = response.data.posts || [];
 
       if (initialPosts.length > 10) {
