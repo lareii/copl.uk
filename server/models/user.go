@@ -17,7 +17,7 @@ import (
 type User struct {
 	ID        primitive.ObjectID  `bson:"_id" json:"id"`
 	CreatedAt primitive.Timestamp `bson:"created_at" json:"created_at"`
-	IsBanned  bool                `bson:"is_banned,omitempty" json:"is_banned,omitempty"`
+	IsBanned  bool                `bson:"is_banned" json:"is_banned,omitempty"`
 	Email     string              `bson:"email,omitempty" json:"email,omitempty"`
 	Name      string              `bson:"name" json:"name"`
 	Username  string              `bson:"username" json:"username"`
