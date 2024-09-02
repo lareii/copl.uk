@@ -45,7 +45,7 @@ func UpdatePost(c *fiber.Ctx) error {
 	}
 
 	update := bson.M{
-		"$set": bson.M{"updated_at": primitive.Timestamp{T: uint32(time.Now().Unix())}},
+		"$set": bson.M{},
 	}
 
 	if body.Content != "" {
@@ -56,6 +56,7 @@ func UpdatePost(c *fiber.Ctx) error {
 		}
 
 		update["$set"] = bson.M{"content": body.Content}
+		update["$set"] = bson.M{"updated_at": primitive.Timestamp{T: uint32(time.Now().Unix())}}
 	}
 
 	if body.Like != nil {
