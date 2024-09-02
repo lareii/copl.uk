@@ -54,6 +54,7 @@ export default function PostModal() {
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
+      setIsSubmitting(false);
       return;
     }
 

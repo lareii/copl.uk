@@ -39,6 +39,7 @@ export default function Dropdown({ post, setPost, onDelete }) {
         description: 'gönderi silinemedi.',
         duration: 3000
       });
+      setIsDeleting(false);
       return;
     }
     if (pathname.startsWith('/app/posts')) {
