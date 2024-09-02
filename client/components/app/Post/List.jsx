@@ -66,7 +66,7 @@ export default function PostList({ fetchPosts }) {
   }, [fetchPosts]);
 
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-2'>
       {posts.length > 0 ? (
         <>
           {posts.map((post) => (

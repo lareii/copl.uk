@@ -71,7 +71,7 @@ export default function Dropdown({ post, setPost, onDelete }) {
           {user.id === post.author.id && (
             <>
               <DropdownMenuItem>
-                <DialogTrigger className='flex items-center'>
+                <DialogTrigger className='flex items-center cursor-default'>
                   <Pencil className='w-4 h-4 mr-2' />
                   çöpü düzenle
                 </DialogTrigger>
