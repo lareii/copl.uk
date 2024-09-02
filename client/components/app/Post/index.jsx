@@ -34,7 +34,7 @@ export default function Post({ post: initialPost, onDelete }) {
             <div>nerv</div>
           </div> */}
         </div>
-        <Dropdown post={post} onDelete={onDelete} />
+        <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
       <div className='text-zinc-400 text-sm'>
         {post ? post.content : <Skeleton className='w-full h-5' />}

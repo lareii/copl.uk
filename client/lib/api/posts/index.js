@@ -36,6 +36,15 @@ export async function likePost({ id, like }) {
   }
 }
 
+export async function editPost({ id, content }) {
+  try {
+    const response = await api.patch(`/posts/${id}`, { content });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
 export async function deletePost({ id }) {
   try {
     const response = await api.delete(`/posts/${id}`);
