@@ -22,7 +22,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { createPost } from '@/lib/api/posts';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Plus, LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

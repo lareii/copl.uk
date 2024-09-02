@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { LoaderCircle } from 'lucide-react';
 import {
   DialogContent,
