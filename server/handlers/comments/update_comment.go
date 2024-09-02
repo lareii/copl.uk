@@ -55,8 +55,10 @@ func UpdateComment(c *fiber.Ctx) error {
 			})
 		}
 
-		update["$set"] = bson.M{"content": body.Content}
-		update["$set"] = bson.M{"updated_at": primitive.Timestamp{T: uint32(time.Now().Unix())}}
+		update["$set"] = bson.M{
+			"content":    body.Content,
+			"updated_at": primitive.Timestamp{T: uint32(time.Now().Unix())},
+		}
 	}
 
 	if body.Like != nil {
