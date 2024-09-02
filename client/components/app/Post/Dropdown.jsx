@@ -67,9 +67,9 @@ export default function Dropdown({ post, setPost, onDelete }) {
               çöpe git
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
           {user.id === post.author.id && (
             <>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <DialogTrigger className='flex items-center cursor-default'>
                   <Pencil className='w-4 h-4 mr-2' />
