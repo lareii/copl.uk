@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { MessageCircle } from 'lucide-react';
 import Dropdown from '@/components/app/Post/Dropdown';
