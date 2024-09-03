@@ -16,7 +16,7 @@ export default function Page({ params }) {
   }
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchPost = async () => {
       const response = await getPost(params);
       if (!response) {
         toast({
@@ -29,7 +29,7 @@ export default function Page({ params }) {
 
       setPost(response.data.post);
     };
-    fetchUser();
+    fetchPost();
   }, []);
 
   return (
