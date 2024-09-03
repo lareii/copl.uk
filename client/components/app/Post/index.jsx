@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { MessageCircle } from 'lucide-react';
 import Dropdown from '@/components/app/Post/Dropdown';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import UserHoverCard from '@/components/app/HoverCard';
-import LikeButton from './LikeButton';
+import LikeButton from '@/components/app/Post/LikeButton';
+import CommentButton from '@/components/app/Post/CommentButton';
 
-export default function Post({ post: initialPost, onDelete }) {
+export default function Post({ post: initialPost, onDelete, onNewComment }) {
   const [post, setPost] = useState(initialPost);
 
   return (
@@ -38,12 +37,17 @@ export default function Post({ post: initialPost, onDelete }) {
         {post ? post.content : <Skeleton className='w-full h-5' />}
       </div>
       <div className='mt-4 flex gap-2'>
-        {post ? <LikeButton post={post} setPost={setPost} /> : <Skeleton className='w-7 h-5' /> }
-
-        <Button variant='ghost' className='px-2 h-7 text-xs'>
-          <MessageCircle className='w-3 h-3 mr-2' />
-          {post ? post.comments : <Skeleton className='w-7 h-5' />}
-        </Button>
+        {post ? (
+          <>
+            <LikeButton post={post} setPost={setPost} />
+            <CommentButton post={post} setPost={setPost} onNewComment={onNewComment} />
+          </>
+        ) : (
+          <>
+            <Skeleton className='w-7 h-5' />
+            <Skeleton className='w-7 h-5' />
+          </>
+        )}
       </div>
     </div>
   );

@@ -63,13 +63,28 @@ func CreateComment(comment Comment) (Comment, error) {
 		return comment, fmt.Errorf("error creating comment: %v", err)
 	}
 
+	_, err = database.Posts.UpdateOne(context.Background(), bson.M{"_id": comment.Post}, bson.M{"$inc": bson.M{"comments": 1}})
+	if err != nil {
+		return comment, fmt.Errorf("error updating post: %v", err)
+	}
+
 	return comment, nil
 }
 
 func DeleteComment(commentID primitive.ObjectID) error {
-	_, err := database.Comments.DeleteOne(context.Background(), bson.M{"_id": commentID})
+	comment, err := GetCommentByID(commentID)
+	if err != nil {
+		return fmt.Errorf("error fetching comment: %v", err)
+	}
+
+	_, err = database.Comments.DeleteOne(context.Background(), bson.M{"_id": commentID})
 	if err != nil {
 		return fmt.Errorf("error deleting comment: %v", err)
+	}
+
+	_, err = database.Posts.UpdateOne(context.Background(), bson.M{"_id": comment.Post}, bson.M{"$inc": bson.M{"comments": -1}})
+	if err != nil {
+		return fmt.Errorf("error updating post: %v", err)
 	}
 
 	return nil

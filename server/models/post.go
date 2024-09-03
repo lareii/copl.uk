@@ -18,6 +18,7 @@ type Post struct {
 	Author    User                 `bson:"author" json:"author"`
 	Content   string               `bson:"content" json:"content"`
 	Likes     []primitive.ObjectID `bson:"likes" json:"likes,omitempty"`
+	Comments  uint                 `bson:"comments" json:"comments"`
 }
 
 func GetPostByID(postID primitive.ObjectID) (Post, error) {
@@ -75,6 +76,7 @@ func CreatePost(post Post) (Post, error) {
 	post.CreatedAt = timeNow
 	post.UpdatedAt = timeNow
 	post.Likes = []primitive.ObjectID{}
+	post.Comments = 0
 
 	_, err := database.Posts.InsertOne(context.Background(), post)
 	if err != nil {
@@ -88,6 +90,11 @@ func DeletePost(postID primitive.ObjectID) error {
 	_, err := database.Posts.DeleteOne(context.Background(), bson.M{"_id": postID})
 	if err != nil {
 		return fmt.Errorf("error deleting post: %v", err)
+	}
+
+	_, err = database.Comments.DeleteMany(context.Background(), bson.M{"post": postID})
+	if err != nil {
+		return fmt.Errorf("error deleting comments: %v", err)
 	}
 
 	return nil

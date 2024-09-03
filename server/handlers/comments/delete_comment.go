@@ -18,14 +18,14 @@ func DeleteComment(c *fiber.Ctx) error {
 	commentID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid post ID.",
+			"message": "Invalid comment ID.",
 		})
 	}
 
 	comment, err := models.GetCommentByID(commentID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Error fetching post.",
+			"message": "Error fetching comment.",
 		})
 	}
 
@@ -37,7 +37,7 @@ func DeleteComment(c *fiber.Ctx) error {
 
 	if err := models.DeleteComment(commentID); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Error deleting post.",
+			"message": "Error deleting comment.",
 		})
 	}
 

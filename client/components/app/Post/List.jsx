@@ -61,7 +61,7 @@ export default function PostList({ fetchPosts }) {
     };
 
     fetchInitialPosts();
-  }, [fetchPosts]);
+  }, []);
 
   return (
     <div className='flex flex-col gap-2'>
