@@ -1,8 +1,8 @@
 <!--
-    Thank you for contributing to Jule project!
+    Thank you for contributing to copl.uk project!
     Be sure to follow our Code of Conduct and contributing guidelines, and fill in the details below.
 
-    Contributing guidelines: https://jule.dev/contribute
+    Contributing guidelines: https://github.com/lareii/copl.uk/blob/master/CONTRIBUTING.md
 -->
 
 ### Description
