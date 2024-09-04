@@ -1,32 +1,38 @@
-# Contributing
-+ [Code of Conduct](https://github.com/lareii/copl.uk/blob/master/CODE_OF_CONDUCT.md)
-+ [License](https://github.com/lareii/copl.uk/blob/master/LICENSE)
+<!--
+    Thank you for contributing to Jule project!
+    Be sure to follow our Code of Conduct and contributing guidelines, and fill in the details below.
 
-## Rules
-+ It is important that the code is written and properly formatted.
-+ Description lines should be legible and meaningful.
-+ The code must be properly documented.
-+ Commit messages should be understandable and expressive.
+    Contributing guidelines: https://jule.dev/contribute
+-->
 
-## Get Fork
-[Fork copl.uk](https://github.com/lareii/copl.uk/fork)
+### Description
 
-Once you have your fork, you can work directly. But to make things easier, you can open a branch in your own name.
-After making the changes in the fork you want to work with, you can throw a pull request.
+<!-- Describe what this PR introduces. -->
+<!-- If any, link any issue that this PR solves. -->
 
-+ Very large changes are difficult to control and understand. Therefore, avoid excessively large PR requests as much as possible.
-+ Try not to make multiple changes within a single PR, a PR request should only serve one change.
+### Checklist
 
-## Send Pull Request
-After making the contribution you want to make, you have reached the stage of sending it as a PR request.
+<!-- Check the boxes below to ensure you have completed the checklist. -->
 
-Before send a PR:
-+ Be sure to document the necessary places in the code.
-+ Make sure the code is readable.
+- [ ] A description of the changes in this PR is mentioned above.
+- [ ] All the new and existing tests pass.
+- [ ] The code follows the code style and conventions of the project.
+- [ ] No plagiarized, duplicated, or repetitive code that has been directly copied from another source.
+- [ ] I have read the whole [Contributing Guidelines](https://github.com/lareii/copl.uk/blob/master/CONTRIBUTING.md) of the project and its resources/related pages.
 
-There are some points to be considered for an understandable PR:
-+ The PR title should be short and concise and give information about the PR.
-+ Changes should be noted in the PR statement, reviewers should understand the purpose of PR.
-+ If there are, possible errors and conflicts that may occur in the case of combining the PR should be mentioned.
+### Screenshots (if any)
 
-Thanks.
+<!--
+
+If any, add screenshots to help explain your changes.
+Remove these comments to highlight the screenshots in the PR.
+
+|      Original       |      Updated       |
+| :-----------------: | :----------------: |
+| original screenshot | updated screenshot |
+
+-->
+
+### Note to reviewers
+
+<!-- Please add a one-line description for developers or pull request viewers, if any. -->
