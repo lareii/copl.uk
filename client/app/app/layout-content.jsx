@@ -15,7 +15,8 @@ export default function LayoutContent({ children }) {
   return (
     <div className='flex max-w-screen-lg mx-auto gap-x-5 max-lg:flex-col lg:pt-14 lg:px-5'>
       <Navbar />
-      <div className='w-full max-lg:p-5 pb-5'>
+      {/* css calc -> max-w-screen-lg - navbar width - gap and paddings */}
+      <div className='w-full lg:max-w-[calc(1024px-240px-(3*1.25rem))] max-lg:p-5 pb-5'>
         <AnimatePresence mode='wait'>
           <motion.div
             key={pathname}

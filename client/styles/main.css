@@ -2,7 +2,7 @@
 
 /* markdown */
 .md {
-  @apply text-zinc-400 text-sm leading-relaxed;
+  @apply text-zinc-400 text-sm leading-relaxed break-words;
 }
 .md a {
   @apply underline;
@@ -17,7 +17,7 @@
   @apply text-xl font-bold my-2;
 }
 .md pre {
-  @apply bg-card text-primary p-5 my-4 rounded-lg;
+  @apply bg-card text-primary p-5 my-4 rounded-lg overflow-x-scroll;
 }
 .md code {
   @apply text-primary;

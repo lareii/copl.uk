@@ -1,3 +1,4 @@
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Markdown from 'react-markdown'
 import Dropdown from '@/components/app/Post/Dropdown';
@@ -6,6 +7,7 @@ import LikeButton from '@/components/app/Post/LikeButton';
 import CommentButton from '@/components/app/Post/CommentButton';
 
 export default function Post({ post: initialPost, onDelete, onNewComment }) {
+  const pathname = usePathname();
   const [post, setPost] = useState(initialPost);
 
   return (
@@ -24,7 +26,14 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
         </div>
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
-      <Markdown className='md'>{post.content}</Markdown>
+      <div className='relative'>
+        <Markdown className={`md ${pathname.includes('/app/posts/') || post.content.length <= 100 ? '' : 'h-32 overflow-hidden'}`}>
+          {post.content}
+        </Markdown>
+        {!pathname.includes('/app/posts/') && post.content.length > 100 && (
+          <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-zinc-900 from-4%"></div>
+        )}
+      </div>
       <div className='mt-4 flex gap-2'>
         <LikeButton post={post} setPost={setPost} />
         <CommentButton post={post} setPost={setPost} onNewComment={onNewComment} />
