@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Markdown from 'react-markdown'
 import Dropdown from '@/components/app/Post/Dropdown';
 import UserHoverCard from '@/components/app/HoverCard';
 import LikeButton from '@/components/app/Post/LikeButton';
@@ -23,9 +24,7 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
         </div>
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
-      <div className='text-zinc-400 text-sm'>
-        {post.content}
-      </div>
+      <Markdown className='md'>{post.content}</Markdown>
       <div className='mt-4 flex gap-2'>
         <LikeButton post={post} setPost={setPost} />
         <CommentButton post={post} setPost={setPost} onNewComment={onNewComment} />

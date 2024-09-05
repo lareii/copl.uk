@@ -103,6 +103,7 @@ export default function CommentButton({ post, setPost, onNewComment }) {
                 </FormItem>
               )}
             />
+            <div className='text-zinc-400 text-xs'>* markdown destekliyor</div>
             <Button type='submit' className='mt-5' disabled={isSubmitting}>
               {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
               gönderiyorum

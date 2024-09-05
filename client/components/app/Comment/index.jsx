@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Markdown from 'react-markdown'
 import UserHoverCard from '@/components/app/HoverCard';
 import Dropdown from '@/components/app/Comment/Dropdown';
 import LikeButton from '@/components/app/Comment/LikeButton';
@@ -18,9 +19,7 @@ export default function Comment({ comment: initialComment, onDelete }) {
         </div>
         <Dropdown comment={comment} setComment={setComment} onDelete={onDelete} />
       </div>
-      <div className='text-zinc-400 text-sm'>
-        {comment.content}
-      </div>
+      <Markdown className='md'>{comment.content}</Markdown>
       <div className='mt-4'>
         <LikeButton comment={comment} setComment={setComment} />
       </div>
