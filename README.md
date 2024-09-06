@@ -23,7 +23,7 @@ Our main community platforms:
 
 ## Contributing
 
-Any contribution to copl.uk is greatly appreciated, whether it's a typo fix, a brand new compiler feature, or a bug report.
+Any contribution to copl.uk is greatly appreciated, whether it's a typo fix, a brand new feature, or a bug report.
 
 The copl.uk project only uses issues for things like proposals, bug reports, and vulnerabilities.
 If you want to discuss anything, [Official Discord Server](https://discord.gg/taMRRAHb6y) is a better place for that.
