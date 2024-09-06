@@ -11,7 +11,7 @@ export default function Uncollapsed({ router, pathname }) {
       <div className='flex flex-col gap-5 h-full'>
         <Link href='/app' className='w-fit mb-5'>
           <Image
-            src='/copluk.png'
+            src='/copluk.svg'
             alt='copl.uk logo'
             width={170}
             height={170}

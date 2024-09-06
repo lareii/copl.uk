@@ -15,7 +15,7 @@ export default function Loading() {
         className='h-screen flex flex-col items-center justify-center'
       >
         <Image
-          src='/copluk.png'
+          src='/copluk.svg'
           alt='copl.uk logo'
           width={170}
           height={170}

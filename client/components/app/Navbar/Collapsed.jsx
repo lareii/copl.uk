@@ -32,7 +32,7 @@ export default function Collapsed({ router, pathname }) {
       <div className='flex justify-between items-center'>
         <Link href='/app'>
           <Image
-            src='/copluk.png'
+            src='/copluk.svg'
             alt='copl.uk logo'
             width={120}
             height={120}
@@ -81,7 +81,7 @@ export default function Collapsed({ router, pathname }) {
               <hr className='mb-5 mt-3' />
               <div>
                 <Image
-                  src='/copluk.png'
+                  src='/copluk.svg'
                   alt='copl.uk logo'
                   width={120}
                   height={120}

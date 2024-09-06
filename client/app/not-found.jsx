@@ -11,7 +11,7 @@ export default function NotFound() {
   return (
     <div className='h-screen flex flex-col justify-center items-center'>
       <Image
-        src='/copluk.png'
+        src='/copluk.svg'
         alt='copl.uk logo'
         width={170}
         height={170}
