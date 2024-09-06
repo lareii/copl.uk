@@ -1,15 +1,13 @@
 <div align="center">
 <p>
-    <img width="400" src="https://raw.githubusercontent.com/lareii/copl.uk/master/.github/assets/copluk.svg">
+    <img width="275" src="https://raw.githubusercontent.com/lareii/copl.uk/master/.github/assets/copluk.svg">
 </p>
-
 Zihin çöplüğün, kafana göre.
 
 [Website](https://copl.uk) |
 [Contributing](CONTRIBUTING.md)
 
 </strong>
-
 </div>
 
 ## Community
