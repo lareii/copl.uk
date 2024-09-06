@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -24,12 +24,17 @@ export default function Dropdown({ router, pathname }) {
     await logout();
     router.push('/login');
     router.refresh();
-  }
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={pathname === `/app/users/${user?.username}` ? 'secondary' : 'ghost'} className='justify-start flex justify-between items-center'>
+        <Button
+          variant={
+            pathname === `/app/users/${user?.username}` ? 'secondary' : 'ghost'
+          }
+          className='justify-start flex justify-between items-center'
+        >
           <div className='flex items-center'>
             <User className='mr-5 h-4 w-4' />
             profilim
@@ -59,7 +64,9 @@ export default function Dropdown({ router, pathname }) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} disabled={user === 'loading'}>
-          {user === 'loading' && <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />}
+          {user === 'loading' && (
+            <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />
+          )}
           çıkış yap
         </DropdownMenuItem>
       </DropdownMenuContent>

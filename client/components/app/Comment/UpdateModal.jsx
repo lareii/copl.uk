@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -15,7 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,7 +23,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { editComment } from '@/lib/api/comments';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz'),
+  content: z.string().min(1, 'içerik boş bırakılamaz')
 });
 
 export default function UpdateModal({ comment, setComment, setIsOpen }) {
@@ -34,14 +34,18 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: comment.content,
-    },
+      content: comment.content
+    }
   });
 
   async function onSubmit(values) {
     setIsSubmitting(true);
 
-    const response = await editComment({ post_id: comment.post, id: comment.id, content: values.content });
+    const response = await editComment({
+      post_id: comment.post,
+      id: comment.id,
+      content: values.content
+    });
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -54,11 +58,11 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
 
     setComment((prevComment) => ({
       ...prevComment,
-      content: values.content,
+      content: values.content
     }));
     setIsSubmitting(false);
     setIsOpen(false);
-  };
+  }
 
   return (
     <DialogContent>
@@ -84,11 +88,13 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
             )}
           />
           <Button type='submit' className='mt-5' disabled={isSubmitting}>
-            {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
+            {isSubmitting && (
+              <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+            )}
             düzenliyorum
           </Button>
         </form>
       </Form>
     </DialogContent>
-  )
+  );
 }

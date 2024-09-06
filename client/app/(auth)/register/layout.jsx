@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'kayıt',
+  title: 'kayıt'
 };
 
 export default function Layout({ children }) {

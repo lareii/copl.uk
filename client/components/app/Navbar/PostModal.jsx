@@ -6,7 +6,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -14,7 +14,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -28,7 +28,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz'),
+  content: z.string().min(1, 'içerik boş bırakılamaz')
 });
 
 export default function PostModal() {
@@ -40,8 +40,8 @@ export default function PostModal() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: '',
-    },
+      content: ''
+    }
   });
 
   async function onSubmit(values) {
@@ -88,7 +88,10 @@ export default function PostModal() {
                 <FormItem>
                   <FormLabel>içerik</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="copl.uk'u cok seviyorum!" {...field} />
+                    <Textarea
+                      placeholder="copl.uk'u cok seviyorum!"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,7 +99,9 @@ export default function PostModal() {
             />
             <div className='text-zinc-400 text-xs'>* markdown destekliyor</div>
             <Button type='submit' className='mt-5' disabled={isSubmitting}>
-              {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
+              {isSubmitting && (
+                <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+              )}
               gönderiyorum
             </Button>
           </form>

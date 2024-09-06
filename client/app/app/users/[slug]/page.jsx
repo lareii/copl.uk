@@ -15,27 +15,32 @@ export default function Page({ params }) {
     return await getUserPosts(params.slug, 11, offset);
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await getUser(params);
-      if (!response) {
-        toast({
-          title: 'hay aksi, bir şeyler ters gitti!',
-          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-          duration: 3000,
-        });
-        return;
+  useEffect(
+    () => {
+      const fetchUser = async () => {
+        const response = await getUser(params);
+        if (!response) {
+          toast({
+            title: 'hay aksi, bir şeyler ters gitti!',
+            description:
+              'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+            duration: 3000
+          });
+          return;
+        }
+        if (response.status === 404) {
+          setUser(404);
+          return;
+        }
+
+        setUser(response.data.user);
       };
-      if (response.status === 404) {
-        setUser(404);
-        return;
-      }
 
-      setUser(response.data.user);
-    };
-
-    fetchUser();
-  }, [params]);
+      fetchUser();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [params]
+  );
 
   return (
     <>
@@ -58,7 +63,10 @@ export default function Page({ params }) {
                 <div className='text-xs'>
                   <div className='text-zinc-400 flex items-center mb-0.5'>
                     <CalendarFold className='w-4 h-4 mr-1' />
-                    {new Date(user.created_at.T * 1000).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    {new Date(user.created_at.T * 1000).toLocaleDateString(
+                      'tr-TR',
+                      { year: 'numeric', month: 'long', day: 'numeric' }
+                    )}
                   </div>
                 </div>
               </div>

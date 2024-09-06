@@ -11,5 +11,9 @@ export default function Navbar() {
 
   const isWide = useMedia('(min-width: 1024px)', false); // tailwind css lg breakpoint
 
-  return isWide ? <Uncollapsed router={router} pathname={pathname} /> : <Collapsed router={router} pathname={pathname}/>;
+  return isWide ? (
+    <Uncollapsed router={router} pathname={pathname} />
+  ) : (
+    <Collapsed router={router} pathname={pathname} />
+  );
 }

@@ -1,7 +1,7 @@
 export async function generateMetadata({ params }) {
   return {
-    title: params.slug,
-  }
+    title: params.slug
+  };
 }
 
 export default function Layout({ children }) {

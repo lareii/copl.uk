@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import Comment from '@/components/app/Comment';
+import { Button } from '@/components/ui/button';
 import { getComments } from '@/lib/api/comments';
 
 export default function CommentList({ post_id, comments, setComments }) {
@@ -9,7 +10,9 @@ export default function CommentList({ post_id, comments, setComments }) {
   const { toast } = useToast();
 
   const handleDelete = (commentId) => {
-    setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.id !== commentId)
+    );
   };
 
   const loadMoreComments = async () => {
@@ -19,7 +22,8 @@ export default function CommentList({ post_id, comments, setComments }) {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+        description:
+          'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
       return;
@@ -28,7 +32,10 @@ export default function CommentList({ post_id, comments, setComments }) {
     const newComments = response.data.comments || [];
 
     if (newComments.length > 10) {
-      setComments((prevComments) => [...prevComments, ...newComments.slice(0, 10)]);
+      setComments((prevComments) => [
+        ...prevComments,
+        ...newComments.slice(0, 10)
+      ]);
     } else {
       setComments((prevComments) => [...prevComments, ...newComments]);
       setHasMoreComment(false);
@@ -37,50 +44,59 @@ export default function CommentList({ post_id, comments, setComments }) {
     setOffset((prevOffset) => prevOffset + 10);
   };
 
-  useEffect(() => {
-    const fetchInitialComments = async () => {
-      const response = await getComments(post_id, 11, 0);
-      if (!response) {
-        toast({
-          title: 'hay aksi, bir şeyler ters gitti!',
-          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-          duration: 3000
-        });
-        return;
-      }
+  useEffect(
+    () => {
+      const fetchInitialComments = async () => {
+        const response = await getComments(post_id, 11, 0);
+        if (!response) {
+          toast({
+            title: 'hay aksi, bir şeyler ters gitti!',
+            description:
+              'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+            duration: 3000
+          });
+          return;
+        }
 
-      const initialComments = response.data.comments || [];
+        const initialComments = response.data.comments || [];
 
-      if (initialComments.length > 10) {
-        setComments(initialComments.slice(0, 10));
-      } else {
-        setComments(initialComments);
-        setHasMoreComment(false);
-      }
-    };
+        if (initialComments.length > 10) {
+          setComments(initialComments.slice(0, 10));
+        } else {
+          setComments(initialComments);
+          setHasMoreComment(false);
+        }
+      };
 
-    fetchInitialComments();
-  }, []);
+      fetchInitialComments();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className='flex flex-col gap-5'>
       {comments.length > 0 ? (
         <>
           {comments.map((comment) => (
-            <Comment key={comment.id} post_id={post_id} comment={comment} onDelete={handleDelete} />
+            <Comment
+              key={comment.id}
+              post_id={post_id}
+              comment={comment}
+              onDelete={handleDelete}
+            />
           ))}
           {hasMoreComment && (
-            <Button
-              onClick={loadMoreComments}
-              className='w-full'
-            >
+            <Button onClick={loadMoreComments} className='w-full'>
               daha fazla yorum yükle
             </Button>
           )}
         </>
       ) : (
-        <div className='flex flex-col items-center justify-center text-sm'>buralar şimdilik sessiz.</div>
+        <div className='flex flex-col items-center justify-center text-sm'>
+          buralar şimdilik sessiz.
+        </div>
       )}
     </div>
   );
-};
+}

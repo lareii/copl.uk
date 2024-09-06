@@ -2,13 +2,15 @@ import { CalendarFold } from 'lucide-react';
 import {
   HoverCard,
   HoverCardContent,
-  HoverCardTrigger,
+  HoverCardTrigger
 } from '@/components/ui/hover-card';
 
 export default function UserHoverCard({ user }) {
   return (
     <HoverCard>
-      <HoverCardTrigger className='text-sm hover:underline'>{user.name}</HoverCardTrigger>
+      <HoverCardTrigger className='text-sm hover:underline'>
+        {user.name}
+      </HoverCardTrigger>
       <HoverCardContent className='flex flex-col'>
         <div className='flex items-start'>
           <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
@@ -22,7 +24,11 @@ export default function UserHoverCard({ user }) {
           <div className='text-xs'>
             <div className='text-zinc-400 flex items-center mb-0.5'>
               <CalendarFold className='w-4 h-4 mr-1' />
-              {new Date(user.created_at.T * 1000).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {new Date(user.created_at.T * 1000).toLocaleDateString('tr-TR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
             </div>
           </div>
         </div>

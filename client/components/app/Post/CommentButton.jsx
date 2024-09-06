@@ -11,7 +11,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -19,14 +19,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { createComment } from '@/lib/api/comments';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz'),
+  content: z.string().min(1, 'içerik boş bırakılamaz')
 });
 
 export default function CommentButton({ post, setPost, onNewComment }) {
@@ -39,14 +39,17 @@ export default function CommentButton({ post, setPost, onNewComment }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: '',
-    },
+      content: ''
+    }
   });
 
   async function onSubmit(values) {
     setIsSubmitting(true);
 
-    const response = await createComment({ post_id: post.id, content: values.content });
+    const response = await createComment({
+      post_id: post.id,
+      content: values.content
+    });
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -63,7 +66,7 @@ export default function CommentButton({ post, setPost, onNewComment }) {
     if (pathname === `/app/posts/${post.id}`) {
       setPost((prevPost) => ({
         ...prevPost,
-        comments: prevPost.comments + 1,
+        comments: prevPost.comments + 1
       }));
       onNewComment(response.data.comment);
       return;
@@ -97,7 +100,10 @@ export default function CommentButton({ post, setPost, onNewComment }) {
                 <FormItem>
                   <FormLabel>içerik</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="copl.uk'u cok seviyorum!" {...field} />
+                    <Textarea
+                      placeholder="copl.uk'u cok seviyorum!"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,12 +111,14 @@ export default function CommentButton({ post, setPost, onNewComment }) {
             />
             <div className='text-zinc-400 text-xs'>* markdown destekliyor</div>
             <Button type='submit' className='mt-5' disabled={isSubmitting}>
-              {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
+              {isSubmitting && (
+                <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+              )}
               gönderiyorum
             </Button>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

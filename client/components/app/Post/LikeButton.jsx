@@ -19,7 +19,7 @@ export default function LikeButton({ post, setPost }) {
           ...prevPost,
           likes: isLiked
             ? currentLikes.filter((like) => like !== user.id)
-            : [...currentLikes, user.id],
+            : [...currentLikes, user.id]
         };
       });
     }

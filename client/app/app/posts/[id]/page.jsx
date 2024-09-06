@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import Post from '@/components/app/Post';
 import CommentList from '@/components/app/Comment/List';
 import { useToast } from '@/components/ui/use-toast';
@@ -13,36 +13,45 @@ export default function Page({ params }) {
 
   const handleNewComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
-  }
+  };
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      const response = await getPost(params);
-      if (!response) {
-        toast({
-          title: 'hay aksi, bir şeyler ters gitti!',
-          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-          duration: 3000
-        });
-        return;
-      }
+  useEffect(
+    () => {
+      const fetchPost = async () => {
+        const response = await getPost(params);
+        if (!response) {
+          toast({
+            title: 'hay aksi, bir şeyler ters gitti!',
+            description:
+              'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+            duration: 3000
+          });
+          return;
+        }
 
-      setPost(response.data.post);
-    };
-    fetchPost();
-  }, []);
+        setPost(response.data.post);
+      };
+      fetchPost();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
-  return (
-    post ? (
-      <div className='flex flex-col'>
-        <Post post={post} onNewComment={handleNewComment} />
-        <div className='mt-10 mb-3 font-medium text-xs text-muted-foreground'>yorumlar</div>
-        <CommentList post_id={post.id} comments={comments} setComments={setComments} />
+  return post ? (
+    <div className='flex flex-col'>
+      <Post post={post} onNewComment={handleNewComment} />
+      <div className='mt-10 mb-3 font-medium text-xs text-muted-foreground'>
+        yorumlar
       </div>
-    ) : (
-      <div className='flex flex-col justify-center items-center text-sm'>
-        maalesef böyle bir gönderi yok.
-      </div>
-    )
+      <CommentList
+        post_id={post.id}
+        comments={comments}
+        setComments={setComments}
+      />
+    </div>
+  ) : (
+    <div className='flex flex-col justify-center items-center text-sm'>
+      maalesef böyle bir gönderi yok.
+    </div>
   );
 }

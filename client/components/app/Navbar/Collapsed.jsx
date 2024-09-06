@@ -5,17 +5,13 @@ import { Home, Compass, Bell, Menu, User } from 'lucide-react';
 import Item from '@/components/app/Navbar/Item';
 import Dropdown from '@/components/app/Navbar/Dropdown';
 import PostModal from '@/components/app/Navbar/PostModal';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/stores/auth';
 
 export default function Collapsed({ router, pathname }) {
   const [icon, setIcon] = useState(<Menu className='h-4 w-4' />);
-  const user = useAuthStore(state => state.user);
+  const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     if (pathname === '/app') {
@@ -35,7 +31,12 @@ export default function Collapsed({ router, pathname }) {
     <nav className='z-10 sticky self-start w-full top-0 px-5 py-3 backdrop-blur-xl border-b'>
       <div className='flex justify-between items-center'>
         <Link href='/app'>
-          <Image src='/copluk.png' alt='copl.uk logo' width={120} height={120} />
+          <Image
+            src='/copluk.png'
+            alt='copl.uk logo'
+            width={120}
+            height={120}
+          />
         </Link>
         <Sheet>
           <SheetTrigger asChild>
@@ -45,13 +46,32 @@ export default function Collapsed({ router, pathname }) {
           </SheetTrigger>
           <SheetContent className='flex flex-col justify-between'>
             <div className='mt-5'>
-              <div className='mb-3 font-medium text-xs text-muted-foreground'>genel</div>
-              <div className='flex flex-col'>
-                <Item pathname={pathname} href='/app' icon={Home} label='akış' />
-                <Item pathname={pathname} href='/app/explore' icon={Compass} label='keşfet' />
-                <Item pathname={pathname} href='/app/notifications' icon={Bell} label='bildirimler' />
+              <div className='mb-3 font-medium text-xs text-muted-foreground'>
+                genel
               </div>
-              <div className='mt-5 mb-3 font-medium text-xs text-muted-foreground'>yaratıcılık</div>
+              <div className='flex flex-col'>
+                <Item
+                  pathname={pathname}
+                  href='/app'
+                  icon={Home}
+                  label='akış'
+                />
+                <Item
+                  pathname={pathname}
+                  href='/app/explore'
+                  icon={Compass}
+                  label='keşfet'
+                />
+                <Item
+                  pathname={pathname}
+                  href='/app/notifications'
+                  icon={Bell}
+                  label='bildirimler'
+                />
+              </div>
+              <div className='mt-5 mb-3 font-medium text-xs text-muted-foreground'>
+                yaratıcılık
+              </div>
               <div className='flex flex-col'>
                 <PostModal />
               </div>
@@ -60,12 +80,23 @@ export default function Collapsed({ router, pathname }) {
               <Dropdown router={router} pathname={pathname} />
               <hr className='mb-5 mt-3' />
               <div>
-                <Image src='/copluk.png' alt='copl.uk logo' width={120} height={120} />
+                <Image
+                  src='/copluk.png'
+                  alt='copl.uk logo'
+                  width={120}
+                  height={120}
+                />
                 <div className='text-zinc-400 text-xs mt-3'>
                   <div>copl.uk GNU GPL v3 lisansı altında lisanslanmıştır.</div>
-                  <Link href='#' className='underline'>hakkında</Link>{' '}
-                  <Link href='#' className='underline'>gizlilik politikası</Link>{' '}
-                  <Link href='#' className='underline'>kaynak kodları</Link>{' '}
+                  <Link href='#' className='underline'>
+                    hakkında
+                  </Link>{' '}
+                  <Link href='#' className='underline'>
+                    gizlilik politikası
+                  </Link>{' '}
+                  <Link href='#' className='underline'>
+                    kaynak kodları
+                  </Link>{' '}
                 </div>
               </div>
             </div>

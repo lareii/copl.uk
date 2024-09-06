@@ -15,14 +15,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { login } from '@/lib/api/auth';
 
 const formSchema = z.object({
   username: z.string().min(1, 'kullanıcı adı boş bırakılamaz'),
-  password: z.string().min(1, 'parola boş bırakılamaz'),
+  password: z.string().min(1, 'parola boş bırakılamaz')
 });
 
 export default function Page() {
@@ -34,8 +34,8 @@ export default function Page() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
-      password: '',
-    },
+      password: ''
+    }
   });
 
   async function onSubmit(values) {
@@ -49,7 +49,7 @@ export default function Page() {
         duration: 3000
       });
       return;
-    };
+    }
     if (response.status === 401) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -57,12 +57,12 @@ export default function Page() {
         duration: 3000
       });
       return;
-    };
+    }
 
     setIsSubmitting(false);
     router.push('/app');
     router.refresh();
-  };
+  }
 
   return (
     <div className='flex max-sm:flex-col justify-between items-start gap-10'>
@@ -72,7 +72,7 @@ export default function Page() {
           çöplüğe giriş yapmak için lütfen bilgilerinizi girin.
         </div>
         <div className='text-muted-foreground text-xs mt-5'>
-          henüz bir hesabın yok mu? {' '}
+          henüz bir hesabın yok mu?{' '}
           <Link href='/register' className='underline'>
             yeni bir tane oluştur!
           </Link>
@@ -112,7 +112,9 @@ export default function Page() {
             />
           </div>
           <Button type='submit' className='w-full' disabled={isSubmitting}>
-            {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
+            {isSubmitting && (
+              <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+            )}
             giriş yapıyorum
           </Button>
         </form>

@@ -5,13 +5,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import UpdateModal from '@/components/app/Comment/UpdateModal';
 import { deleteComment } from '@/lib/api/comments';
 
@@ -19,12 +17,16 @@ export default function Dropdown({ comment, setComment, onDelete }) {
   const user = useAuthStore((state) => state.user);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { toast } = useToast();
 
   const handleDelete = async (e) => {
     e.preventDefault();
     setIsDeleting(true);
 
-    const response = await deleteComment({ post_id: comment.post, id: comment.id });
+    const response = await deleteComment({
+      post_id: comment.post,
+      id: comment.id
+    });
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -37,7 +39,7 @@ export default function Dropdown({ comment, setComment, onDelete }) {
 
     setIsDeleting(false);
     onDelete(comment.id);
-  }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -56,7 +58,11 @@ export default function Dropdown({ comment, setComment, onDelete }) {
               yorumu düzenle
             </DialogTrigger>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleDelete} disabled={isDeleting} className='flex items-center text-red-500'>
+          <DropdownMenuItem
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className='flex items-center text-red-500'
+          >
             {isDeleting ? (
               <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
             ) : (
@@ -66,7 +72,11 @@ export default function Dropdown({ comment, setComment, onDelete }) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <UpdateModal comment={comment} setComment={setComment} setIsOpen={setIsModalOpen} />
+      <UpdateModal
+        comment={comment}
+        setComment={setComment}
+        setIsOpen={setIsModalOpen}
+      />
     </Dialog>
-  )
+  );
 }

@@ -9,17 +9,21 @@ export default function AuthProvider({ children }) {
   const setUser = useAuthStore((state) => state.setUser);
   const setLoading = useLoadingStore((state) => state.setLoading);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await me();
-      if (response) {
-        setUser(response.data.user);
-        setLoading(false);
-      }
-    };
+  useEffect(
+    () => {
+      const fetchUser = async () => {
+        const response = await me();
+        if (response) {
+          setUser(response.data.user);
+          setLoading(false);
+        }
+      };
 
-    fetchUser();
-  }, []);
+      fetchUser();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return children;
 }

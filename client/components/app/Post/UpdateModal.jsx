@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -15,7 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,7 +23,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { editPost } from '@/lib/api/posts';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz'),
+  content: z.string().min(1, 'içerik boş bırakılamaz')
 });
 
 export default function UpdateModal({ post, setPost, setIsOpen }) {
@@ -34,8 +34,8 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: post.content,
-    },
+      content: post.content
+    }
   });
 
   async function onSubmit(values) {
@@ -54,11 +54,11 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
 
     setPost((prevPost) => ({
       ...prevPost,
-      content: values.content,
+      content: values.content
     }));
     setIsSubmitting(false);
     setIsOpen(false);
-  };
+  }
 
   return (
     <DialogContent>
@@ -84,11 +84,13 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
             )}
           />
           <Button type='submit' className='mt-5' disabled={isSubmitting}>
-            {isSubmitting && <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />}
+            {isSubmitting && (
+              <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+            )}
             düzenliyorum
           </Button>
         </form>
       </Form>
     </DialogContent>
-  )
+  );
 }

@@ -14,7 +14,13 @@ export default function Loading() {
         transition={{ ease: 'easeInOut', duration: 0.3 }}
         className='h-screen flex flex-col items-center justify-center'
       >
-        <Image src='/copluk.png' alt='copl.uk logo' width={170} height={170} className='mb-7' />
+        <Image
+          src='/copluk.png'
+          alt='copl.uk logo'
+          width={170}
+          height={170}
+          className='mb-7'
+        />
         <LoaderCircle className='w-6 h-6 animate-spin' />
       </motion.div>
     </AnimatePresence>

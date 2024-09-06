@@ -1,6 +1,6 @@
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import Markdown from 'react-markdown'
+import Markdown from 'react-markdown';
 import Dropdown from '@/components/app/Post/Dropdown';
 import UserHoverCard from '@/components/app/HoverCard';
 import LikeButton from '@/components/app/Post/LikeButton';
@@ -27,16 +27,26 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
       <div className='relative'>
-        <Markdown className={`md ${pathname.includes('/app/posts/') || post.content.length <= 100 ? '' : 'h-32 overflow-hidden'}`}>
+        <Markdown
+          className={`md ${
+            pathname.includes('/app/posts/') || post.content.length <= 100
+              ? ''
+              : 'h-32 overflow-hidden'
+          }`}
+        >
           {post.content}
         </Markdown>
         {!pathname.includes('/app/posts/') && post.content.length > 100 && (
-          <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-zinc-900 from-4%"></div>
+          <div className='absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-zinc-900 from-4%'></div>
         )}
       </div>
       <div className='mt-4 flex gap-2'>
         <LikeButton post={post} setPost={setPost} />
-        <CommentButton post={post} setPost={setPost} onNewComment={onNewComment} />
+        <CommentButton
+          post={post}
+          setPost={setPost}
+          onNewComment={onNewComment}
+        />
       </div>
     </div>
   );

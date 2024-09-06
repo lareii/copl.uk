@@ -10,7 +10,11 @@ export default function LikeButton({ comment, setComment }) {
   const handleLike = async (e, isLiked) => {
     e.preventDefault();
 
-    const response = await likeComment({ post_id: comment.post, id: comment.id, like: !isLiked });
+    const response = await likeComment({
+      post_id: comment.post,
+      id: comment.id,
+      like: !isLiked
+    });
     if (response && response.status === 200) {
       setComment((prevComment) => {
         const currentLikes = prevComment.likes || [];
@@ -19,7 +23,7 @@ export default function LikeButton({ comment, setComment }) {
           ...prevComment,
           likes: isLiked
             ? currentLikes.filter((like) => like !== user.id)
-            : [...currentLikes, user.id],
+            : [...currentLikes, user.id]
         };
       });
     }

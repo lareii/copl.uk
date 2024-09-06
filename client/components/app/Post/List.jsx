@@ -20,7 +20,8 @@ export default function PostList({ fetchPosts }) {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+        description:
+          'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
       return;
@@ -38,30 +39,35 @@ export default function PostList({ fetchPosts }) {
     setOffset((prevOffset) => prevOffset + 10);
   };
 
-  useEffect(() => {
-    const fetchInitialPosts = async () => {
-      const response = await fetchPosts(0);
-      if (!response) {
-        toast({
-          title: 'hay aksi, bir şeyler ters gitti!',
-          description: 'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-          duration: 3000
-        });
-        return;
-      }
+  useEffect(
+    () => {
+      const fetchInitialPosts = async () => {
+        const response = await fetchPosts(0);
+        if (!response) {
+          toast({
+            title: 'hay aksi, bir şeyler ters gitti!',
+            description:
+              'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+            duration: 3000
+          });
+          return;
+        }
 
-      const initialPosts = response.data.posts || [];
+        const initialPosts = response.data.posts || [];
 
-      if (initialPosts.length > 10) {
-        setPosts(initialPosts.slice(0, 10));
-      } else {
-        setPosts(initialPosts);
-        setHasMorePost(false);
-      }
-    };
+        if (initialPosts.length > 10) {
+          setPosts(initialPosts.slice(0, 10));
+        } else {
+          setPosts(initialPosts);
+          setHasMorePost(false);
+        }
+      };
 
-    fetchInitialPosts();
-  }, []);
+      fetchInitialPosts();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className='flex flex-col gap-2'>
@@ -77,8 +83,10 @@ export default function PostList({ fetchPosts }) {
           )}
         </>
       ) : (
-        <div className='flex flex-col items-center justify-center text-sm'>buralar şimdilik sessiz.</div>
+        <div className='flex flex-col items-center justify-center text-sm'>
+          buralar şimdilik sessiz.
+        </div>
       )}
     </div>
   );
-};
+}

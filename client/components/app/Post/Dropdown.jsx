@@ -1,18 +1,21 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Ellipsis, X, LoaderCircle, SquareArrowOutUpRight, Pencil } from 'lucide-react';
+import {
+  Ellipsis,
+  X,
+  LoaderCircle,
+  SquareArrowOutUpRight,
+  Pencil
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import UpdateModal from '@/components/app/Post/UpdateModal';
@@ -49,7 +52,7 @@ export default function Dropdown({ post, setPost, onDelete }) {
 
     setIsDeleting(false);
     onDelete(post.id);
-  }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -75,7 +78,11 @@ export default function Dropdown({ post, setPost, onDelete }) {
                   çöpü düzenle
                 </DialogTrigger>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDelete} disabled={isDeleting} className='flex items-center text-red-500'>
+              <DropdownMenuItem
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className='flex items-center text-red-500'
+              >
                 {isDeleting ? (
                   <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
                 ) : (
