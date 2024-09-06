@@ -52,7 +52,7 @@ export default function Uncollapsed({ router, pathname }) {
             <Dropdown router={router} pathname={pathname} />
             <hr className='mb-3 mt-2' />
             <div className='text-zinc-400 text-xs'>
-              <div>copl.uk GNU GPL v3 lisansı altında lisanslanmıştır.</div>
+            <div>copl.uk, BSD 3-Clause lisansı altında lisanslanmış özgür bir yazılımdır.</div>
               <Link href='#' className='underline'>
                 hakkında
               </Link>{' '}
