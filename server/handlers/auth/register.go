@@ -17,20 +17,28 @@ type RegisterBody struct {
 func Register(c *fiber.Ctx) error {
 	var body RegisterBody
 	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body.",
+		})
 	}
 
 	var validate = validator.New()
 	if err := validate.Struct(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing or invalid fields."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Missing or invalid fields.",
+		})
 	}
 
 	user, err := models.GetUserByUsername(body.Username)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error checking if user exists."})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error checking if user exists.",
+		})
 	}
 	if user.Username != "" {
-		return c.Status(fiber.StatusConflict).JSON(fiber.Map{"message": "User already exists."})
+		return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+			"message": "User already exists.",
+		})
 	}
 
 	hash, _ := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
@@ -41,8 +49,12 @@ func Register(c *fiber.Ctx) error {
 		Password: string(hash),
 	}
 	if err := models.CreateUser(user); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error creating user."})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error creating user.",
+		})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "User created."})
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"message": "User created.",
+	})
 }

@@ -8,7 +8,9 @@ import (
 func User(c *fiber.Ctx) error {
 	user, ok := c.Locals("user").(models.User)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "User not authenticated."})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authenticated.",
+		})
 	}
 
 	user.Password = ""

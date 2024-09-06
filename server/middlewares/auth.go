@@ -17,9 +17,12 @@ func AuthMiddleware() fiber.Handler {
 			})
 		}
 
-		token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-			return []byte(os.Getenv("JWT_SECRET")), nil
-		})
+		token, err := jwt.ParseWithClaims(
+			cookie,
+			&jwt.StandardClaims{},
+			func(token *jwt.Token) (interface{}, error) {
+				return []byte(os.Getenv("JWT_SECRET")), nil
+			})
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"message": "User not authenticated.",

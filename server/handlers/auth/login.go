@@ -19,30 +19,42 @@ type LoginBody struct {
 func Login(c *fiber.Ctx) error {
 	var body LoginBody
 	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body.",
+		})
 	}
 
 	var validate = validator.New()
 	if err := validate.Struct(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing or invalid fields."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Missing or invalid fields.",
+		})
 	}
 
 	auth := models.ValidateUser(c)
 	if auth.IsAuthenticated {
-		c.Status(fiber.StatusConflict).JSON(fiber.Map{"message": "User already authenticated."})
+		c.Status(fiber.StatusConflict).JSON(fiber.Map{
+			"message": "User already authenticated.",
+		})
 		return nil
 	}
 
 	user, err := models.GetUserByUsername(body.Username)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error fetching user."})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching user.",
+		})
 	}
 	if user.Username == "" {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid credentials."})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Invalid credentials.",
+		})
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password)); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid credentials."})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Invalid credentials.",
+		})
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
@@ -52,7 +64,9 @@ func Login(c *fiber.Ctx) error {
 
 	token, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error creating token."})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error creating token.",
+		})
 	}
 
 	cookie := &fiber.Cookie{

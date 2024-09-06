@@ -14,23 +14,31 @@ type NewCommentBody struct {
 func CreateComment(c *fiber.Ctx) error {
 	user, ok := c.Locals("user").(models.User)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "User not authenticated."})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authenticated.",
+		})
 	}
 
 	id := c.Params("post_id")
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid post ID."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid post ID.",
+		})
 	}
 
 	var body NewCommentBody
 	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid request body."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body.",
+		})
 	}
 
 	var validate = validator.New()
 	if err := validate.Struct(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing or invalid fields."})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Missing or invalid fields.",
+		})
 	}
 
 	user.Email = ""
@@ -44,7 +52,9 @@ func CreateComment(c *fiber.Ctx) error {
 
 	createdComment, err := models.CreateComment(comment)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error creating comment."})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error creating comment.",
+		})
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{

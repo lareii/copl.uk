@@ -5,7 +5,9 @@ import (
 )
 
 func Ping(c *fiber.Ctx) error {
-	c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "pong"})
+	c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "pong",
+	})
 
 	return nil
 }
