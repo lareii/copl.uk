@@ -27,17 +27,13 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
       <div className='relative'>
-        <Markdown
-          className={`md ${
-            pathname.includes('/app/posts/') || post.content.length <= 100
-              ? ''
-              : 'h-32 overflow-hidden'
-          }`}
-        >
-          {post.content}
+        <Markdown className='md'>
+          {pathname.includes('/app/posts/') || post.content.length <= 200
+            ? post.content
+            : post.content.slice(0, 200) + '...'}
         </Markdown>
-        {!pathname.includes('/app/posts/') && post.content.length > 100 && (
-          <div className='absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-zinc-900 from-4%'></div>
+        {!pathname.includes('/app/posts/') && post.content.length > 200 && (
+          <div className='absolute bottom-0 right-0 bg-gradient-to-b from-transparent to-zinc-900 w-full h-full'></div>
         )}
       </div>
       <div className='mt-4 flex gap-2'>

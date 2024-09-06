@@ -52,6 +52,7 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
       return;
     }
 
+    form.reset();
     setPost((prevPost) => ({
       ...prevPost,
       content: values.content

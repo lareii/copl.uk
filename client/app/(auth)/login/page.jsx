@@ -59,6 +59,7 @@ export default function Page() {
       return;
     }
 
+    form.reset();
     setIsSubmitting(false);
     router.push('/app');
     router.refresh();

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { CalendarFold } from 'lucide-react';
 import {
   HoverCard,
@@ -9,7 +10,7 @@ export default function UserHoverCard({ user }) {
   return (
     <HoverCard>
       <HoverCardTrigger className='text-sm hover:underline'>
-        {user.name}
+        <Link href={`/app/users/${user.username}`}>{user.name}</Link>
       </HoverCardTrigger>
       <HoverCardContent className='flex flex-col'>
         <div className='flex items-start'>

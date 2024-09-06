@@ -56,6 +56,7 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
       return;
     }
 
+    form.reset();
     setComment((prevComment) => ({
       ...prevComment,
       content: values.content

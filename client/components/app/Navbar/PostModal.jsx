@@ -58,6 +58,7 @@ export default function PostModal() {
       return;
     }
 
+    form.reset();
     setIsOpen(false);
     setIsSubmitting(false);
     router.push(`/app/posts/${response.data.post.id}`);

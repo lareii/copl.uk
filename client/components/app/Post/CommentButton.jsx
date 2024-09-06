@@ -60,6 +60,7 @@ export default function CommentButton({ post, setPost, onNewComment }) {
       return;
     }
 
+    form.reset();
     setIsOpen(false);
     setIsSubmitting(false);
 

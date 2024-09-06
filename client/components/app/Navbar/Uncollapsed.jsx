@@ -7,7 +7,7 @@ import PostModal from '@/components/app/Navbar/PostModal';
 
 export default function Uncollapsed({ router, pathname }) {
   return (
-    <nav className='pb-5 sticky top-14 self-start h-[calc(100vh-3.5rem)] min-w-60 '>
+    <nav className='pb-5 sticky top-14 self-start h-[calc(100vh-3.5rem)] w-60 '>
       <div className='flex flex-col gap-5 h-full'>
         <Link href='/app' className='w-fit mb-5'>
           <Image
