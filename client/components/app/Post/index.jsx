@@ -51,52 +51,50 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
             onNewComment={onNewComment}
           />
         </div>
-        <div className='text-xs text-zinc-400'>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div>
-                  {new Date(post.created_at.T * 1000).toLocaleDateString(
-                    'tr-TR',
-                    {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    }
-                  )}
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className='text-xs text-zinc-400'>
-                <div>
-                  oluşturuldu:{' '}
-                  {new Date(post.created_at.T * 1000).toLocaleDateString(
-                    'tr-TR',
-                    {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric'
-                    }
-                  )}
-                </div>
-                <div>
-                  güncellendi:{' '}
-                  {new Date(post.updated_at.T * 1000).toLocaleDateString(
-                    'tr-TR',
-                    {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric'
-                    }
-                  )}
-                </div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className='text-xs text-zinc-400'>
+                {new Date(post.created_at.T * 1000).toLocaleDateString(
+                  'tr-TR',
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  }
+                )}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className='text-xs text-zinc-400'>
+              <div>
+                oluşturuldu:{' '}
+                {new Date(post.created_at.T * 1000).toLocaleDateString(
+                  'tr-TR',
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric'
+                  }
+                )}
+              </div>
+              <div>
+                güncellendi:{' '}
+                {new Date(post.updated_at.T * 1000).toLocaleDateString(
+                  'tr-TR',
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric'
+                  }
+                )}
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
