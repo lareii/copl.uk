@@ -1,5 +1,11 @@
 import Link from 'next/link';
-import { User, ChevronUp, LoaderCircle } from 'lucide-react';
+import {
+  User,
+  ChevronUp,
+  LoaderCircle,
+  SquareArrowOutUpRight,
+  LogOut
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import UserCard from '@/components/app/UserCard';
 import { useAuthStore } from '@/stores/auth';
 import { logout } from '@/lib/api/auth';
 
@@ -43,29 +50,35 @@ export default function Dropdown({ router, pathname }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel className='flex items-start'>
-          <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
-          <div className='flex flex-col'>
-            {user != 'loading' ? (
-              <>
-                <div className='font-medium text-sm'>{user.name}</div>
-                <div className='text-zinc-400 text-xs'>@{user.username}</div>
-              </>
-            ) : (
-              <>
+        <DropdownMenuLabel className='font-normal'>
+          {user != 'loading' ? (
+            <UserCard user={user} />
+          ) : (
+            <div className='flex items-center'>
+              <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
+              <div>
                 <Skeleton className='w-20 h-4 mb-1' />
-                <Skeleton className='w-10 h-3' />
-              </>
-            )}
-          </div>
+                <Skeleton className='w-14 h-3' />
+              </div>
+            </div>
+          )}
         </DropdownMenuLabel>
         <DropdownMenuItem asChild>
-          <Link href={'/app/users/' + user?.username}>profile git</Link>
+          <Link href={'/app/users/' + user?.username}>
+            <SquareArrowOutUpRight className='w-4 h-4 mr-2' />
+            profile git
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout} disabled={user === 'loading'}>
-          {user === 'loading' && (
+        <DropdownMenuItem
+          onClick={handleLogout}
+          disabled={user === 'loading'}
+          className='text-red-500'
+        >
+          {user === 'loading' ? (
             <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />
+          ) : (
+            <LogOut className='w-4 h-4 mr-2' />
           )}
           çıkış yap
         </DropdownMenuItem>

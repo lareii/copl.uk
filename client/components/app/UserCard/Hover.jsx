@@ -6,7 +6,7 @@ import {
   HoverCardTrigger
 } from '@/components/ui/hover-card';
 
-export default function UserHoverCard({ user }) {
+export default function Hover({ user }) {
   return (
     <HoverCard>
       <HoverCardTrigger className='text-sm hover:underline'>
