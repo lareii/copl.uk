@@ -9,7 +9,7 @@ import {
 export default function Hover({ user }) {
   return (
     <HoverCard>
-      <HoverCardTrigger className='text-sm hover:underline'>
+      <HoverCardTrigger className='text-sm hover:underline' asChild>
         <Link href={`/app/users/${user.username}`}>{user.name}</Link>
       </HoverCardTrigger>
       <HoverCardContent className='flex flex-col'>
