@@ -30,9 +30,11 @@ func DeletePost(c *fiber.Ctx) error {
 	}
 
 	if post.Author != user.ID {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "User not authorized.",
-		})
+		if user.Role != "admin" {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "User not authorized.",
+			})
+		}
 	}
 
 	if err := models.DeletePost(postID); err != nil {

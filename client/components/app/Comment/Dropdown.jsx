@@ -49,7 +49,7 @@ export default function Dropdown({ comment, setComment, onDelete }) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DropdownMenu>
-        {user.id === comment.author.id && (
+        {(user.id === comment.author.id || user.role === 'admin' ) && (
           <DropdownMenuTrigger asChild>
             <Button variant='ghost' size='icon'>
               <Ellipsis className='w-4 h-4' />

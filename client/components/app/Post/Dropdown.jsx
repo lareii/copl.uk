@@ -79,7 +79,7 @@ export default function Dropdown({ post, setPost, onDelete }) {
               çöpe git
             </Link>
           </DropdownMenuItem>
-          {user.id === post.author.id && (
+          {(user.id === post.author.id || user.role === 'admin') && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem>

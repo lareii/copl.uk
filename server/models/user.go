@@ -18,7 +18,7 @@ type User struct {
 	ID        primitive.ObjectID  `bson:"_id" json:"id"`
 	CreatedAt primitive.Timestamp `bson:"created_at" json:"created_at"`
 	IsBanned  bool                `bson:"is_banned" json:"is_banned,omitempty"`
-	IsAdmin   bool                `bson:"is_admin" json:"is_admin,omitempty"`
+	Role      string              `bson:"role" json:"role,omitempty"`
 	Email     string              `bson:"email,omitempty" json:"email,omitempty"`
 	Name      string              `bson:"name" json:"name"`
 	Username  string              `bson:"username" json:"username"`
@@ -80,7 +80,7 @@ func CreateUser(user User) error {
 		T: uint32(time.Now().Unix()),
 	}
 	user.IsBanned = false
-	user.IsAdmin = false
+	user.Role = "user"
 	user.About = ""
 	user.Points = 1
 
