@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CalendarFold, Trash } from 'lucide-react';
+import { CalendarFold, Sparkle, Sparkles, Trash } from 'lucide-react';
 import { getUser, getUserPosts } from '@/lib/api/users';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
@@ -69,9 +69,14 @@ export default function Page({ params }) {
                     )}
                   </div>
                   {' · '}
-                  <div className='flex'>
-                    <Trash className='w-4 h-4 mr-1' />
-                    {user.points} çöp puanı
+                  <div className='text-yellow-500 relative'>
+                    <Sparkle className='w-2.5 h-2.5 absolute right-10 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle1' />
+                    <Sparkle className='w-2 h-2 absolute right-2 -top-1 text-yellow-500 fill-yellow-500 animate-sparkle2' />
+                    <Sparkle className='w-3 h-3 absolute -right-2.5 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle3' />
+                    <div className='flex'>
+                      <Trash className='w-4 h-4 mr-1' />
+                      <div className='static'>{user.points} çöp puanı</div>
+                    </div>
                   </div>
                 </div>
               </div>
