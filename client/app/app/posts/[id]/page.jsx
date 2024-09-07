@@ -39,7 +39,7 @@ export default function Page({ params }) {
 
   return post ? (
     <div className='flex flex-col'>
-      <Post post={post} onNewComment={handleNewComment} />
+      <Post post={post} setPost={setPost} onNewComment={handleNewComment} />
       <div className='mt-10 mb-3 font-medium text-xs text-muted-foreground'>
         yorumlar
       </div>
@@ -47,6 +47,7 @@ export default function Page({ params }) {
         post_id={post.id}
         comments={comments}
         setComments={setComments}
+        setPost={setPost}
       />
     </div>
   ) : (

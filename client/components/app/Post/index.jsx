@@ -12,9 +12,8 @@ import LikeButton from '@/components/app/Post/LikeButton';
 import CommentButton from '@/components/app/Post/CommentButton';
 import UserCard from '@/components/app/UserCard';
 
-export default function Post({ post: initialPost, onDelete, onNewComment }) {
+export default function Post({ post, setPost, onDelete, onNewComment }) {
   const pathname = usePathname();
-  const [post, setPost] = useState(initialPost);
 
   return (
     <div className='p-5 bg-zinc-900 rounded-lg'>
