@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CalendarFold } from 'lucide-react';
+import { CalendarFold, Trash } from 'lucide-react';
 import { getUser, getUserPosts } from '@/lib/api/users';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
@@ -60,13 +60,18 @@ export default function Page({ params }) {
               </div>
               <div>
                 <div className='text-sm mb-2'>{user.about}</div>
-                <div className='text-xs'>
-                  <div className='text-zinc-400 flex items-center mb-0.5'>
+                <div className='flex items-center gap-2 text-xs text-zinc-400'>
+                  <div className='flex'>
                     <CalendarFold className='w-4 h-4 mr-1' />
                     {new Date(user.created_at.T * 1000).toLocaleDateString(
                       'tr-TR',
                       { year: 'numeric', month: 'long', day: 'numeric' }
                     )}
+                  </div>
+                  {' · '}
+                  <div className='flex'>
+                    <Trash className='w-4 h-4 mr-1' />
+                    {user.points} çöp puanı
                   </div>
                 </div>
               </div>

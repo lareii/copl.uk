@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Trash } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { likePost } from '@/lib/api/posts';
 import useAuthStore from '@/stores/auth';
 
@@ -31,7 +31,7 @@ export default function LikeButton({ post, setPost }) {
       className='px-2 h-7 text-xs'
       onClick={(e) => handleLike(e, isLiked)}
     >
-      <Trash className='w-3 h-3 mr-2' />
+      <Heart className='w-3 h-3 mr-2' />
       {post.likes ? post.likes.length : 0}
     </Button>
   );

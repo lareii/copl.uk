@@ -24,6 +24,7 @@ type User struct {
 	Username  string              `bson:"username" json:"username"`
 	Password  string              `bson:"password,omitempty" json:"password,omitempty"`
 	About     string              `bson:"about" json:"about,omitempty"`
+	Points    int                 `bson:"points" json:"points,omitempty"`
 }
 
 type AuthStatus struct {
@@ -82,10 +83,20 @@ func CreateUser(user User) error {
 	user.IsBanned = false
 	user.IsAdmin = false
 	user.About = ""
+	user.Points = 1
 
 	_, err := database.Users.InsertOne(context.Background(), user)
 	if err != nil {
 		return fmt.Errorf("error creating user: %v", err)
+	}
+
+	return nil
+}
+
+func UpdateUser(userID primitive.ObjectID, update bson.M) error {
+	_, err := database.Users.UpdateOne(context.Background(), bson.M{"_id": userID}, update)
+	if err != nil {
+		return fmt.Errorf("error updating user: %v", err)
 	}
 
 	return nil

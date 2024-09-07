@@ -64,8 +64,14 @@ func UpdatePost(c *fiber.Ctx) error {
 	if body.Like != nil {
 		if *body.Like {
 			update["$addToSet"] = bson.M{"likes": user.ID}
+			if post.Author.ID != user.ID {
+				models.UpdateUser(post.Author.ID, bson.M{"$inc": bson.M{"points": 1}})
+			}
 		} else {
 			update["$pull"] = bson.M{"likes": user.ID}
+			if post.Author.ID != user.ID {
+				models.UpdateUser(post.Author.ID, bson.M{"$inc": bson.M{"points": -1}})
+			}
 		}
 	}
 
