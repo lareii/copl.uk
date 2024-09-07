@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { useToast } from '@/components/ui/use-toast';
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -77,14 +76,28 @@ export default function CommentButton({ post, setPost, onNewComment }) {
     router.refresh();
   }
 
+  const handleButtonClick = () => {
+    if (!pathname.includes('/app/posts/')) {
+      router.push(`/app/posts/${post.id}`);
+      router.refresh();
+      return;
+    }
+
+    setIsOpen(true);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant='ghost' className='px-2 h-7 text-xs'>
+      <div>
+        <Button
+          variant='ghost'
+          onClick={handleButtonClick}
+          className='px-2 h-7 text-xs'
+        >
           <MessageCircle className='w-3 h-3 mr-2' />
           {post.comments}
         </Button>
-      </DialogTrigger>
+      </div>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>yeni yorum</DialogTitle>
