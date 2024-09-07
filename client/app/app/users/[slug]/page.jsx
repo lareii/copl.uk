@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CalendarFold, Sparkle, Sparkles, Trash } from 'lucide-react';
+import { CalendarFold, Sparkle, Trash } from 'lucide-react';
 import { getUser, getUserPosts } from '@/lib/api/users';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
@@ -94,7 +94,7 @@ export default function Page({ params }) {
             </>
           )}
           <div className='mt-10'>
-            <div className='text-xs text-zinc-400 mb-5'>gönderiler</div>
+            <div className='text-xs text-zinc-400 mb-5'>çöpler</div>
             <PostList fetchPosts={fetchPosts} />
           </div>
         </div>

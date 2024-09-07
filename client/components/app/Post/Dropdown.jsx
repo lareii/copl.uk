@@ -38,18 +38,28 @@ export default function Dropdown({ post, setPost, onDelete }) {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'gönderi silinemedi.',
+        description: 'çöp kaldıralamadı.',
         duration: 3000
       });
       setIsDeleting(false);
       return;
     }
     if (pathname.startsWith('/app/posts')) {
+      toast({
+        title: 'başarılı!',
+        description: 'çöp başarıyla kaldırıldı.',
+        duration: 3000
+      });
       router.push('/app');
       router.refresh();
       return;
     }
 
+    toast({
+      title: 'başarılı!',
+      description: 'çöp başarıyla kaldırıldı.',
+      duration: 3000
+    });
     setIsDeleting(false);
     onDelete(post.id);
   };

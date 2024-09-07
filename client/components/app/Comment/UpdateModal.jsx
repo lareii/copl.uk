@@ -63,6 +63,11 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
     }));
     setIsSubmitting(false);
     setIsOpen(false);
+    toast({
+      title: 'başarılı!',
+      description: 'yorum başarıyla düzenlendi.',
+      duration: 3000
+    });
   }
 
   return (

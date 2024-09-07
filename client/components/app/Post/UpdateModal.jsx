@@ -59,6 +59,11 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
     }));
     setIsSubmitting(false);
     setIsOpen(false);
+    toast({
+      title: 'başarılı!',
+      description: 'çöp başarıyla düzenlendi.',
+      duration: 3000
+    });
   }
 
   return (

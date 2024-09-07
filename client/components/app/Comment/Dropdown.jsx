@@ -30,13 +30,18 @@ export default function Dropdown({ comment, setComment, onDelete }) {
     if (!response) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
-        description: 'yorum silinemedi.',
+        description: 'yorum kaldıralamadı.',
         duration: 3000
       });
       setIsDeleting(false);
       return;
     }
 
+    toast({
+      title: 'başarılı!',
+      description: 'yorum başarıyla kaldırıldı.',
+      duration: 3000
+    });
     setIsDeleting(false);
     onDelete(comment.id);
   };

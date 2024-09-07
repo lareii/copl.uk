@@ -4,17 +4,12 @@ import Comment from '@/components/app/Comment';
 import { Button } from '@/components/ui/button';
 import { getComments } from '@/lib/api/comments';
 
-export default function CommentList({ post_id, comments, setComments, setPost }) {
+export default function CommentList({ post_id, comments, setComments }) {
   const [offset, setOffset] = useState(10);
   const [hasMoreComment, setHasMoreComment] = useState(true);
   const { toast } = useToast();
 
   const handleDelete = (commentId) => {
-    setPost((prevPost) => ({
-      ...prevPost,
-      comments: prevPost.comments - 1
-    }));
-
     setComments((prevComments) =>
       prevComments.filter((comment) => comment.id !== commentId)
     );

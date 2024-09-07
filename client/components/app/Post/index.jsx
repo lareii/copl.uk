@@ -1,4 +1,5 @@
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import Markdown from 'react-markdown';
 import {
   Tooltip,
@@ -11,7 +12,8 @@ import LikeButton from '@/components/app/Post/LikeButton';
 import CommentButton from '@/components/app/Post/CommentButton';
 import UserCard from '@/components/app/UserCard';
 
-export default function Post({ post, setPost, onDelete, onNewComment }) {
+export default function Post({ post: initialPost, onDelete, onNewComment }) {
+  const [post, setPost] = useState(initialPost);
   const pathname = usePathname();
 
   return (
