@@ -49,7 +49,7 @@ func UpdateComment(c *fiber.Ctx) error {
 	}
 
 	if body.Content != "" {
-		if comment.Author.ID != user.ID {
+		if comment.Author != user.ID {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"message": "User not authorized.",
 			})
@@ -64,13 +64,13 @@ func UpdateComment(c *fiber.Ctx) error {
 	if body.Like != nil {
 		if *body.Like {
 			update["$addToSet"] = bson.M{"likes": user.ID}
-			if comment.Author.ID != user.ID {
-				models.UpdateUser(comment.Author.ID, bson.M{"$inc": bson.M{"points": 1}})
+			if comment.Author != user.ID {
+				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": 1}})
 			}
 		} else {
 			update["$pull"] = bson.M{"likes": user.ID}
-			if comment.Author.ID != user.ID {
-				models.UpdateUser(comment.Author.ID, bson.M{"$inc": bson.M{"points": -1}})
+			if comment.Author != user.ID {
+				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": -1}})
 			}
 		}
 	}

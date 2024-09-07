@@ -35,8 +35,28 @@ func GetUserPosts(c *fiber.Ctx) error {
 		})
 	}
 
+	var responsePosts []fiber.Map
+	for _, post := range posts {
+		responsePosts = append(responsePosts, fiber.Map{
+			"id":         post.ID,
+			"created_at": post.CreatedAt,
+			"updated_at": post.UpdatedAt,
+			"author": fiber.Map{
+				"id":         user.ID,
+				"created_at": user.CreatedAt,
+				"name":       user.Name,
+				"username":   user.Username,
+				"about":      user.About,
+				"points":     user.Points,
+			},
+			"content":  post.Content,
+			"likes":    post.Likes,
+			"comments": post.Comments,
+		})
+	}
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User posts found.",
-		"posts":   posts,
+		"posts":   responsePosts,
 	})
 }

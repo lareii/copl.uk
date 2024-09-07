@@ -41,12 +41,9 @@ func CreateComment(c *fiber.Ctx) error {
 		})
 	}
 
-	user.Email = ""
-	user.Password = ""
-
 	comment := models.Comment{
 		Post:    postID,
-		Author:  user,
+		Author:  user.ID,
 		Content: body.Content,
 	}
 
@@ -59,6 +56,21 @@ func CreateComment(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Comment created.",
-		"comment": createdComment,
+		"comment": fiber.Map{
+			"id":         createdComment.ID,
+			"created_at": createdComment.CreatedAt,
+			"updated_at": createdComment.UpdatedAt,
+			"post":       createdComment.Post,
+			"author": fiber.Map{
+				"id":         user.ID,
+				"created_at": user.CreatedAt,
+				"name":       user.Name,
+				"username":   user.Username,
+				"about":      user.About,
+				"points":     user.Points,
+			},
+			"content": createdComment.Content,
+			"likes":   createdComment.Likes,
+		},
 	})
 }

@@ -16,7 +16,7 @@ type Comment struct {
 	CreatedAt primitive.Timestamp  `bson:"created_at" json:"created_at"`
 	UpdatedAt primitive.Timestamp  `bson:"updated_at" json:"updated_at"`
 	Post      primitive.ObjectID   `bson:"post" json:"post"`
-	Author    User                 `bson:"author" json:"author"`
+	Author    primitive.ObjectID   `bson:"author" json:"author"`
 	Content   string               `bson:"content" json:"content"`
 	Likes     []primitive.ObjectID `bson:"likes" json:"likes,omitempty"`
 }

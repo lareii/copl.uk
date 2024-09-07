@@ -15,7 +15,7 @@ type Post struct {
 	ID        primitive.ObjectID   `bson:"_id" json:"id"`
 	CreatedAt primitive.Timestamp  `bson:"created_at" json:"created_at"`
 	UpdatedAt primitive.Timestamp  `bson:"updated_at" json:"updated_at"`
-	Author    User                 `bson:"author" json:"author"`
+	Author    primitive.ObjectID   `bson:"author" json:"author"`
 	Content   string               `bson:"content" json:"content"`
 	Likes     []primitive.ObjectID `bson:"likes" json:"likes,omitempty"`
 	Comments  uint                 `bson:"comments" json:"comments"`
@@ -52,7 +52,7 @@ func GetPosts(limit, offset int64) ([]Post, error) {
 
 func GetPostsByUser(user User, limit, offset int64) ([]Post, error) {
 	var posts []Post
-	cursor, err := database.Posts.Find(context.Background(), bson.M{"author._id": user.ID}, &options.FindOptions{
+	cursor, err := database.Posts.Find(context.Background(), bson.M{"author": user.ID}, &options.FindOptions{
 		Limit: &limit,
 		Skip:  &offset,
 		Sort:  bson.M{"created_at": -1},

@@ -29,7 +29,7 @@ func DeleteComment(c *fiber.Ctx) error {
 		})
 	}
 
-	if comment.Author.ID != user.ID {
+	if comment.Author != user.ID {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "User not authorized.",
 		})

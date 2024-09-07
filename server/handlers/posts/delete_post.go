@@ -29,7 +29,7 @@ func DeletePost(c *fiber.Ctx) error {
 		})
 	}
 
-	if post.Author.ID != user.ID {
+	if post.Author != user.ID {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "User not authorized.",
 		})
