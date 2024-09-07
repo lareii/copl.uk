@@ -33,13 +33,8 @@ type AuthStatus struct {
 	Id              string `json:"Id"`
 }
 
-func GetUserByID(id string) (user User, err error) {
-	oid, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return user, err
-	}
-
-	err = database.Users.FindOne(context.Background(), bson.M{"_id": oid}).Decode(&user)
+func GetUserByID(id primitive.ObjectID) (user User, err error) {
+	err = database.Users.FindOne(context.Background(), bson.M{"_id": id}).Decode(&user)
 	if err != nil && err == mongo.ErrNoDocuments {
 		return user, nil
 	}
@@ -66,7 +61,11 @@ func ValidateUser(c *fiber.Ctx) AuthStatus {
 	}
 
 	claims := token.Claims.(*jwt.StandardClaims)
-	user, err := GetUserByID(claims.Issuer)
+	oid, err := primitive.ObjectIDFromHex(claims.Issuer)
+	if err != nil {
+		return AuthStatus{IsAuthenticated: false, Message: "User not authenticated.", Id: "0"}
+	}
+	user, err := GetUserByID(oid)
 	if err != nil && err == mongo.ErrNoDocuments {
 		user = User{}
 		return AuthStatus{IsAuthenticated: false, Message: "User not found.", Id: user.ID.Hex()}
