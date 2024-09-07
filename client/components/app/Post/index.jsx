@@ -1,5 +1,4 @@
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import Markdown from 'react-markdown';
 import {
   Tooltip,
