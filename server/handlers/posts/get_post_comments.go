@@ -25,12 +25,6 @@ func GetPostComments(c *fiber.Ctx) error {
 		})
 	}
 
-	if len(comments) == 0 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"message": "No comments found.",
-		})
-	}
-
 	var authorIDs []primitive.ObjectID
 	for _, comment := range comments {
 		authorIDs = append(authorIDs, comment.Author)

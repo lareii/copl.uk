@@ -17,12 +17,6 @@ func GetPosts(c *fiber.Ctx) error {
 		})
 	}
 
-	if len(posts) == 0 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"message": "No posts found.",
-		})
-	}
-
 	var authorIDs []primitive.ObjectID
 	for _, post := range posts {
 		authorIDs = append(authorIDs, post.Author)

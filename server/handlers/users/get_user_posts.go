@@ -29,12 +29,6 @@ func GetUserPosts(c *fiber.Ctx) error {
 		})
 	}
 
-	if len(posts) == 0 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"message": "No posts found.",
-		})
-	}
-
 	var responsePosts []fiber.Map
 	for _, post := range posts {
 		responsePosts = append(responsePosts, fiber.Map{
