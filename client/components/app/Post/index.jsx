@@ -10,7 +10,7 @@ import {
 import Dropdown from '@/components/app/Post/Dropdown';
 import LikeButton from '@/components/app/Post/LikeButton';
 import CommentButton from '@/components/app/Post/CommentButton';
-import UserCard from '@/components/app/UserCard';
+import UserInfo from '@/components/app/User/Info';
 
 export default function Post({ post: initialPost, onDelete, onNewComment }) {
   const [post, setPost] = useState(initialPost);
@@ -19,7 +19,7 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
   return (
     <div className='p-5 bg-zinc-900 rounded-lg'>
       <div className='flex items-center justify-between mb-3'>
-        <UserCard user={post.author} />
+        <UserInfo user={post.author} />
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
       <div className='relative'>

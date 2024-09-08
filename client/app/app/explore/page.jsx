@@ -1,10 +1,16 @@
 'use client';
 
 import PostList from '@/components/app/Post/List';
+import UserList from '@/components/app/User/List';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getPosts } from '@/lib/api/posts';
+import { getUsers } from '@/lib/api/users';
 
 export default function Page() {
+  const fetchUsers = async (offset) => {
+    return await getUsers(11, offset);
+  };
+
   const fetchPosts = async (offset) => {
     return await getPosts(11, offset);
   };
@@ -21,7 +27,9 @@ export default function Page() {
           <PostList fetchPosts={fetchPosts} />
         </TabsContent>
         <TabsContent value='guilds'>2</TabsContent>
-        <TabsContent value='users'>3</TabsContent>
+        <TabsContent value='users'>
+          <UserList fetchUsers={fetchUsers} />
+        </TabsContent>
       </Tabs>
     </div>
   );

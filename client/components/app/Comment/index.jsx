@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/tooltip';
 import Dropdown from '@/components/app/Comment/Dropdown';
 import LikeButton from '@/components/app/Comment/LikeButton';
-import UserCard from '@/components/app/UserCard';
+import UserInfo from '@/components/app/User/Info';
 
 export default function Comment({ comment: initialComment, onDelete }) {
   const [comment, setComment] = useState(initialComment);
@@ -16,7 +16,7 @@ export default function Comment({ comment: initialComment, onDelete }) {
   return (
     <div>
       <div className='flex items-center justify-between mb-3'>
-        <UserCard user={comment.author} />
+        <UserInfo user={comment.author} />
         <Dropdown
           comment={comment}
           setComment={setComment}

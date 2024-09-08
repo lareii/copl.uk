@@ -1,6 +1,6 @@
-import Hover from '@/components/app/UserCard/Hover';
+import Hover from '@/components/app/User/Hover';
 
-export default function UserCard({ user }) {
+export default function UserInfo({ user }) {
   return (
     <div className='flex items-start'>
       <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import Post from '@/components/app/Post';
@@ -7,6 +8,7 @@ export default function PostList({ fetchPosts }) {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(10);
   const [hasMorePost, setHasMorePost] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   const handleDelete = (postId) => {
@@ -39,39 +41,41 @@ export default function PostList({ fetchPosts }) {
     setOffset((prevOffset) => prevOffset + 10);
   };
 
-  useEffect(
-    () => {
-      const fetchInitialPosts = async () => {
-        const response = await fetchPosts(0);
-        if (!response) {
-          toast({
-            title: 'hay aksi, bir şeyler ters gitti!',
-            description:
-              'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-            duration: 3000
-          });
-          return;
-        }
+  useEffect(() => {
+    const fetchInitialPosts = async () => {
+      setLoading(true);
+      const response = await fetchPosts(0);
+      setLoading(false);
 
-        const initialPosts = response.data.posts || [];
+      if (!response) {
+        toast({
+          title: 'hay aksi, bir şeyler ters gitti!',
+          description:
+            'sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.',
+          duration: 3000
+        });
+        return;
+      }
 
-        if (initialPosts.length > 10) {
-          setPosts(initialPosts.slice(0, 10));
-        } else {
-          setPosts(initialPosts);
-          setHasMorePost(false);
-        }
-      };
+      const initialPosts = response.data.posts || [];
 
-      fetchInitialPosts();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+      if (initialPosts.length > 10) {
+        setPosts(initialPosts.slice(0, 10));
+      } else {
+        setPosts(initialPosts);
+        setHasMorePost(false);
+      }
+    };
+
+    fetchInitialPosts();
+  }, [fetchPosts, toast]);
 
   return (
     <div className='flex flex-col gap-2'>
-      {posts.length > 0 ? (
+      {loading && (
+        <LoaderCircle className='mt-3 w-4 h-4 animate-spin self-center' />
+      )}
+      {!loading && posts.length > 0 ? (
         <>
           {posts.map((post) => (
             <Post key={post.id} post={post} onDelete={handleDelete} />
@@ -83,9 +87,11 @@ export default function PostList({ fetchPosts }) {
           )}
         </>
       ) : (
-        <div className='flex flex-col items-center justify-center text-sm'>
-          buralar şimdilik sessiz.
-        </div>
+        !loading && (
+          <div className='flex flex-col items-center justify-center text-sm'>
+            buralar şimdilik sessiz.
+          </div>
+        )
       )}
     </div>
   );

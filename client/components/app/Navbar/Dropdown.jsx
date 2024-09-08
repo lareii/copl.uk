@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserCard from '@/components/app/UserCard';
+import UserInfo from '@/components/app/User/Info';
 import { useAuthStore } from '@/stores/auth';
 import { logout } from '@/lib/api/auth';
 
@@ -52,7 +52,7 @@ export default function Dropdown({ router, pathname }) {
       <DropdownMenuContent>
         <DropdownMenuLabel className='font-normal'>
           {user != 'loading' ? (
-            <UserCard user={user} />
+            <UserInfo user={user} />
           ) : (
             <div className='flex items-center'>
               <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>

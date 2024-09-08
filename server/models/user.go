@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type User struct {
@@ -49,6 +50,25 @@ func GetUserByUsername(username string) (user User, err error) {
 	}
 
 	return user, err
+}
+
+func GetUsers(limit, offset int64) ([]User, error) {
+	var users []User
+	cursor, err := database.Users.Find(context.Background(), bson.M{}, &options.FindOptions{
+		Limit: &limit,
+		Skip:  &offset,
+		Sort:  bson.M{"points": -1},
+	})
+	if err != nil {
+		return users, fmt.Errorf("error fetching users: %v", err)
+	}
+
+	err = cursor.All(context.Background(), &users)
+	if err != nil {
+		return users, fmt.Errorf("error decoding users: %v", err)
+	}
+
+	return users, nil
 }
 
 func ValidateUser(c *fiber.Ctx) AuthStatus {
