@@ -68,7 +68,7 @@ export default function UserList({ fetchUsers }) {
 
   return (
     <div className='flex flex-col gap-2'>
-      {users.length > 0 ? (
+      {users.length > 20 ? (
         <>
           {users.map((user, index) => (
             <Card key={user.id} index={index} user={user} />

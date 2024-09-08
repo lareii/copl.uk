@@ -101,7 +101,7 @@ func CreateUser(user User) error {
 	}
 	user.IsBanned = false
 	user.Role = "user"
-	user.About = ""
+	user.About = "ben bir copl.uk kullanıcısıyım."
 	user.Points = 1
 
 	_, err := database.Users.InsertOne(context.Background(), user)
