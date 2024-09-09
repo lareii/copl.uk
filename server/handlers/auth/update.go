@@ -58,14 +58,17 @@ func UpdateUser(c *fiber.Ctx) error {
 		update["$set"].(bson.M)["about"] = body.About
 	}
 
-	err := models.UpdateUser(user.ID, update)
+	updatedUser, err := models.UpdateUser(user.ID, update)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error updating user.",
 		})
 	}
 
+	updatedUser.Password = ""
+
 	return c.JSON(fiber.Map{
 		"message": "User updated successfully.",
+		"user":    updatedUser,
 	})
 }

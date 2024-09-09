@@ -112,11 +112,13 @@ func CreateUser(user User) error {
 	return nil
 }
 
-func UpdateUser(userID primitive.ObjectID, update bson.M) error {
-	_, err := database.Users.UpdateOne(context.Background(), bson.M{"_id": userID}, update)
+func UpdateUser(userID primitive.ObjectID, update bson.M) (User, error) {
+	var user User
+	options := options.FindOneAndUpdate().SetReturnDocument(options.After)
+	err := database.Users.FindOneAndUpdate(context.Background(), bson.M{"_id": userID}, update, options).Decode(&user)
 	if err != nil {
-		return fmt.Errorf("error updating user: %v", err)
+		return user, fmt.Errorf("error updating user: %v", err)
 	}
 
-	return nil
+	return user, nil
 }
