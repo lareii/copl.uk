@@ -105,7 +105,6 @@ func UpdatePost(postID primitive.ObjectID, update bson.M) (Post, error) {
 	options := options.FindOneAndUpdate().SetReturnDocument(options.After)
 	err := database.Posts.FindOneAndUpdate(context.Background(), bson.M{"_id": postID}, update, options).Decode(&post)
 	if err != nil {
-		fmt.Printf("Update error: %v\n", err)
 		return post, fmt.Errorf("error updating post: %v", err)
 	}
 
