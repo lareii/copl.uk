@@ -23,6 +23,7 @@ func SetupRouter(app *fiber.App) {
 	userGroup := app.Group("/users")
 	userGroup.Get("/", middlewares.AuthMiddleware(), users.GetUsers)
 	userGroup.Get("/:slug", middlewares.AuthMiddleware(), users.GetUser)
+	userGroup.Post("/:slug/follow", middlewares.AuthMiddleware(), users.FollowUser)
 	userGroup.Get("/:slug/posts", middlewares.AuthMiddleware(), users.GetUserPosts)
 
 	postGroup := app.Group("/posts")

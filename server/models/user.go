@@ -16,16 +16,18 @@ import (
 )
 
 type User struct {
-	ID        primitive.ObjectID  `bson:"_id" json:"id"`
-	CreatedAt primitive.Timestamp `bson:"created_at" json:"created_at"`
-	IsBanned  bool                `bson:"is_banned" json:"is_banned,omitempty"`
-	Role      string              `bson:"role" json:"role,omitempty"`
-	Email     string              `bson:"email,omitempty" json:"email,omitempty"`
-	Name      string              `bson:"name" json:"name"`
-	Username  string              `bson:"username" json:"username"`
-	Password  string              `bson:"password,omitempty" json:"password,omitempty"`
-	About     string              `bson:"about" json:"about,omitempty"`
-	Points    int                 `bson:"points" json:"points,omitempty"`
+	ID        primitive.ObjectID   `bson:"_id" json:"id"`
+	CreatedAt primitive.Timestamp  `bson:"created_at" json:"created_at"`
+	IsBanned  bool                 `bson:"is_banned" json:"is_banned,omitempty"`
+	Role      string               `bson:"role" json:"role,omitempty"`
+	Email     string               `bson:"email,omitempty" json:"email,omitempty"`
+	Name      string               `bson:"name" json:"name"`
+	Username  string               `bson:"username" json:"username"`
+	Password  string               `bson:"password,omitempty" json:"password,omitempty"`
+	About     string               `bson:"about" json:"about,omitempty"`
+	Points    int                  `bson:"points" json:"points,omitempty"`
+	Followers []primitive.ObjectID `bson:"followers" json:"followers,omitempty"`
+	Following []primitive.ObjectID `bson:"following" json:"following,omitempty"`
 }
 
 type AuthStatus struct {
@@ -103,6 +105,8 @@ func CreateUser(user User) error {
 	user.Role = "user"
 	user.About = "ben bir copl.uk kullanıcısıyım."
 	user.Points = 1
+	user.Followers = []primitive.ObjectID{}
+	user.Following = []primitive.ObjectID{}
 
 	_, err := database.Users.InsertOne(context.Background(), user)
 	if err != nil {
