@@ -8,6 +8,7 @@ import (
 )
 
 type UpdateUserBody struct {
+	Email    string `json:"email"`
 	Name     string `json:"name"`
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -33,6 +34,9 @@ func UpdateUser(c *fiber.Ctx) error {
 		"$set": bson.M{},
 	}
 
+	if body.Email != "" {
+		update["$set"].(bson.M)["email"] = body.Email
+	}
 	if body.Name != "" {
 		update["$set"].(bson.M)["name"] = body.Name
 	}
