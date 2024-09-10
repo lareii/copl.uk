@@ -68,6 +68,14 @@ export default function UserList({ fetchUsers }) {
 
   return (
     <div className='flex flex-col gap-2'>
+      {/* {users.map((user, index) => (
+        <Card key={user.id} index={index} user={user} />
+      ))}
+      {hasMoreUser && (
+        <Button onClick={loadMoreUsers} className='w-full'>
+          daha fazla göster
+        </Button>
+      )} */}
       {users.length > 0 ? (
         <>
           {users.map((user, index) => (
@@ -80,7 +88,7 @@ export default function UserList({ fetchUsers }) {
           )}
         </>
       ) : (
-        <LoaderCircle className='mt-3 w-4 h-4 animate-spin self-center' />
+        <LoaderCircle className='mt-1 w-4 h-4 animate-spin self-center' />
       )}
     </div>
   );

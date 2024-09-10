@@ -1,4 +1,4 @@
-import LayoutContent from "@/app/app/explore/layout-content";
+import LayoutContent from '@/app/app/explore/layout-content';
 
 export const metadata = {
   title: 'keşfet'
