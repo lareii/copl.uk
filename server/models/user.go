@@ -54,12 +54,12 @@ func GetUserByUsername(username string) (user User, err error) {
 	return user, err
 }
 
-func GetUsers(limit, offset int64) ([]User, error) {
+func GetUsers(limit, offset int64, filter bson.M, sort bson.M) ([]User, error) {
 	var users []User
-	cursor, err := database.Users.Find(context.Background(), bson.M{}, &options.FindOptions{
+	cursor, err := database.Users.Find(context.Background(), filter, &options.FindOptions{
 		Limit: &limit,
 		Skip:  &offset,
-		Sort:  bson.M{"points": -1},
+		Sort:  sort,
 	})
 	if err != nil {
 		return users, fmt.Errorf("error fetching users: %v", err)
