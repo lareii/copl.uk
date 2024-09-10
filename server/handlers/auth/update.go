@@ -43,11 +43,13 @@ func UpdateUser(c *fiber.Ctx) error {
 				"message": "Error checking if user exists.",
 			})
 		}
-		if checkUser.Username != "" {
+
+		if checkUser.Username != "" && body.Username != user.Username {
 			return c.Status(fiber.StatusConflict).JSON(fiber.Map{
 				"message": "Username already exists.",
 			})
 		}
+
 		update["$set"].(bson.M)["username"] = body.Username
 	}
 	if body.Password != "" {
