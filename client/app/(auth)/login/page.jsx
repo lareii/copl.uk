@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -31,11 +31,7 @@ export default function Page() {
   const { toast } = useToast();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
-      password: ''
-    }
+    resolver: zodResolver(formSchema)
   });
 
   async function onSubmit(values) {
@@ -48,6 +44,7 @@ export default function Page() {
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
         duration: 3000
       });
+      setIsSubmitting(false);
       return;
     }
     if (response.status === 401) {
@@ -56,10 +53,10 @@ export default function Page() {
         description: 'kullanıcı adı veya parola yanlış.',
         duration: 3000
       });
+      setIsSubmitting(false);
       return;
     }
 
-    form.reset();
     setIsSubmitting(false);
     router.push('/app');
     router.refresh();
@@ -105,7 +102,7 @@ export default function Page() {
                 <FormItem className='space-y-1'>
                   <FormLabel>parola</FormLabel>
                   <FormControl>
-                    <Input type='password' className='text-xs' {...field} />
+                    <Input type='password' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

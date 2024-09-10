@@ -7,6 +7,11 @@ const nextConfig = {
         destination: '/app/settings/profile',
         permanent: true,
       },
+      {
+        source: '/app/explore',
+        destination: '/app/explore/posts',
+        permanent: true,
+      }
     ];
   }
 };

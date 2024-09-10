@@ -94,7 +94,7 @@ export default function Page({ params }) {
             </>
           )}
           <div className='mt-10'>
-            <div className='text-xs text-zinc-400 mb-5'>çöpler</div>
+            <div className='text-xs text-zinc-400 mb-3'>çöpler</div>
             <PostList fetchPosts={fetchPosts} />
           </div>
         </div>

@@ -16,7 +16,7 @@ export default function Collapsed({ router, pathname }) {
   useEffect(() => {
     if (pathname === '/app') {
       setIcon(<Home className='h-4 w-4' />);
-    } else if (pathname === '/app/explore') {
+    } else if (pathname.startsWith('/app/explore')) {
       setIcon(<Compass className='h-4 w-4' />);
     } else if (pathname === '/app/notifications') {
       setIcon(<Bell className='h-4 w-4' />);
