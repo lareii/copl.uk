@@ -47,9 +47,11 @@ func FollowUser(c *fiber.Ctx) error {
 	if isFollowing {
 		updateTarget = bson.M{"$pull": bson.M{"followers": user.ID}}
 		updateUser = bson.M{"$pull": bson.M{"following": targetUser.ID}}
+		models.UpdateUser(targetUser.ID, bson.M{"$inc": bson.M{"points": -2}})
 	} else {
 		updateTarget = bson.M{"$addToSet": bson.M{"followers": user.ID}}
 		updateUser = bson.M{"$addToSet": bson.M{"following": targetUser.ID}}
+		models.UpdateUser(targetUser.ID, bson.M{"$inc": bson.M{"points": 2}})
 	}
 
 	_, err = models.UpdateUser(targetUser.ID, updateTarget)
