@@ -4,7 +4,8 @@ import {
   ChevronUp,
   LoaderCircle,
   SquareArrowOutUpRight,
-  LogOut
+  LogOut,
+  Settings
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -24,6 +25,9 @@ export default function Dropdown({ router, pathname }) {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
+  const isProfilePage =
+    pathname === `/app/users/${user?.username}` || pathname.startsWith('/app/settings');
+
   const handleLogout = async (e) => {
     e.preventDefault();
 
@@ -37,9 +41,7 @@ export default function Dropdown({ router, pathname }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant={
-            pathname === `/app/users/${user?.username}` ? 'secondary' : 'ghost'
-          }
+          variant={isProfilePage ? 'secondary' : 'ghost'}
           className='justify-start flex justify-between items-center'
         >
           <div className='flex items-center'>
@@ -67,6 +69,12 @@ export default function Dropdown({ router, pathname }) {
           <Link href={'/app/users/' + user?.username}>
             <SquareArrowOutUpRight className='w-4 h-4 mr-2' />
             profile git
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={'/app/settings/'}>
+            <Settings className='w-4 h-4 mr-2' />
+            ayarlar
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

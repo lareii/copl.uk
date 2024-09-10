@@ -26,3 +26,12 @@ export async function me() {
     return error.response;
   }
 }
+
+export async function updateMe(data) {
+  try {
+    const response = await api.patch('/auth/me', data);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}

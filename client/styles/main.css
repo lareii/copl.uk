@@ -28,3 +28,7 @@
 .md ol {
   @apply list-decimal pl-5 my-2;
 }
+
+input[type='file']::file-selector-button {
+  @apply text-white;
+}

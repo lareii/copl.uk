@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Compass, Bell, Menu, User } from 'lucide-react';
+import { Home, Compass, Bell, Menu, User, Settings } from 'lucide-react';
 import Item from '@/components/app/Navbar/Item';
 import Dropdown from '@/components/app/Navbar/Dropdown';
 import PostModal from '@/components/app/Navbar/PostModal';
@@ -22,6 +22,8 @@ export default function Collapsed({ router, pathname }) {
       setIcon(<Bell className='h-4 w-4' />);
     } else if (pathname === `/app/users/${user?.username}`) {
       setIcon(<User className='h-4 w-4' />);
+    } else if (pathname.startsWith('/app/settings')) {
+      setIcon(<Settings className='h-4 w-4' />);
     } else {
       setIcon(<Menu className='h-4 w-4' />);
     }
