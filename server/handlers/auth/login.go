@@ -73,22 +73,22 @@ func Login(c *fiber.Ctx) error {
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	newToken, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error creating token.",
 		})
 	}
 
-	returnCookie := &fiber.Cookie{
+	newCookie := &fiber.Cookie{
 		Name:     "jwt",
-		Value:    tokenString,
+		Value:    newToken,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		HTTPOnly: true,
 		Secure:   os.Getenv("MODE") == "production",
 		SameSite: "Strict",
 	}
-	c.Cookie(returnCookie)
+	c.Cookie(newCookie)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "User authenticated."})
 }
