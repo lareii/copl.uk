@@ -3,11 +3,8 @@ package models
 import (
 	"context"
 	"fmt"
-	"os"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
 	"github.com/lareii/copl.uk/server/database"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -16,24 +13,18 @@ import (
 )
 
 type User struct {
-	ID        primitive.ObjectID   `bson:"_id" json:"id"`
-	CreatedAt primitive.Timestamp  `bson:"created_at" json:"created_at"`
-	IsBanned  bool                 `bson:"is_banned" json:"is_banned,omitempty"`
-	Role      string               `bson:"role" json:"role,omitempty"`
-	Email     string               `bson:"email,omitempty" json:"email,omitempty"`
-	Name      string               `bson:"name" json:"name"`
-	Username  string               `bson:"username" json:"username"`
-	Password  string               `bson:"password,omitempty" json:"password,omitempty"`
-	About     string               `bson:"about" json:"about,omitempty"`
-	Points    int                  `bson:"points" json:"points,omitempty"`
-	Followers []primitive.ObjectID `bson:"followers" json:"followers,omitempty"`
-	Following []primitive.ObjectID `bson:"following" json:"following,omitempty"`
-}
-
-type AuthStatus struct {
-	IsAuthenticated bool   `json:"isAuthenticated"`
-	Message         string `json:"message"`
-	Id              string `json:"Id"`
+	ID          primitive.ObjectID   `bson:"_id" json:"id"`
+	CreatedAt   primitive.Timestamp  `bson:"created_at" json:"created_at"`
+	IsBanned    bool                 `bson:"is_banned" json:"is_banned,omitempty"`
+	Role        string               `bson:"role" json:"role,omitempty"`
+	Email       string               `bson:"email" json:"email,omitempty"`
+	DisplayName string               `bson:"display_name" json:"display_name"`
+	Username    string               `bson:"username" json:"username"`
+	Password    string               `bson:"password" json:"password,omitempty"`
+	About       string               `bson:"about" json:"about"`
+	Points      int                  `bson:"points" json:"points"`
+	Followers   []primitive.ObjectID `bson:"followers" json:"followers"`
+	Following   []primitive.ObjectID `bson:"following" json:"following"`
 }
 
 func GetUserByID(id primitive.ObjectID) (user User, err error) {
@@ -47,6 +38,15 @@ func GetUserByID(id primitive.ObjectID) (user User, err error) {
 
 func GetUserByUsername(username string) (user User, err error) {
 	err = database.Users.FindOne(context.Background(), bson.M{"username": username}).Decode(&user)
+	if err != nil && err == mongo.ErrNoDocuments {
+		return user, nil
+	}
+
+	return user, err
+}
+
+func GetUserByEmail(email string) (user User, err error) {
+	err = database.Users.FindOne(context.Background(), bson.M{"email": email}).Decode(&user)
 	if err != nil && err == mongo.ErrNoDocuments {
 		return user, nil
 	}
@@ -73,29 +73,6 @@ func GetUsers(limit, offset int64, filter bson.M, sort bson.M) ([]User, error) {
 	return users, nil
 }
 
-func ValidateUser(c *fiber.Ctx) AuthStatus {
-	cookie := c.Cookies("jwt")
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
-	if err != nil {
-		return AuthStatus{IsAuthenticated: false, Message: "User not authenticated.", Id: "0"}
-	}
-
-	claims := token.Claims.(*jwt.StandardClaims)
-	oid, err := primitive.ObjectIDFromHex(claims.Issuer)
-	if err != nil {
-		return AuthStatus{IsAuthenticated: false, Message: "User not authenticated.", Id: "0"}
-	}
-	user, err := GetUserByID(oid)
-	if err != nil && err == mongo.ErrNoDocuments {
-		user = User{}
-		return AuthStatus{IsAuthenticated: false, Message: "User not found.", Id: user.ID.Hex()}
-	}
-
-	return AuthStatus{IsAuthenticated: true, Message: "User authenticated.", Id: user.ID.Hex()}
-}
-
 func CreateUser(user User) error {
 	user.ID = primitive.NewObjectID()
 	user.CreatedAt = primitive.Timestamp{
@@ -104,7 +81,7 @@ func CreateUser(user User) error {
 	user.IsBanned = false
 	user.Role = "user"
 	user.About = "ben bir copl.uk kullanıcısıyım."
-	user.Points = 1
+	user.Points = 0
 	user.Followers = []primitive.ObjectID{}
 	user.Following = []primitive.ObjectID{}
 

@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 	"github.com/lareii/copl.uk/server/models"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -31,12 +32,22 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	auth := models.ValidateUser(c)
-	if auth.IsAuthenticated {
-		c.Status(fiber.StatusConflict).JSON(fiber.Map{
-			"message": "User already authenticated.",
-		})
-		return nil
+	cookie := c.Cookies("jwt")
+	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+
+	if err == nil {
+		claims := token.Claims.(*jwt.StandardClaims)
+		oid, err := primitive.ObjectIDFromHex(claims.Issuer)
+		if err == nil {
+			_, err := models.GetUserByID(oid)
+			if err == nil {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"message": "User already authenticated.",
+				})
+			}
+		}
 	}
 
 	user, err := models.GetUserByUsername(body.Username)
@@ -62,22 +73,22 @@ func Login(c *fiber.Ctx) error {
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	token, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error creating token.",
 		})
 	}
 
-	cookie := &fiber.Cookie{
+	returnCookie := &fiber.Cookie{
 		Name:     "jwt",
-		Value:    token,
+		Value:    tokenString,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		HTTPOnly: true,
 		Secure:   os.Getenv("MODE") == "production",
 		SameSite: "Strict",
 	}
-	c.Cookie(cookie)
+	c.Cookie(returnCookie)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "User authenticated."})
 }

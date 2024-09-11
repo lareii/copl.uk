@@ -50,6 +50,12 @@ func AuthMiddleware() fiber.Handler {
 			})
 		}
 
+		if user.IsBanned {
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+				"message": "User is banned.",
+			})
+		}
+
 		c.Locals("user", user)
 		return c.Next()
 	}
