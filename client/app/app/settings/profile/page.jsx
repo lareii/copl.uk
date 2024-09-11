@@ -22,7 +22,7 @@ import { useAuthStore } from '@/stores/auth';
 import { updateMe } from '@/lib/api/auth';
 
 const formSchema = z.object({
-  name: z.string().min(1, 'görünen isim boş bırakılamaz'),
+  display_name: z.string().min(1, 'görünen isim boş bırakılamaz'),
   username: z.string().min(1, 'kullanıcı adı boş bırakılamaz'),
   about: z.string()
 });
@@ -36,7 +36,7 @@ export default function Page() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.name,
+      name: user.display_name,
       username: user.username,
       about: user.about
     }

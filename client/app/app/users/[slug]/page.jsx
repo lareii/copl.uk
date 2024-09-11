@@ -84,7 +84,7 @@ export default function Page({ params }) {
               <div className='mt-3 mb-5'>
                 <div className='flex justify-between'>
                   <div>
-                    <div className='text-xl font-bold'>{user.name}</div>
+                    <div className='text-xl font-bold'>{display_name}</div>
                     <div className='text-zinc-400 text-sm'>
                       @{user.username}
                     </div>
