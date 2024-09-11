@@ -6,6 +6,30 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type PostResponse struct {
+	Message string      `json:"message"`
+	Post    PostDetails `json:"post"`
+}
+
+type PostDetails struct {
+	ID        primitive.ObjectID   `json:"id"`
+	CreatedAt primitive.Timestamp  `json:"created_at"`
+	UpdatedAt primitive.Timestamp  `json:"updated_at"`
+	Author    AuthorDetails        `json:"author"`
+	Content   string               `json:"content"`
+	Likes     []primitive.ObjectID `json:"likes"`
+	Comments  uint                 `json:"comments"`
+}
+
+type AuthorDetails struct {
+	ID          primitive.ObjectID  `json:"id"`
+	CreatedAt   primitive.Timestamp `json:"created_at"`
+	DisplayName string              `json:"display_name"`
+	Username    string              `json:"username"`
+	About       string              `json:"about,omitempty"`
+	Points      int                 `json:"points"`
+}
+
 func GetPost(c *fiber.Ctx) error {
 	id := c.Params("id")
 	postID, err := primitive.ObjectIDFromHex(id)
@@ -29,23 +53,23 @@ func GetPost(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "Post found.",
-		"post": fiber.Map{
-			"id":         post.ID,
-			"created_at": post.CreatedAt,
-			"updated_at": post.UpdatedAt,
-			"author": fiber.Map{
-				"id":           author.ID,
-				"created_at":   author.CreatedAt,
-				"display_name": author.DisplayName,
-				"username":     author.Username,
-				"about":        author.About,
-				"points":       author.Points,
+	return c.Status(fiber.StatusOK).JSON(PostResponse{
+		Message: "Post found.",
+		Post: PostDetails{
+			ID:        post.ID,
+			CreatedAt: post.CreatedAt,
+			UpdatedAt: post.UpdatedAt,
+			Author: AuthorDetails{
+				ID:          author.ID,
+				CreatedAt:   author.CreatedAt,
+				DisplayName: author.DisplayName,
+				Username:    author.Username,
+				About:       author.About,
+				Points:      author.Points,
 			},
-			"content":  post.Content,
-			"likes":    post.Likes,
-			"comments": post.Comments,
+			Content:  post.Content,
+			Likes:    post.Likes,
+			Comments: post.Comments,
 		},
 	})
 }

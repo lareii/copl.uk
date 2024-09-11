@@ -1,13 +1,13 @@
 package posts
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
+	"github.com/lareii/copl.uk/server/utils"
 )
 
 type NewPostBody struct {
-	Content string `json:"content" validate:"required"`
+	Content string `json:"content" validate:"required,min=1,max=1000"`
 }
 
 func CreatePost(c *fiber.Ctx) error {
@@ -25,8 +25,7 @@ func CreatePost(c *fiber.Ctx) error {
 		})
 	}
 
-	var validate = validator.New()
-	if err := validate.Struct(&body); err != nil {
+	if err := utils.Validate.Struct(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Missing or invalid fields.",
 		})

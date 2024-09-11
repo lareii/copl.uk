@@ -5,13 +5,14 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
+	"github.com/lareii/copl.uk/server/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UpdatePostBody struct {
-	Content string `json:"content"`
-	Like    *bool  `json:"like"`
+	Content string `json:"content" validate:"omitempty,max=1000"`
+	Like    *bool  `json:"like" validate:"omitempty"`
 }
 
 func UpdatePost(c *fiber.Ctx) error {
@@ -26,6 +27,12 @@ func UpdatePost(c *fiber.Ctx) error {
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid request body.",
+		})
+	}
+
+	if err := utils.Validate.Struct(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Missing or invalid fields.",
 		})
 	}
 

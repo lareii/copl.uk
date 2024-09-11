@@ -17,7 +17,7 @@ type Post struct {
 	UpdatedAt primitive.Timestamp  `bson:"updated_at" json:"updated_at"`
 	Author    primitive.ObjectID   `bson:"author" json:"author"`
 	Content   string               `bson:"content" json:"content"`
-	Likes     []primitive.ObjectID `bson:"likes" json:"likes,omitempty"`
+	Likes     []primitive.ObjectID `bson:"likes" json:"likes"`
 	Comments  uint                 `bson:"comments" json:"comments"`
 }
 

@@ -6,6 +6,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type PostsResponse struct {
+	Message string        `json:"message"`
+	Posts   []PostDetails `json:"posts"`
+}
+
 func GetPosts(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	offset := c.QueryInt("offset", 0)
@@ -22,7 +27,7 @@ func GetPosts(c *fiber.Ctx) error {
 		authorIDs = append(authorIDs, post.Author)
 	}
 
-	var authors []models.User
+	authorMap := make(map[primitive.ObjectID]models.User)
 	for _, authorID := range authorIDs {
 		author, err := models.GetUserByID(authorID)
 		if err != nil {
@@ -30,33 +35,28 @@ func GetPosts(c *fiber.Ctx) error {
 				"message": "Error fetching post authors.",
 			})
 		}
-		authors = append(authors, author)
-	}
-
-	authorMap := make(map[primitive.ObjectID]models.User)
-	for _, author := range authors {
 		authorMap[author.ID] = author
 	}
 
-	var responsePosts []fiber.Map
+	var responsePosts []PostDetails
 	for _, post := range posts {
 		author := authorMap[post.Author]
 
-		responsePosts = append(responsePosts, fiber.Map{
-			"id":         post.ID,
-			"created_at": post.CreatedAt,
-			"updated_at": post.UpdatedAt,
-			"author": fiber.Map{
-				"id":           author.ID,
-				"created_at":   author.CreatedAt,
-				"display_name": author.DisplayName,
-				"username":     author.Username,
-				"about":        author.About,
-				"points":       author.Points,
+		responsePosts = append(responsePosts, PostDetails{
+			ID:        post.ID,
+			CreatedAt: post.CreatedAt,
+			UpdatedAt: post.UpdatedAt,
+			Author: AuthorDetails{
+				ID:          author.ID,
+				CreatedAt:   author.CreatedAt,
+				DisplayName: author.DisplayName,
+				Username:    author.Username,
+				About:       author.About,
+				Points:      author.Points,
 			},
-			"content":  post.Content,
-			"likes":    post.Likes,
-			"comments": post.Comments,
+			Content:  post.Content,
+			Likes:    post.Likes,
+			Comments: post.Comments,
 		})
 	}
 
