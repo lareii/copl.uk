@@ -10,6 +10,8 @@ export default function LayoutContent({ children }) {
   const pathname = usePathname();
   const loading = useLoadingStore((state) => state.loading);
 
+  const isUsersPage = pathname.includes('/app/users');
+
   if (loading) return <Loading />;
 
   return (
@@ -19,7 +21,7 @@ export default function LayoutContent({ children }) {
       <div className='w-full lg:max-w-[calc(1024px-240px-(3*1.25rem))] max-lg:p-5 pb-5'>
         <AnimatePresence mode='wait'>
           <motion.div
-            key={pathname.split('/')[2]}
+            key={isUsersPage ? pathname.split('/')[3] : pathname.split('/')[2]}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ ease: 'easeInOut', duration: 0.3 }}

@@ -3,13 +3,42 @@
 import { useState, useEffect } from 'react';
 import { CalendarFold, Sparkle, Trash } from 'lucide-react';
 import { getUser, getUserPosts } from '@/lib/api/users';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import PostList from '@/components/app/Post/List';
+import Follows from '@/components/app/User/Follows';
+import { followUser } from '@/lib/api/users';
+import { useAuthStore } from '@/stores/auth';
 
 export default function Page({ params }) {
+  const me = useAuthStore((state) => state.user);
   const [user, setUser] = useState(null);
   const { toast } = useToast();
+
+  const handleFollow = async (e, user) => {
+    e.preventDefault();
+
+    const response = await followUser(user.username);
+    if (!response) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description:
+          'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+        duration: 3000
+      });
+      return;
+    }
+
+    const followersList = user.followers || [];
+
+    setUser({
+      ...user,
+      followers: followersList.includes(me.id)
+        ? followersList.filter((id) => id !== me.id)
+        : [...followersList, me.id]
+    });
+  };
 
   const fetchPosts = async (offset) => {
     return await getUserPosts(params.slug, 11, offset);
@@ -39,7 +68,7 @@ export default function Page({ params }) {
       fetchUser();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [params]
+    []
   );
 
   return (
@@ -53,32 +82,53 @@ export default function Page({ params }) {
           {user ? (
             <>
               <div className='mt-3 mb-5'>
-                <div className='flex gap-2'>
-                  <div className='text-xl font-bold'>{user.name}</div>
-                </div>
-                <div className='text-zinc-400 text-sm'>@{user.username}</div>
-              </div>
-              <div>
-                <div className='text-sm mb-2'>{user.about}</div>
-                <div className='flex items-center gap-2 text-xs text-zinc-400'>
-                  <div className='flex'>
-                    <CalendarFold className='w-4 h-4 mr-1' />
-                    {new Date(user.created_at.T * 1000).toLocaleDateString(
-                      'tr-TR',
-                      { year: 'numeric', month: 'long', day: 'numeric' }
-                    )}
+                <div className='flex justify-between'>
+                  <div>
+                    <div className='text-xl font-bold'>{user.name}</div>
+                    <div className='text-zinc-400 text-sm'>
+                      @{user.username}
+                    </div>
                   </div>
-                  {' · '}
-                  <div className='text-yellow-500 relative'>
-                    <Sparkle className='w-2.5 h-2.5 absolute right-10 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle1' />
-                    <Sparkle className='w-2 h-2 absolute right-2 -top-1 text-yellow-500 fill-yellow-500 animate-sparkle2' />
-                    <Sparkle className='w-3 h-3 absolute -right-2.5 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle3' />
+                  {me.id !== user.id && (
+                    <Button
+                      variant={
+                        (user.followers || []).includes(me.id)
+                          ? 'secondary'
+                          : ''
+                      }
+                      onClick={(e) => handleFollow(e, user)}
+                    >
+                      {(user.followers || []).includes(me.id)
+                        ? 'takipten çık'
+                        : 'takip et'}
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <div className='flex flex-col gap-5'>
+                <div className='flex flex-col gap-2'>
+                  <div className='text-sm'>{user.about}</div>
+                  <div className='flex items-center gap-2 text-xs text-zinc-400'>
                     <div className='flex'>
-                      <Trash className='w-4 h-4 mr-1' />
-                      <div className='static'>{user.points} çöp puanı</div>
+                      <CalendarFold className='w-4 h-4 mr-1' />
+                      {new Date(user.created_at.T * 1000).toLocaleDateString(
+                        'tr-TR',
+                        { year: 'numeric', month: 'long', day: 'numeric' }
+                      )}
+                    </div>
+                    {' · '}
+                    <div className='text-yellow-500 relative'>
+                      <Sparkle className='w-2.5 h-2.5 absolute right-10 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle1' />
+                      <Sparkle className='w-2 h-2 absolute right-2 -top-1 text-yellow-500 fill-yellow-500 animate-sparkle2' />
+                      <Sparkle className='w-3 h-3 absolute -right-2.5 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle3' />
+                      <div className='flex'>
+                        <Trash className='w-4 h-4 mr-1' />
+                        <div className='static'>{user.points} çöp puanı</div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <Follows user={user} />
               </div>
             </>
           ) : (

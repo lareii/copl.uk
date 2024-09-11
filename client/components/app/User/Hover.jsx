@@ -12,7 +12,8 @@ export default function Hover({ user }) {
       <HoverCardTrigger className='text-sm hover:underline' asChild>
         <Link href={`/app/users/${user.username}`}>{user.name}</Link>
       </HoverCardTrigger>
-      <HoverCardContent className='flex flex-col'>
+      {/* TODO: set z-index to make the hover card appear on top */}
+      <HoverCardContent className='flex flex-col' align='start'>
         <div className='flex items-start'>
           <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
           <div className='flex flex-col'>
