@@ -7,7 +7,7 @@ import (
 )
 
 type NewPostBody struct {
-	Content string `json:"content" validate:"required,min=1,max=1000"`
+	Content string `json:"content" validate:"required,min=1,max=2000"`
 }
 
 func CreatePost(c *fiber.Ctx) error {
