@@ -36,7 +36,7 @@ export default function Page() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.display_name,
+      display_name: user.display_name,
       username: user.username,
       about: user.about
     }
@@ -118,7 +118,7 @@ export default function Page() {
         <div className='flex flex-col gap-y-5'>
           <FormField
             control={form.control}
-            name='name'
+            name='display_name'
             render={({ field }) => (
               <FormItem className='space-y-1'>
                 <FormLabel>görünen isim</FormLabel>
