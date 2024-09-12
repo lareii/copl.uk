@@ -5,13 +5,14 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
+	"github.com/lareii/copl.uk/server/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UpdateCommentBody struct {
-	Content string `json:"content"`
-	Like    *bool  `json:"like"`
+	Content string `json:"content" validate:"omitempty,max=1000"`
+	Like    *bool  `json:"like" validate:"omitempty"`
 }
 
 func UpdateComment(c *fiber.Ctx) error {
@@ -22,18 +23,24 @@ func UpdateComment(c *fiber.Ctx) error {
 		})
 	}
 
+	var body UpdateCommentBody
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body.",
+		})
+	}
+
+	if err := utils.Validate.Struct(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Missing or invalid fields.",
+		})
+	}
+
 	id := c.Params("id")
 	commentID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid comment ID.",
-		})
-	}
-
-	var body UpdateCommentBody
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body.",
 		})
 	}
 

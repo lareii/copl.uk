@@ -4,11 +4,12 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
+	"github.com/lareii/copl.uk/server/utils"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type NewCommentBody struct {
-	Content string `json:"content" validate:"required"`
+	Content string `json:"content" validate:"required,min=1,max=500"`
 }
 
 func CreateComment(c *fiber.Ctx) error {
@@ -19,18 +20,24 @@ func CreateComment(c *fiber.Ctx) error {
 		})
 	}
 
+	var body NewCommentBody
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body.",
+		})
+	}
+
+	if err := utils.Validate.Struct(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Missing or invalid fields.",
+		})
+	}
+
 	id := c.Params("post_id")
 	postID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid post ID.",
-		})
-	}
-
-	var body NewCommentBody
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body.",
 		})
 	}
 
@@ -54,23 +61,23 @@ func CreateComment(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "Comment created.",
-		"comment": fiber.Map{
-			"id":         createdComment.ID,
-			"created_at": createdComment.CreatedAt,
-			"updated_at": createdComment.UpdatedAt,
-			"post":       createdComment.Post,
-			"author": fiber.Map{
-				"id":           user.ID,
-				"created_at":   user.CreatedAt,
-				"display_name": user.DisplayName,
-				"username":     user.Username,
-				"about":        user.About,
-				"points":       user.Points,
+	return c.Status(fiber.StatusCreated).JSON(models.CommentResponse{
+		Message: "Comment created.",
+		Comment: models.CommentResponseContent{
+			ID:        createdComment.ID,
+			CreatedAt: createdComment.CreatedAt,
+			UpdatedAt: createdComment.UpdatedAt,
+			Post:      createdComment.Post,
+			Author: models.CommentResponseAuthor{
+				ID:          user.ID,
+				CreatedAt:   user.CreatedAt,
+				DisplayName: user.DisplayName,
+				Username:    user.Username,
+				About:       user.About,
+				Points:      user.Points,
 			},
-			"content": createdComment.Content,
-			"likes":   createdComment.Likes,
+			Content: createdComment.Content,
+			Likes:   createdComment.Likes,
 		},
 	})
 }

@@ -18,7 +18,31 @@ type Comment struct {
 	Post      primitive.ObjectID   `bson:"post" json:"post"`
 	Author    primitive.ObjectID   `bson:"author" json:"author"`
 	Content   string               `bson:"content" json:"content"`
-	Likes     []primitive.ObjectID `bson:"likes" json:"likes,omitempty"`
+	Likes     []primitive.ObjectID `bson:"likes" json:"likes"`
+}
+
+type CommentResponse struct {
+	Message string                 `json:"message"`
+	Comment CommentResponseContent `json:"comment"`
+}
+
+type CommentResponseContent struct {
+	ID        primitive.ObjectID    `json:"id"`
+	CreatedAt primitive.Timestamp   `json:"created_at"`
+	UpdatedAt primitive.Timestamp   `json:"updated_at"`
+	Post      primitive.ObjectID    `json:"post"`
+	Author    CommentResponseAuthor `json:"author"`
+	Content   string                `json:"content"`
+	Likes     []primitive.ObjectID  `json:"likes"`
+}
+
+type CommentResponseAuthor struct {
+	ID          primitive.ObjectID  `json:"id"`
+	CreatedAt   primitive.Timestamp `json:"created_at"`
+	DisplayName string              `json:"display_name"`
+	Username    string              `json:"username"`
+	About       string              `json:"about,omitempty"`
+	Points      int                 `json:"points"`
 }
 
 func GetCommentByID(commentID primitive.ObjectID) (Comment, error) {
