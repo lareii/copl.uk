@@ -6,6 +6,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type CommentsResponse struct {
+	Message  string                          `json:"message"`
+	Comments []models.CommentResponseContent `json:"comments"`
+}
+
 func GetPostComments(c *fiber.Ctx) error {
 	id := c.Params("post_id")
 	postID, err := primitive.ObjectIDFromHex(id)
@@ -63,8 +68,8 @@ func GetPostComments(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message":  "Comments found.",
-		"comments": responseComments,
+	return c.Status(fiber.StatusOK).JSON(CommentsResponse{
+		Message:  "Comments found.",
+		Comments: responseComments,
 	})
 }

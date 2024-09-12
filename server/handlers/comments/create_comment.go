@@ -1,7 +1,6 @@
 package comments
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
 	"github.com/lareii/copl.uk/server/utils"
@@ -40,11 +39,10 @@ func CreateComment(c *fiber.Ctx) error {
 			"message": "Invalid post ID.",
 		})
 	}
-
-	var validate = validator.New()
-	if err := validate.Struct(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Missing or invalid fields.",
+	_, err = models.GetPostByID(postID)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Post not found.",
 		})
 	}
 

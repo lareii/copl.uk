@@ -19,6 +19,7 @@ func GetUsers(c *fiber.Ctx) error {
 
 	var responseUsers []models.User
 	for _, user := range users {
+		user.Role = ""
 		user.Email = ""
 		user.Password = ""
 

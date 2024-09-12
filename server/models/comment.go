@@ -42,7 +42,7 @@ type CommentResponseAuthor struct {
 	DisplayName string              `json:"display_name"`
 	Username    string              `json:"username"`
 	About       string              `json:"about,omitempty"`
-	Points      int                 `json:"points"`
+	Points      uint                `json:"points"`
 }
 
 func GetCommentByID(commentID primitive.ObjectID) (Comment, error) {

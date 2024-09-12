@@ -29,23 +29,23 @@ func GetUserPosts(c *fiber.Ctx) error {
 		})
 	}
 
-	var responsePosts []fiber.Map
+	var responsePosts []models.PostResponseContent
 	for _, post := range posts {
-		responsePosts = append(responsePosts, fiber.Map{
-			"id":         post.ID,
-			"created_at": post.CreatedAt,
-			"updated_at": post.UpdatedAt,
-			"author": fiber.Map{
-				"id":           user.ID,
-				"created_at":   user.CreatedAt,
-				"display_name": user.DisplayName,
-				"username":     user.Username,
-				"about":        user.About,
-				"points":       user.Points,
+		responsePosts = append(responsePosts, models.PostResponseContent{
+			ID:        post.ID,
+			CreatedAt: post.CreatedAt,
+			UpdatedAt: post.UpdatedAt,
+			Author: models.PostResponseAuthor{
+				ID:          user.ID,
+				CreatedAt:   user.CreatedAt,
+				DisplayName: user.DisplayName,
+				Username:    user.Username,
+				About:       user.About,
+				Points:      user.Points,
 			},
-			"content":  post.Content,
-			"likes":    post.Likes,
-			"comments": post.Comments,
+			Content:  post.Content,
+			Likes:    post.Likes,
+			Comments: post.Comments,
 		})
 	}
 

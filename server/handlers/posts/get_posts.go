@@ -7,8 +7,8 @@ import (
 )
 
 type PostsResponse struct {
-	Message string        `json:"message"`
-	Posts   []PostDetails `json:"posts"`
+	Message string                       `json:"message"`
+	Posts   []models.PostResponseContent `json:"posts"`
 }
 
 func GetPosts(c *fiber.Ctx) error {
@@ -38,15 +38,15 @@ func GetPosts(c *fiber.Ctx) error {
 		authorMap[author.ID] = author
 	}
 
-	var responsePosts []PostDetails
+	var responsePosts []models.PostResponseContent
 	for _, post := range posts {
 		author := authorMap[post.Author]
 
-		responsePosts = append(responsePosts, PostDetails{
+		responsePosts = append(responsePosts, models.PostResponseContent{
 			ID:        post.ID,
 			CreatedAt: post.CreatedAt,
 			UpdatedAt: post.UpdatedAt,
-			Author: AuthorDetails{
+			Author: models.PostResponseAuthor{
 				ID:          author.ID,
 				CreatedAt:   author.CreatedAt,
 				DisplayName: author.DisplayName,
@@ -60,8 +60,8 @@ func GetPosts(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "Posts found.",
-		"posts":   responsePosts,
+	return c.Status(fiber.StatusOK).JSON(PostsResponse{
+		Message: "Posts found.",
+		Posts:   responsePosts,
 	})
 }

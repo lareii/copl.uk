@@ -21,6 +21,30 @@ type Post struct {
 	Comments  uint                 `bson:"comments" json:"comments"`
 }
 
+type PostResponse struct {
+	Message string              `json:"message"`
+	Post    PostResponseContent `json:"post"`
+}
+
+type PostResponseContent struct {
+	ID        primitive.ObjectID   `json:"id"`
+	CreatedAt primitive.Timestamp  `json:"created_at"`
+	UpdatedAt primitive.Timestamp  `json:"updated_at"`
+	Author    PostResponseAuthor   `json:"author"`
+	Content   string               `json:"content"`
+	Likes     []primitive.ObjectID `json:"likes"`
+	Comments  uint                 `json:"comments"`
+}
+
+type PostResponseAuthor struct {
+	ID          primitive.ObjectID  `json:"id"`
+	CreatedAt   primitive.Timestamp `json:"created_at"`
+	DisplayName string              `json:"display_name"`
+	Username    string              `json:"username"`
+	About       string              `json:"about,omitempty"`
+	Points      uint                `json:"points"`
+}
+
 func GetPostByID(postID primitive.ObjectID) (Post, error) {
 	var post Post
 	err := database.Posts.FindOne(context.Background(), bson.M{"_id": postID}).Decode(&post)

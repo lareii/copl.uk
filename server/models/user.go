@@ -22,7 +22,7 @@ type User struct {
 	Username    string               `bson:"username" json:"username"`
 	Password    string               `bson:"password" json:"password,omitempty"`
 	About       string               `bson:"about" json:"about"`
-	Points      int                  `bson:"points" json:"points"`
+	Points      uint                 `bson:"points" json:"points"`
 	Followers   []primitive.ObjectID `bson:"followers" json:"followers"`
 	Following   []primitive.ObjectID `bson:"following" json:"following"`
 }

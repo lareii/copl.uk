@@ -21,14 +21,12 @@ func FollowUser(c *fiber.Ctx) error {
 			"message": "User not found.",
 		})
 	}
-
 	if targetUser.Username == "" {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "User not found.",
 		})
 	}
-
-	if user.ID == targetUser.ID {
+	if targetUser.ID == user.ID {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "You cannot follow yourself.",
 		})
