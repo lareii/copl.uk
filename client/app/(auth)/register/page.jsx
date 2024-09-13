@@ -94,7 +94,7 @@ export default function Page() {
       <div className='basis-1/2 mt-10'>
         <div className='text-2xl font-bold'>kayıt olun</div>
         <div className='text-sm'>
-          copl.uk{"'"}e katılmak için lütfen bilgilerinizi girin.
+          copl.uk{'\''}e katılmak için lütfen bilgilerinizi girin.
         </div>
         <div className='text-muted-foreground text-xs mt-5'>
           hali hazırda bir hesabın var mı?{' '}
