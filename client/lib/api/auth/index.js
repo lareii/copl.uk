@@ -44,3 +44,12 @@ export async function updateMe(data) {
     return error.response;
   }
 }
+
+export async function getFeed() {
+  try {
+    const response = await api.get('/auth/me/feed');
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
