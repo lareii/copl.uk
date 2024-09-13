@@ -37,7 +37,7 @@ export default function Page() {
   const emailForm = useForm({
     resolver: zodResolver(
       z.object({
-        email: z.string().email('geçerli bir e-posta adresi girin')
+        email: z.string().email('geçerli bir e-posta adresi girin.')
       })
     ),
     defaultValues: {

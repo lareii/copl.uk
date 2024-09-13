@@ -21,8 +21,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { login } from '@/lib/api/auth';
 
 const formSchema = z.object({
-  username: z.string().min(1, 'kullanıcı adı boş bırakılamaz'),
-  password: z.string().min(1, 'parola boş bırakılamaz')
+  username: z.string().min(1, 'kullanıcı adı boş bırakılamaz.'),
+  password: z.string().min(1, 'parola boş bırakılamaz.')
 });
 
 export default function Page() {
@@ -63,11 +63,11 @@ export default function Page() {
   }
 
   return (
-    <div className='flex max-sm:flex-col justify-between items-start gap-10'>
-      <div className='basis-1/2'>
+    <div className='flex max-md:flex-col justify-between items-start gap-5 h-full'>
+      <div className='basis-1/2 mt-10'>
         <div className='text-2xl font-bold'>oturum açın</div>
         <div className='text-sm'>
-          çöplüğe giriş yapmak için lütfen bilgilerinizi girin.
+          copl.uk{'\''}e giriş yapmak için lütfen bilgilerinizi girin.
         </div>
         <div className='text-muted-foreground text-xs mt-5'>
           henüz bir hesabın yok mu?{' '}
@@ -79,7 +79,7 @@ export default function Page() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex flex-col gap-y-5 basis-1/2 w-full'
+          className='basis-1/2 flex flex-col justify-center gap-y-5 w-full h-full'
         >
           <div className='flex flex-col gap-y-2'>
             <FormField
