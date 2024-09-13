@@ -3,6 +3,7 @@ package users
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func GetUserPosts(c *fiber.Ctx) error {
@@ -22,7 +23,7 @@ func GetUserPosts(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	offset := c.QueryInt("offset", 0)
 
-	posts, err := models.GetPostsByUser(user, int64(limit), int64(offset))
+	posts, err := models.GetPosts(int64(limit), int64(offset), bson.M{"author": user.ID}, bson.M{"created_at": -1})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error fetching user posts.",

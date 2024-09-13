@@ -55,31 +55,12 @@ func GetPostByID(postID primitive.ObjectID) (Post, error) {
 	return post, nil
 }
 
-func GetPosts(limit, offset int64) ([]Post, error) {
+func GetPosts(limit, offset int64, filter, sort bson.M) ([]Post, error) {
 	var posts []Post
-	cursor, err := database.Posts.Find(context.Background(), bson.M{}, &options.FindOptions{
+	cursor, err := database.Posts.Find(context.Background(), filter, &options.FindOptions{
 		Limit: &limit,
 		Skip:  &offset,
-		Sort:  bson.M{"created_at": -1},
-	})
-	if err != nil {
-		return posts, fmt.Errorf("error fetching posts: %v", err)
-	}
-
-	err = cursor.All(context.Background(), &posts)
-	if err != nil {
-		return posts, fmt.Errorf("error decoding posts: %v", err)
-	}
-
-	return posts, nil
-}
-
-func GetPostsByUser(user User, limit, offset int64) ([]Post, error) {
-	var posts []Post
-	cursor, err := database.Posts.Find(context.Background(), bson.M{"author": user.ID}, &options.FindOptions{
-		Limit: &limit,
-		Skip:  &offset,
-		Sort:  bson.M{"created_at": -1},
+		Sort:  sort,
 	})
 	if err != nil {
 		return posts, fmt.Errorf("error fetching posts: %v", err)

@@ -1,4 +1,4 @@
-package posts
+package auth
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -12,11 +12,23 @@ type PostsResponse struct {
 	Posts   []models.PostResponseContent `json:"posts"`
 }
 
-func GetPosts(c *fiber.Ctx) error {
+func GetFeed(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	offset := c.QueryInt("offset", 0)
 
-	posts, err := models.GetPosts(int64(limit), int64(offset), nil, bson.M{"created_at": -1})
+	user, ok := c.Locals("user").(models.User)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authenticated.",
+		})
+	}
+
+	posts, err := models.GetPosts(
+		int64(limit),
+		int64(offset),
+		bson.M{"author": bson.M{"$in": user.Following}},
+		bson.M{"created_at": -1},
+	)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error fetching posts.",
