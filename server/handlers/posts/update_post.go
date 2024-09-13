@@ -11,7 +11,7 @@ import (
 )
 
 type UpdatePostBody struct {
-	Content string `json:"content" validate:"omitempty,max=1000"`
+	Content string `json:"content" validate:"omitempty,max=2000"`
 	Like    *bool  `json:"like" validate:"omitempty"`
 }
 
