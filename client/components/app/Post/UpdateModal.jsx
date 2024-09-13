@@ -23,7 +23,10 @@ import { useToast } from '@/components/ui/use-toast';
 import { editPost } from '@/lib/api/posts';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz')
+  content: z
+    .string()
+    .min(1, 'içerik 1-1000 karakter uzunluğunda olmalıdır.')
+    .max(1000, 'içerik 1-1000 karakter uzunluğunda olmalıdır.')
 });
 
 export default function UpdateModal({ post, setPost, setIsOpen }) {

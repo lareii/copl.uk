@@ -28,7 +28,10 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz')
+  content: z
+    .string()
+    .min(1, 'içerik 1-2000 karakter uzunluğunda olmalıdır.')
+    .max(2000, 'içerik 1-2000 karakter uzunluğunda olmalıdır.')
 });
 
 export default function PostModal() {

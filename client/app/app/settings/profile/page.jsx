@@ -22,9 +22,15 @@ import { useAuthStore } from '@/stores/auth';
 import { updateMe } from '@/lib/api/auth';
 
 const formSchema = z.object({
-  display_name: z.string().min(1, 'görünen isim boş bırakılamaz'),
-  username: z.string().min(1, 'kullanıcı adı boş bırakılamaz'),
-  about: z.string()
+  display_name: z
+    .string()
+    .min(1, 'görünen isminiz 1-25 karakter uzunluğunda olmalıdır.')
+    .max(25, 'görünen isminiz 1-25 karakter uzunluğunda olmalıdır.'),
+  username: z
+    .string()
+    .min(1, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
+    .max(25, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.'),
+  about: z.string().max(200, 'hakkında kısmı 200 karakterden fazla olamaz.')
 });
 
 export default function Page() {

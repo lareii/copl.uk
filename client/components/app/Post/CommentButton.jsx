@@ -25,7 +25,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { createComment } from '@/lib/api/comments';
 
 const formSchema = z.object({
-  content: z.string().min(1, 'içerik boş bırakılamaz')
+  content: z
+    .string()
+    .min(1, 'içerik 1-1000 karakter uzunluğunda olmalıdır.')
+    .max(1000, 'içerik 1-1000 karakter uzunluğunda olmalıdır.')
 });
 
 export default function CommentButton({ post, setPost, onNewComment }) {

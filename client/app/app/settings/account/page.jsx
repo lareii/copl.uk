@@ -37,7 +37,7 @@ export default function Page() {
   const emailForm = useForm({
     resolver: zodResolver(
       z.object({
-        email: z.string().min(1, 'e-posta boş bırakılamaz')
+        email: z.string().email('geçerli bir e-posta adresi girin')
       })
     ),
     defaultValues: {
@@ -47,13 +47,18 @@ export default function Page() {
 
   const passwordForm = useForm({
     resolver: zodResolver(
-      z.object({
-        password: z.string().min(1, 'parola boş bırakılamaz'),
-        passwordConfirmation: z.string().min(1, 'parola tekrarı boş bırakılamaz')
-      }).refine((data) => data.password === data.passwordConfirmation, {
-        message: 'parolalar eşleşmiyor',
-        path: ['passwordConfirmation']
-      })
+      z
+        .object({
+          password: z
+            .string()
+            .min(8, 'parolanız 8-50 karakter uzunluğunda olmalıdır.')
+            .max(50, 'parolanız 8-50 karakter uzunluğunda olmalıdır.'),
+          passwordConfirmation: z.string()
+        })
+        .refine((data) => data.password === data.passwordConfirmation, {
+          message: 'parolalar eşleşmiyor',
+          path: ['passwordConfirmation']
+        })
     )
   });
 
@@ -103,7 +108,7 @@ export default function Page() {
     setIsSubmitting(true);
 
     const response = await updateMe({ password: values.password });
-    
+
     if (!response || response.status !== 200) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
@@ -171,14 +176,21 @@ export default function Page() {
               </DialogDescription>
             </DialogHeader>
             <Form {...passwordForm}>
-              <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className='flex flex-col gap-3'>
+              <form
+                onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}
+                className='flex flex-col gap-3'
+              >
                 <FormField
                   control={passwordForm.control}
                   name='password'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
                       <FormControl>
-                        <Input type='password' placeholder='yeni parola' {...field} />
+                        <Input
+                          type='password'
+                          placeholder='yeni parola'
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -190,7 +202,11 @@ export default function Page() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input type='password' placeholder='yeni parola tekrarı' {...field} />
+                        <Input
+                          type='password'
+                          placeholder='yeni parola tekrarı'
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
