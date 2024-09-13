@@ -65,6 +65,14 @@ export default function Page() {
       });
       setIsSubmitting(false);
       return;
+    } else if (response.status !== 200) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
+        duration: 3000
+      });
+      setIsSubmitting(false);
+      return;
     }
 
     toast({

@@ -49,7 +49,10 @@ export default function Page() {
     resolver: zodResolver(
       z.object({
         password: z.string().min(1, 'parola boş bırakılamaz'),
-        passwordConfirmation: z.string().min(1, 'parola boş bırakılamaz')
+        passwordConfirmation: z.string().min(1, 'parola tekrarı boş bırakılamaz')
+      }).refine((data) => data.password === data.passwordConfirmation, {
+        message: 'parolalar eşleşmiyor',
+        path: ['passwordConfirmation']
       })
     )
   });
@@ -60,6 +63,24 @@ export default function Page() {
     const response = await updateMe(values);
 
     if (!response) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
+        duration: 3000
+      });
+      setIsSubmitting(false);
+      return;
+    }
+    if (response.status === 409) {
+      toast({
+        title: 'hay aksi, bir şeyler ters gitti!',
+        description:
+          'bu e-posta zaten kullanılıyor! lütfen başka bir e-posta deneyin.',
+        duration: 3000
+      });
+      setIsSubmitting(false);
+      return;
+    } else if (response.status !== 200) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
@@ -81,19 +102,9 @@ export default function Page() {
   async function onPasswordSubmit(values) {
     setIsSubmitting(true);
 
-    if (values.password !== values.passwordConfirmation) {
-      toast({
-        title: 'parolalar eşleşmiyor!',
-        description: 'lütfen parolalarınızı kontrol edin ve tekrar deneyin.',
-        duration: 3000
-      });
-      setIsSubmitting(false);
-      return;
-    }
-
-    const response = await updateMe(values);
+    const response = await updateMe({ password: values.password });
     
-    if (!response) {
+    if (!response || response.status !== 200) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',
