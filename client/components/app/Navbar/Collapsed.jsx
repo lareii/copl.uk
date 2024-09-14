@@ -38,6 +38,7 @@ export default function Collapsed({ router, pathname }) {
             alt='copl.uk logo'
             width={120}
             height={120}
+            className='select-none'
           />
         </Link>
         <Sheet>
@@ -82,14 +83,23 @@ export default function Collapsed({ router, pathname }) {
               <Dropdown router={router} pathname={pathname} />
               <hr className='mb-5 mt-3' />
               <div>
-                <Image
-                  src='/copluk.svg'
-                  alt='copl.uk logo'
-                  width={120}
-                  height={120}
-                />
-                <div className='text-zinc-400 text-xs mt-3'>
-                <div>copl.uk, BSD 3-Clause lisansı altında lisanslanmış özgür bir yazılımdır.</div>
+                <Link href='/app' className='w-fit'>
+                  <Image
+                    src='/copluk.svg'
+                    alt='copl.uk logo'
+                    width={120}
+                    height={120}
+                    className='mb-1 select-none'
+                  />
+                  <div className='font-medium text-xs text-muted-foreground'>
+                    zihin çöplüğün, kafana göre.
+                  </div>
+                </Link>
+                <div className='text-zinc-400 text-xs mt-5'>
+                  <div>
+                    copl.uk, BSD 3-Clause lisansı altında lisanslanmış özgür bir
+                    yazılımdır.
+                  </div>
                   <Link href='#' className='underline'>
                     hakkında
                   </Link>{' '}

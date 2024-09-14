@@ -22,6 +22,7 @@ export default function Layout({ children }) {
               alt='copl.uk logo'
               width={100}
               height={100}
+              className='select-none'
             />
             <div className='h-full flex flex-col justify-center'>{children}</div>
           </div>

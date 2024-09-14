@@ -15,10 +15,10 @@ export default function Uncollapsed({ router, pathname }) {
             alt='copl.uk logo'
             width={170}
             height={170}
-            className='mb-1'
+            className='mb-1 select-none'
           />
           <div className='font-medium text-xs text-muted-foreground'>
-            zihin çöplüğün, kafana göre...
+            zihin çöplüğün, kafana göre.
           </div>
         </Link>
         <div className='flex flex-col justify-between grow'>

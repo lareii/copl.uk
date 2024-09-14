@@ -3,5 +3,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <div>bildirimler</div>;
+  return <div className="text-center text-sm">bu sayfa henüz hazır değil {':('}</div>;
 }

@@ -15,7 +15,7 @@ export default function NotFound() {
         alt='copl.uk logo'
         width={170}
         height={170}
-        className='mb-3'
+        className='mb-3 select-none'
       />
       <div className='text-sm'>
         sayfa bulunamadı.{' '}

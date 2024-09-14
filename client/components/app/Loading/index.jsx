@@ -18,7 +18,7 @@ export default function Loading() {
           alt='copl.uk logo'
           width={170}
           height={170}
-          className='mb-7'
+          className='mb-7 select-none'
         />
         <LoaderCircle className='w-6 h-6 animate-spin' />
       </motion.div>
