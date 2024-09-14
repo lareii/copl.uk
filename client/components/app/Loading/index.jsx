@@ -10,7 +10,6 @@ export default function Loading() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
         transition={{ ease: 'easeInOut', duration: 0.3 }}
         className='h-screen flex flex-col items-center justify-center'
       >
