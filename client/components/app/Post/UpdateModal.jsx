@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,6 +31,7 @@ const formSchema = z.object({
 });
 
 export default function UpdateModal({ post, setPost, setIsOpen }) {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { toast } = useToast();
@@ -67,6 +69,8 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
       description: 'çöp başarıyla düzenlendi.',
       duration: 3000
     });
+    router.push(`/app/posts/${post.id}`);
+    router.refresh();
   }
 
   return (

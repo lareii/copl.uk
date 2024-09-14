@@ -80,27 +80,29 @@ export default function Dropdown({ post, setPost, onDelete }) {
             </Link>
           </DropdownMenuItem>
           {(user.id === post.author.id || user.role === 'admin') && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <DialogTrigger className='flex items-center cursor-default'>
-                  <Pencil className='w-4 h-4 mr-2' />
-                  çöpü düzenle
-                </DialogTrigger>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className='flex items-center text-red-500'
-              >
-                {isDeleting ? (
-                  <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
-                ) : (
-                  <X className='w-4 h-4 mr-2' />
-                )}
-                çöpü kaldır
-              </DropdownMenuItem>
-            </>
+            <DropdownMenuSeparator />
+          )}
+          {user.id === post.author.id && (
+            <DropdownMenuItem>
+              <DialogTrigger className='flex items-center cursor-default'>
+                <Pencil className='w-4 h-4 mr-2' />
+                çöpü düzenle
+              </DialogTrigger>
+            </DropdownMenuItem>
+          )}
+          {(user.id === post.author.id || user.role === 'admin') && (
+            <DropdownMenuItem
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className='flex items-center text-red-500'
+            >
+              {isDeleting ? (
+                <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
+              ) : (
+                <X className='w-4 h-4 mr-2' />
+              )}
+              çöpü kaldır
+            </DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
