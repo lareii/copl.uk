@@ -13,7 +13,6 @@ func User(c *fiber.Ctx) error {
 		})
 	}
 
-	user.Role = ""
 	user.Password = ""
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{

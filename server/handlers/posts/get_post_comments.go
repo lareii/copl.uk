@@ -58,6 +58,7 @@ func GetPostComments(c *fiber.Ctx) error {
 			Author: models.CommentResponseAuthor{
 				ID:          author.ID,
 				CreatedAt:   author.CreatedAt,
+				Role:        author.Role,
 				DisplayName: author.DisplayName,
 				Username:    author.Username,
 				About:       author.About,

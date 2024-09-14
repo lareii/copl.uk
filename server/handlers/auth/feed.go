@@ -62,6 +62,7 @@ func GetFeed(c *fiber.Ctx) error {
 			Author: models.PostResponseAuthor{
 				ID:          author.ID,
 				CreatedAt:   author.CreatedAt,
+				Role:        author.Role,
 				DisplayName: author.DisplayName,
 				Username:    author.Username,
 				About:       author.About,

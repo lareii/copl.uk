@@ -69,6 +69,7 @@ func CreateComment(c *fiber.Ctx) error {
 			Author: models.CommentResponseAuthor{
 				ID:          user.ID,
 				CreatedAt:   user.CreatedAt,
+				Role:        user.Role,
 				DisplayName: user.DisplayName,
 				Username:    user.Username,
 				About:       user.About,

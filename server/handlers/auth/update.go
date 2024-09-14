@@ -95,7 +95,6 @@ func UpdateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	updatedUser.Role = ""
 	updatedUser.Password = ""
 
 	return c.JSON(fiber.Map{

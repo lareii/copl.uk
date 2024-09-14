@@ -19,7 +19,6 @@ func GetUser(c *fiber.Ctx) error {
 		})
 	}
 
-	user.Role = ""
 	user.Email = ""
 	user.Password = ""
 

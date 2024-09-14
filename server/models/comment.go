@@ -39,6 +39,7 @@ type CommentResponseContent struct {
 type CommentResponseAuthor struct {
 	ID          primitive.ObjectID  `json:"id"`
 	CreatedAt   primitive.Timestamp `json:"created_at"`
+	Role        string              `json:"role"`
 	DisplayName string              `json:"display_name"`
 	Username    string              `json:"username"`
 	About       string              `json:"about,omitempty"`

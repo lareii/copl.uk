@@ -39,6 +39,7 @@ func GetUserPosts(c *fiber.Ctx) error {
 			Author: models.PostResponseAuthor{
 				ID:          user.ID,
 				CreatedAt:   user.CreatedAt,
+				Role:        user.Role,
 				DisplayName: user.DisplayName,
 				Username:    user.Username,
 				About:       user.About,

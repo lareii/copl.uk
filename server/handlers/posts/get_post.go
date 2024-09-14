@@ -39,6 +39,7 @@ func GetPost(c *fiber.Ctx) error {
 				ID:          author.ID,
 				CreatedAt:   author.CreatedAt,
 				DisplayName: author.DisplayName,
+				Role:        author.Role,
 				Username:    author.Username,
 				About:       author.About,
 				Points:      author.Points,
