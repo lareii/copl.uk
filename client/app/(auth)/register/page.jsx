@@ -29,7 +29,7 @@ const formSchema = z
       .max(25, 'görünen isminiz 1-25 karakter uzunluğunda olmalıdır.'),
     username: z
       .string()
-      .min(1, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
+      .min(3, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
       .max(25, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
       .regex(
         /^[a-zA-Z0-9._]+$/,

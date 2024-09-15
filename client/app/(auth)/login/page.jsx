@@ -21,8 +21,18 @@ import { useToast } from '@/components/ui/use-toast';
 import { login } from '@/lib/api/auth';
 
 const formSchema = z.object({
-  username: z.string().min(1, 'kullanıcı adı boş bırakılamaz.'),
-  password: z.string().min(1, 'parola boş bırakılamaz.')
+  username: z
+    .string()
+    .min(3, 'kullanıcı adınız 3–25 karakter uzunluğunda olmalıdır.')
+    .max(25, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
+    .regex(
+      /^[a-zA-Z0-9._]+$/,
+      'kullanıcı adınız sadece harf, rakam, nokta ve alt çizgi içerebilir.'
+    ),
+  password: z
+    .string()
+    .min(8, 'parolanız 8-50 karakter uzunluğunda olmalıdır.')
+    .max(50, 'parolanız 8-50 karakter uzunluğunda olmalıdır.')
 });
 
 export default function Page() {
