@@ -44,3 +44,15 @@ input[type='file']::file-selector-button {
 ::selection {
   @apply bg-secondary text-white;
 }
+
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary rounded-lg;
+}

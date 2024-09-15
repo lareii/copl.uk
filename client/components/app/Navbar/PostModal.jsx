@@ -11,6 +11,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,6 +27,7 @@ import { useForm } from 'react-hook-form';
 import { Plus, LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const formSchema = z.object({
   content: z
@@ -80,7 +82,11 @@ export default function PostModal() {
         <DialogHeader>
           <DialogTitle>yeni çöp</DialogTitle>
           <DialogDescription>
-            lütfen çöp kurallarına uygun bir şekilde çöpünüzü oluşturun.
+            lütfen{' '}
+            <Link href='/content' className='underline'>
+              içerik politikasına
+            </Link>{' '}
+            uygun bir şekilde çöpünüzü oluşturun.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -97,16 +103,18 @@ export default function PostModal() {
                       {...field}
                     />
                   </FormControl>
+                  <FormDescription className='text-xs'>
+                    * markdown destekliyor
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className='text-zinc-400 text-xs'>* markdown destekliyor</div>
             <Button type='submit' className='mt-5' disabled={isSubmitting}>
               {isSubmitting && (
                 <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
               )}
-              gönderiyorum
+              gönder
             </Button>
           </form>
         </Form>

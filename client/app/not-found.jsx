@@ -3,10 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const metadata = {
-  title: '404'
-};
-
 export default function NotFound() {
   return (
     <div className='h-screen flex flex-col justify-center items-center'>

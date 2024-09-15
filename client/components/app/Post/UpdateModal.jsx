@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { z } from 'zod';
@@ -13,6 +14,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -78,7 +80,11 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
       <DialogHeader>
         <DialogTitle>çöpü düzenle</DialogTitle>
         <DialogDescription>
-          lütfen çöp kurallarına uygun bir şekilde çöpünüzü düzenleyin.
+          lütfen{' '}
+          <Link href='/content' className='underline'>
+            içerik politikasına
+          </Link>{' '}
+          uygun bir şekilde çöpünüzü düzenleyin.
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -92,6 +98,9 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
+                <FormDescription className='text-xs'>
+                  * markdown destekliyor
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -100,7 +109,7 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
             {isSubmitting && (
               <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
             )}
-            düzenliyorum
+            düzenle
           </Button>
         </form>
       </Form>

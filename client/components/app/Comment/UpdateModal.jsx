@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +13,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -78,7 +80,11 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
       <DialogHeader>
         <DialogTitle>yorumu düzenle</DialogTitle>
         <DialogDescription>
-          lütfen çöp kurallarına uygun bir şekilde yorumunuzu düzenleyin.
+          lütfen{' '}
+          <Link href='/content' className='underline'>
+            içerik politikasına
+          </Link>{' '}
+          uygun bir şekilde yorumunuzu düzenleyin.
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -92,6 +98,9 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
+                <FormDescription className='text-xs'>
+                  * markdown destekliyor
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -100,7 +109,7 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
             {isSubmitting && (
               <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
             )}
-            düzenliyorum
+            düzenle
           </Button>
         </form>
       </Form>

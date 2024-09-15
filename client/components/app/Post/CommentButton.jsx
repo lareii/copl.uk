@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { MessageCircle, LoaderCircle } from 'lucide-react';
@@ -15,6 +16,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -105,7 +107,11 @@ export default function CommentButton({ post, setPost, onNewComment }) {
         <DialogHeader>
           <DialogTitle>yeni yorum</DialogTitle>
           <DialogDescription>
-            lütfen çöp kurallarına uygun bir şekilde yorumunuzu oluşturun.
+            lütfen{' '}
+            <Link href='/content' className='underline'>
+              içerik politikasına
+            </Link>{' '}
+            uygun bir şekilde yorumunuzu oluşturun.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -122,16 +128,18 @@ export default function CommentButton({ post, setPost, onNewComment }) {
                       {...field}
                     />
                   </FormControl>
+                  <FormDescription className='text-xs'>
+                    * markdown destekliyor
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className='text-zinc-400 text-xs'>* markdown destekliyor</div>
             <Button type='submit' className='mt-5' disabled={isSubmitting}>
               {isSubmitting && (
                 <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
               )}
-              gönderiyorum
+              gönder
             </Button>
           </form>
         </Form>

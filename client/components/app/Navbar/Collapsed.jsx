@@ -97,16 +97,27 @@ export default function Collapsed({ router, pathname }) {
                 </Link>
                 <div className='text-zinc-400 text-xs mt-5'>
                   <div>
-                    copl.uk, BSD 3-Clause lisansı altında lisanslanmış özgür bir
-                    yazılımdır.
+                    copl.uk,{' '}
+                    <Link
+                      href='https://github.com/lareii/copl.uk/blob/master/LICENSE'
+                      target='_blank'
+                      className='underline'
+                    >
+                      BSD 3-Clause lisansı
+                    </Link>{' '}
+                    altında lisanslanmış özgür bir yazılımdır.
                   </div>
-                  <Link href='#' className='underline'>
+                  <Link href='/about' className='underline'>
                     hakkında
                   </Link>{' '}
-                  <Link href='#' className='underline'>
-                    gizlilik politikası
+                  <Link href='/content' className='underline'>
+                    içerik politikası
                   </Link>{' '}
-                  <Link href='#' className='underline'>
+                  <Link
+                    href='https://github.com/lareii/copl.uk'
+                    target='_blank'
+                    className='underline'
+                  >
                     kaynak kodları
                   </Link>{' '}
                 </div>

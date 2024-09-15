@@ -113,7 +113,7 @@ export default function Page() {
             {isSubmitting && (
               <LoaderCircle className='w-4 h-4 mr-2 animate-spin' />
             )}
-            giriş yapıyorum
+            giriş yap
           </Button>
         </form>
       </Form>
