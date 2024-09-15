@@ -44,11 +44,10 @@ export default function Page() {
       <div>
         <div className='mt-10 text-lg font-bold'>3. Çerezler</div>
         <div className='text-muted-foreground'>
-          Hizmetimizde kullanıcı deneyimini geliştirmek ve oturum yönetimini
-          sağlamak amacıyla çerezler kullanıyoruz. Çerezler, tarayıcınızda
-          saklanan küçük veri dosyalarıdır. Tarayıcı ayarlarınızdan çerez
-          kullanımını yönetebilir veya devre dışı bırakabilirsiniz; ancak bu,
-          hizmetin bazı özelliklerini sınırlayabilir.
+          Çerezler, tarayıcınızda saklanan küçük veri dosyalarıdır. Hizmetimizde
+          kullanıcı deneyimini geliştirmek ve oturum yönetimini sağlamak
+          amacıyla çerezler kullanıyoruz. Çerezleri kabul etmek istemiyorsanız,
+          siteyi kullanmaya devam etmemelisiniz.
         </div>
       </div>
       <div>
