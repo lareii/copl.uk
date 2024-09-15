@@ -1,14 +1,16 @@
 services:
   server:
-    build: .
-      container_name: copluk-server
-      restart: always
-      ports:
-        - "80:80"
-      volumes:
-        - .:/app
-      depends_on:
-        - mongo
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: copluk-server
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./server:/app
+    depends_on:
+      - mongo
     
   mongo:
     image: mongo:latest
