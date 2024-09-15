@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import {
   User,
@@ -22,16 +23,19 @@ import { useAuthStore } from '@/stores/auth';
 import { logout } from '@/lib/api/auth';
 
 export default function Dropdown({ router, pathname }) {
+  const cookieStore = cookies();
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
   const isProfilePage =
-    pathname === `/app/users/${user?.username}` || pathname.startsWith('/app/settings');
+    pathname === `/app/users/${user?.username}` ||
+    pathname.startsWith('/app/settings');
 
   const handleLogout = async (e) => {
     e.preventDefault();
 
     setUser('loading');
+    cookieStore.delete('jwt');
     await logout();
     router.push('/login');
     router.refresh();
