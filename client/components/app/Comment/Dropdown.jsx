@@ -49,7 +49,7 @@ export default function Dropdown({ comment, setComment, onDelete }) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DropdownMenu>
-        {(user.id === comment.author.id || user.role === 'admin' ) && (
+        {(user.id === comment.author.id || user.role === 'admin') && (
           <DropdownMenuTrigger asChild>
             <Button variant='ghost' size='icon'>
               <Ellipsis className='w-4 h-4' />
@@ -57,12 +57,14 @@ export default function Dropdown({ comment, setComment, onDelete }) {
           </DropdownMenuTrigger>
         )}
         <DropdownMenuContent>
-          <DropdownMenuItem>
-            <DialogTrigger className='flex items-center cursor-default'>
-              <Pencil className='w-4 h-4 mr-2' />
-              yorumu düzenle
-            </DialogTrigger>
-          </DropdownMenuItem>
+          {user.id === comment.author.id && (
+            <DropdownMenuItem>
+              <DialogTrigger className='flex items-center cursor-default'>
+                <Pencil className='w-4 h-4 mr-2' />
+                yorumu düzenle
+              </DialogTrigger>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem
             onClick={handleDelete}
             disabled={isDeleting}
