@@ -28,8 +28,12 @@ const formSchema = z.object({
     .max(25, 'görünen isminiz 1-25 karakter uzunluğunda olmalıdır.'),
   username: z
     .string()
-    .min(1, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
-    .max(25, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.'),
+    .min(3, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
+    .max(25, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
+    .regex(
+      /^[a-zA-Z0-9._]+$/,
+      'kullanıcı adınız sadece harf, rakam, nokta ve alt çizgi içerebilir.'
+    ),
   about: z.string().max(200, 'hakkında kısmı 200 karakterden fazla olamaz.')
 });
 
