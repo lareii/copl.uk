@@ -6,25 +6,23 @@ services:
     container_name: copluk-server
     restart: always
     ports:
-      - "80:80"
+      - '80:80'
     volumes:
       - ./server:/app
     depends_on:
       - mongo
-    env_file:
-      - ./server/.env
-    
+
   mongo:
-    image: mongo:latest
+    image: mongo
     container_name: copluk-mongo
     restart: always
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - mongo-data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
 
 volumes:
   mongo-data:
