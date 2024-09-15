@@ -19,8 +19,11 @@ var (
 
 func Setup() {
 	uri := os.Getenv("MONGO_URI")
-	if uri == "" {
-		log.Fatal("MONGO_URI environment variable not set")
+	mongoUser := os.Getenv("MONGO_INITDB_ROOT_USERNAME")
+	mongoPass := os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
+
+	if uri == "" || mongoUser == "" || mongoPass == "" {
+		log.Fatal("Credentials not provided.")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
