@@ -12,17 +12,17 @@ export default function Page() {
         Son güncelleme tarihi: 14.09.2024
       </div>
       <div className='mt-5 text-muted-foreground'>
-        Lütfen bu hizmet şartlarını dikkatlice okuyunuz. Bu platformu
-        kullanarak aşağıdaki koşulları kabul etmiş sayılırsınız.
+        Lütfen bu hizmet şartlarını dikkatlice okuyunuz. Bu platformu kullanarak
+        aşağıdaki koşulları kabul etmiş sayılırsınız.
       </div>
       <div>
         <div className='mt-10 text-lg font-bold'>1. Genel Koşullar</div>
         <div className='text-muted-foreground'>
-          Bu web uygulaması (bundan sonra "Hizmet"), BSD 3-Clause lisansı
-          altında özgür yazılım olarak dağıtılan bir yazılım üzerine inşa
-          edilmiştir. Hizmeti kullanarak, bu lisans ve aşağıda belirtilen diğer
-          koşulları kabul etmiş sayılırsınız. Lisans hakkında daha fazla bilgi
-          almak için{' '}
+          Bu web uygulaması (bundan sonra {'"'}Hizmet{'"'}), BSD 3-Clause
+          lisansı altında özgür yazılım olarak dağıtılan bir yazılım üzerine
+          inşa edilmiştir. Hizmeti kullanarak, bu lisans ve aşağıda belirtilen
+          diğer koşulları kabul etmiş sayılırsınız. Lisans hakkında daha fazla
+          bilgi almak için{' '}
           <Link
             href='https://github.com/lareii/copl.uk/blob/master/LICENSE'
             className='underline'
@@ -67,12 +67,12 @@ export default function Page() {
       <div>
         <div className='mt-10 text-lg font-bold'>4. Garanti Feragatnamesi</div>
         <div className='text-muted-foreground'>
-          Hizmet, "olduğu gibi" ve "mevcut haliyle" sunulmaktadır. BSD 3-Clause
-          lisansı altında, bu hizmetin kullanılabilirliği, doğruluğu,
-          performansı veya diğer nitelikleri konusunda herhangi bir garanti
-          verilmez. Hizmeti kullanmanız tamamen kendi sorumluluğunuzdadır.
-          Sağlayıcı; herhangi bir dolaylı, tesadüfi, özel veya sonuçsal zarardan
-          sorumlu tutulamaz.
+          Hizmet, {'"'}olduğu gibi{'"'} ve {'"'}mevcut haliyle{'"'}{' '}
+          sunulmaktadır. BSD 3-Clause lisansı altında, bu hizmetin
+          kullanılabilirliği, doğruluğu, performansı veya diğer nitelikleri
+          konusunda herhangi bir garanti verilmez. Hizmeti kullanmanız tamamen
+          kendi sorumluluğunuzdadır. Sağlayıcı; herhangi bir dolaylı, tesadüfi,
+          özel veya sonuçsal zarardan sorumlu tutulamaz.
         </div>
       </div>
       <div>

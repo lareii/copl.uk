@@ -31,12 +31,13 @@ export default function Page() {
       <div>
         <div className='mt-10 text-lg font-bold'>Nedir bu copl.uk?</div>
         <div className='text-muted-foreground'>
-          copl.uk ismi "çöplük" kelimesinden esinlenilmiştir. Bu platformda
-          paylaşılan içeriklere ise "çöp", çöpleri paylaşan kullancılara
-          "çöpçü", çöpçülerin oluşturduğu topluluklara ise "çöplük" adı verilir.
-          Konseptin çöp üzerine olması paylaşılan içeriklerin kalitesiz ya da
-          gereksiz olduğu anlamına gelmez. Aksine, copl.uk'te her türlü
-          düşünceye yer vardır ve herkesin paylaşımı değerlidir.
+          copl.uk ismi {'"'}çöplük{'"'} kelimesinden esinlenilmiştir. Bu
+          platformda paylaşılan içeriklere ise {'"'}çöp{'"'}, çöpleri paylaşan
+          kullancılara
+          {'"'}çöpçü{'"'}, çöpçülerin oluşturduğu topluluklara ise {'"'}çöplük
+          {'"'} adı verilir. Konseptin çöp üzerine olması paylaşılan içeriklerin
+          kalitesiz ya da gereksiz olduğu anlamına gelmez. Aksine, copl.uk{'\''}
+          te her türlü düşünceye yer vardır ve herkesin paylaşımı değerlidir.
         </div>
       </div>
       <div>
