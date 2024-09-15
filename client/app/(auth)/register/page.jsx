@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -48,7 +47,6 @@ const formSchema = z
 
 export default function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
   const { toast } = useToast();
 
   const form = useForm({
@@ -85,8 +83,11 @@ export default function Page() {
     }
 
     setIsSubmitting(false);
-    router.push('/login');
-    router.refresh();
+    toast({
+      title: 'başarılı!',
+      description: 'kayıt başarıyla tamamlandı, şimdi giriş yapabilirsiniz.',
+      duration: 3000
+    });
   }
 
   return (
@@ -94,7 +95,7 @@ export default function Page() {
       <div className='basis-1/2 mt-10'>
         <div className='text-2xl font-bold'>kayıt olun</div>
         <div className='text-sm'>
-          copl.uk{'\''}e katılmak için lütfen bilgilerinizi girin.
+          copl.uk{"'"}e katılmak için lütfen bilgilerinizi girin.
         </div>
         <div className='text-muted-foreground text-xs mt-5'>
           hali hazırda bir hesabın var mı?{' '}
