@@ -1,0 +1,23 @@
+services:
+  server:
+    build: .
+      container_name: copluk-server
+      restart: always
+      ports:
+        - "80:80"
+      volumes:
+        - .:/app
+      depends_on:
+        - mongo
+    
+  mongo:
+    image: mongo:latest
+    container_name: copluk-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
