@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,6 +19,9 @@ func Logout(c *fiber.Ctx) error {
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
 		HTTPOnly: true,
+		Secure:   os.Getenv("MODE") == "production",
+		SameSite: "None",
+		Domain:   os.Getenv("COOKIE_DOMAIN"),
 	}
 
 	c.Cookie(cookie)
