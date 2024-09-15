@@ -16,7 +16,7 @@ export default function Card({ index, user }) {
           : ''
       }
     >
-      <div className='p-5 bg-zinc-900 opacity-85 rounded-lg'>
+      <div className='p-5 bg-zinc-900/85 rounded-lg'>
         <div className='flex items-center justify-between'>
           <div className='flex items-start'>
             <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
