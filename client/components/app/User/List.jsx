@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import Card from '@/components/app/User/Card';
+import UserSkeleton from '@/components/app/User/Skeleton';
 
 export default function UserList({ fetchUsers }) {
   const [users, setUsers] = useState([]);
@@ -76,7 +76,7 @@ export default function UserList({ fetchUsers }) {
           daha fazla göster
         </Button>
       )} */}
-      {users.length > 0 ? (
+      {users.length > 10 ? (
         <>
           {users.map((user, index) => (
             <Card key={user.id} index={index} user={user} />
@@ -88,7 +88,10 @@ export default function UserList({ fetchUsers }) {
           )}
         </>
       ) : (
-        <LoaderCircle className='mt-1 w-4 h-4 animate-spin self-center' />
+        <>
+          <UserSkeleton />
+          <UserSkeleton />
+        </>
       )}
     </div>
   );

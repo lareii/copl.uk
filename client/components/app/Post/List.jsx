@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import Post from '@/components/app/Post';
+import PostSkeleton from '@/components/app/Post/Skeleton';
 
 export default function PostList({ fetchPosts }) {
   const [posts, setPosts] = useState([]);
@@ -41,42 +41,47 @@ export default function PostList({ fetchPosts }) {
     setOffset((prevOffset) => prevOffset + 10);
   };
 
-  useEffect(() => {
-    const fetchInitialPosts = async () => {
-      setLoading(true);
-      const response = await fetchPosts(0);
+  useEffect(
+    () => {
+      const fetchInitialPosts = async () => {
+        setLoading(true);
+        const response = await fetchPosts(0);
 
-      if (!response) {
-        toast({
-          title: 'hay aksi, bir şeyler ters gitti!',
-          description:
-            'sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.',
-          duration: 3000
-        });
-        return;
-      }
+        if (!response) {
+          toast({
+            title: 'hay aksi, bir şeyler ters gitti!',
+            description:
+              'sunucudan yanıt alınamadı. Lütfen daha sonra tekrar deneyin.',
+            duration: 3000
+          });
+          return;
+        }
 
-      const initialPosts = response.data.posts || [];
+        const initialPosts = response.data.posts || [];
 
-      if (initialPosts.length > 10) {
-        setPosts(initialPosts.slice(0, 10));
-      } else {
-        setPosts(initialPosts);
-        setHasMorePost(false);
-      }
+        if (initialPosts.length > 10) {
+          setPosts(initialPosts.slice(0, 10));
+        } else {
+          setPosts(initialPosts);
+          setHasMorePost(false);
+        }
 
-      setLoading(false);
-    };
+        setLoading(false);
+      };
 
-    fetchInitialPosts();
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  []);
+      fetchInitialPosts();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className='flex flex-col gap-2'>
       {loading && (
-        <LoaderCircle className='mt-1 w-4 h-4 animate-spin self-center' />
+        <>
+          <PostSkeleton />
+          <PostSkeleton />
+        </>
       )}
       {!loading && posts.length > 0 ? (
         <>
