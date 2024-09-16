@@ -69,10 +69,12 @@ export default function Layout({ children }) {
             </div>
             <hr />
             <div className='text-sm flex justify-between gap-32 max-md:gap-3'>
-              <div className='flex flex-col gap-1'>
+              <div>
                 <div className='text-muted-foreground mb-2'>copl.uk</div>
-                <div>
-                  <Link href={'/about'}>hakkında</Link>
+                <div className='flex flex-col gap-1'>
+                  <div>
+                    <Link href={'/about'}>hakkında</Link>
+                  </div>
                 </div>
               </div>
               <div>
