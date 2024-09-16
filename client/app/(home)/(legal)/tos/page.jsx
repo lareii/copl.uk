@@ -18,7 +18,7 @@ export default function Page() {
       <div>
         <div className='mt-10 text-lg font-bold'>1. Genel Koşullar</div>
         <div className='text-muted-foreground'>
-          Bu web uygulaması (bundan sonra {'"'}Hizmet{'"'}), BSD 3-Clause
+          Bu web uygulaması (bundan sonra &quot;Hizmet&quot;), BSD 3-Clause
           lisansı altında özgür yazılım olarak dağıtılan bir yazılım üzerine
           inşa edilmiştir. Hizmeti kullanarak, bu lisans ve aşağıda belirtilen
           diğer koşulları kabul etmiş sayılırsınız. Lisans hakkında daha fazla
@@ -67,7 +67,7 @@ export default function Page() {
       <div>
         <div className='mt-10 text-lg font-bold'>4. Garanti Feragatnamesi</div>
         <div className='text-muted-foreground'>
-          Hizmet, {'"'}olduğu gibi{'"'} ve {'"'}mevcut haliyle{'"'}{' '}
+          Hizmet, &quot;olduğu gibi&quot; ve &quot;mevcut haliyle&quot;{' '}
           sunulmaktadır. BSD 3-Clause lisansı altında, bu hizmetin
           kullanılabilirliği, doğruluğu, performansı veya diğer nitelikleri
           konusunda herhangi bir garanti verilmez. Hizmeti kullanmanız tamamen

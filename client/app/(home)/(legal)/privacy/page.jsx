@@ -10,7 +10,7 @@ export default function Page() {
         Son güncelleme tarihi: 14.09.2024
       </div>
       <div className='mt-5 text-muted-foreground'>
-        Bu gizlilik politikası, web uygulaması (bundan sonra {'"'}Hizmet{'"'})
+        Bu gizlilik politikası, web uygulaması (bundan sonra &quot;Hizmet&quot;)
         aracılığıyla toplanan kişisel verilerinizin nasıl işlendiğini ve
         korunduğunu açıklar. Hizmeti kullanarak bu gizlilik politikasında
         belirtilen uygulamaları kabul etmiş sayılırsınız.
