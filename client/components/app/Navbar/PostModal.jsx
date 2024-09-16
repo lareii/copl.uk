@@ -53,7 +53,7 @@ export default function PostModal() {
     setIsSubmitting(true);
 
     const response = await createPost({ content: values.content });
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',

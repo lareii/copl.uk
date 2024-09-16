@@ -19,7 +19,7 @@ export default function CommentList({ post_id, comments, setComments }) {
     if (!hasMoreComment) return;
 
     const response = await getComments(post_id, 11, offset);
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description:
@@ -48,7 +48,7 @@ export default function CommentList({ post_id, comments, setComments }) {
     () => {
       const fetchInitialComments = async () => {
         const response = await getComments(post_id, 11, 0);
-        if (!response) {
+        if (!response || response.status === 429) {
           toast({
             title: 'hay aksi, bir şeyler ters gitti!',
             description:

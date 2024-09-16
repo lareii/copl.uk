@@ -14,7 +14,7 @@ export default function UserList({ fetchUsers }) {
     if (!hasMoreUser) return;
 
     const response = await fetchUsers(offset);
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description:
@@ -40,7 +40,7 @@ export default function UserList({ fetchUsers }) {
     () => {
       const fetchInitialUsers = async () => {
         const response = await fetchUsers(0);
-        if (!response) {
+        if (!response || response.status === 429) {
           toast({
             title: 'hay aksi, bir şeyler ters gitti!',
             description:

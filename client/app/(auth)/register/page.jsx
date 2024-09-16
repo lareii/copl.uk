@@ -65,7 +65,7 @@ export default function Page() {
       password: values.password
     });
 
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',

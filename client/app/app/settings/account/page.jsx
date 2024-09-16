@@ -67,7 +67,7 @@ export default function Page() {
 
     const response = await updateMe(values);
 
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description: 'bir hata oluştu. lütfen daha sonra tekrar deneyin.',

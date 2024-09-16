@@ -19,7 +19,7 @@ export default function PostList({ fetchPosts }) {
     if (!hasMorePost) return;
 
     const response = await fetchPosts(offset);
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description:
@@ -47,7 +47,7 @@ export default function PostList({ fetchPosts }) {
         setLoading(true);
         const response = await fetchPosts(0);
 
-        if (!response) {
+        if (!response || response.status === 429) {
           toast({
             title: 'hay aksi, bir şeyler ters gitti!',
             description:

@@ -21,7 +21,7 @@ export default function Page({ params }) {
     e.preventDefault();
 
     const response = await followUser(user.username);
-    if (!response) {
+    if (!response || response.status === 429) {
       toast({
         title: 'hay aksi, bir şeyler ters gitti!',
         description:
