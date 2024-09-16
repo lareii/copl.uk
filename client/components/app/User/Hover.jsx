@@ -10,13 +10,21 @@ import {
 export default function Hover({ user }) {
   return (
     <HoverCard>
-      <HoverCardTrigger className='text-sm hover:underline flex items-center gap-2'>
-        <Link href={`/app/users/${user.username}`}>{user.display_name}</Link>
-        {user.role === 'admin' && (
-          <Badge className='rounded-sm py-[1px] px-1 pointer-events-none'>
-            admin
-          </Badge>
-        )}
+      <HoverCardTrigger
+        className='text-sm hover:underline flex items-center gap-2'
+        asChild
+      >
+        <Link
+          href={`/app/users/${user.username}`}
+          className='flex items-center gap-2'
+        >
+          <div>{user.display_name}</div>
+          {user.role === 'admin' && (
+            <Badge className='rounded-sm py-[1px] px-1 pointer-events-none'>
+              admin
+            </Badge>
+          )}
+        </Link>
       </HoverCardTrigger>
       {/* TODO: set z-index to make the hover card appear on top */}
       <HoverCardContent className='flex flex-col w-fit' align='start'>
