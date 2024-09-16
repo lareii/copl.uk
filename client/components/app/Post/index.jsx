@@ -3,16 +3,11 @@
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
 import Dropdown from '@/components/app/Post/Dropdown';
 import LikeButton from '@/components/app/Post/LikeButton';
 import CommentButton from '@/components/app/Post/CommentButton';
 import UserInfo from '@/components/app/User/Info';
+import DateTooltip from '@/components/app/Tooltip/Date';
 
 export default function Post({ post: initialPost, onDelete, onNewComment }) {
   const [post, setPost] = useState(initialPost);
@@ -43,50 +38,7 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
             onNewComment={onNewComment}
           />
         </div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='text-xs text-zinc-400'>
-                {new Date(post.created_at.T * 1000).toLocaleDateString(
-                  'tr-TR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  }
-                )}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent className='text-xs text-zinc-400'>
-              <div>
-                oluşturuldu:{' '}
-                {new Date(post.created_at.T * 1000).toLocaleDateString(
-                  'tr-TR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  }
-                )}
-              </div>
-              <div>
-                güncellendi:{' '}
-                {new Date(post.updated_at.T * 1000).toLocaleDateString(
-                  'tr-TR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  }
-                )}
-              </div>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <DateTooltip created_at={post.created_at} updated_at={post.updated_at} />
       </div>
     </div>
   );

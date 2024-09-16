@@ -9,6 +9,7 @@ import {
 import Dropdown from '@/components/app/Comment/Dropdown';
 import LikeButton from '@/components/app/Comment/LikeButton';
 import UserInfo from '@/components/app/User/Info';
+import DateTooltip from '@/components/app/Tooltip/Date';
 
 export default function Comment({ comment: initialComment, onDelete }) {
   const [comment, setComment] = useState(initialComment);
@@ -26,50 +27,7 @@ export default function Comment({ comment: initialComment, onDelete }) {
       <Markdown className='md'>{comment.content}</Markdown>
       <div className='mt-4 flex justify-between'>
         <LikeButton comment={comment} setComment={setComment} />
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='text-xs text-zinc-400'>
-                {new Date(comment.created_at.T * 1000).toLocaleDateString(
-                  'tr-TR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  }
-                )}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent className='text-xs text-zinc-400'>
-              <div>
-                oluşturuldu:{' '}
-                {new Date(comment.created_at.T * 1000).toLocaleDateString(
-                  'tr-TR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  }
-                )}
-              </div>
-              <div>
-                güncellendi:{' '}
-                {new Date(comment.updated_at.T * 1000).toLocaleDateString(
-                  'tr-TR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  }
-                )}
-              </div>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <DateTooltip created_at={comment.created_at} updated_at={comment.updated_at} />
       </div>
     </div>
   );
