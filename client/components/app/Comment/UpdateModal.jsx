@@ -61,10 +61,10 @@ export default function UpdateModal({ comment, setComment, setIsOpen }) {
       return;
     }
 
-    form.reset();
     setComment((prevComment) => ({
       ...prevComment,
-      content: values.content
+      content: values.content,
+      updated_at: response.data.comment.updated_at
     }));
     setIsSubmitting(false);
     setIsOpen(false);

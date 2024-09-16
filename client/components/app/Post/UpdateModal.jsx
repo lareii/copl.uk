@@ -59,10 +59,10 @@ export default function UpdateModal({ post, setPost, setIsOpen }) {
       return;
     }
 
-    form.reset();
     setPost((prevPost) => ({
       ...prevPost,
-      content: values.content
+      content: values.content,
+      updated_at: response.data.post.updated_at
     }));
     setIsSubmitting(false);
     setIsOpen(false);
