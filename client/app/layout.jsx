@@ -19,7 +19,14 @@ export const metadata = {
     url: 'https://copl.uk',
     title: 'copl.uk',
     description: 'zihin çöplüğün, kafana göre.',
-    image: '/og-image.png'
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1280,
+        height: 640,
+        alt: 'copl.uk'
+      }
+    ]
   }
 };
 
