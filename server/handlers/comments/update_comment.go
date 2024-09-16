@@ -69,12 +69,12 @@ func UpdateComment(c *fiber.Ctx) error {
 	}
 
 	if body.Like != nil {
-		if *body.Like {
+		if *body.Like && !utils.LikeContains(comment.Likes, user.ID) {
 			update["$addToSet"] = bson.M{"likes": user.ID}
 			if comment.Author != user.ID {
 				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": 1}})
 			}
-		} else {
+		} else if !*body.Like && utils.LikeContains(comment.Likes, user.ID) {
 			update["$pull"] = bson.M{"likes": user.ID}
 			if comment.Author != user.ID {
 				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": -1}})
