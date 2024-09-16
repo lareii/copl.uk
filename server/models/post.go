@@ -8,6 +8,7 @@ import (
 	"github.com/lareii/copl.uk/server/database"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -46,14 +47,13 @@ type PostResponseAuthor struct {
 	Points      uint                `json:"points"`
 }
 
-func GetPostByID(postID primitive.ObjectID) (Post, error) {
-	var post Post
-	err := database.Posts.FindOne(context.Background(), bson.M{"_id": postID}).Decode(&post)
-	if err != nil {
-		return post, fmt.Errorf("error fetching post: %v", err)
+func GetPostByID(postID primitive.ObjectID) (post Post, err error) {
+	err = database.Posts.FindOne(context.Background(), bson.M{"_id": postID}).Decode(&post)
+	if err != nil && err == mongo.ErrNoDocuments {
+		return post, nil
 	}
 
-	return post, nil
+	return post, err
 }
 
 func GetPosts(limit, offset int64, filter, sort bson.M) ([]Post, error) {

@@ -21,6 +21,11 @@ func GetPost(c *fiber.Ctx) error {
 			"message": "Error fetching post.",
 		})
 	}
+	if post.ID.IsZero() {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Post not found.",
+		})
+	}
 
 	author, err := models.GetUserByID(post.Author)
 	if err != nil {
