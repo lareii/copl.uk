@@ -89,7 +89,7 @@ export default function Page() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='basis-1/2 flex flex-col justify-center gap-y-5 w-full h-full'
+          className='basis-1/2 py-10 flex flex-col justify-center gap-y-5 w-full h-full'
         >
           <div className='flex flex-col gap-y-2'>
             <FormField

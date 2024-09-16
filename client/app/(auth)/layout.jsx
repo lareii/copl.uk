@@ -16,7 +16,7 @@ export default function Layout({ children }) {
         transition={{ ease: 'easeInOut', duration: 0.3 }}
       >
         <div className='h-screen flex justify-center md:items-center md:p-5'>
-          <div className='rounded-[var(--radius)] h-96 w-[50rem] flex flex-col p-10 max-md:gap-y-10 md:bg-zinc-100 md:bg-zinc-900 max-md:border-0'>
+          <div className='rounded-[var(--radius)] h-fit w-[50rem] flex flex-col p-10 max-md:gap-y-10 md:bg-zinc-100 md:bg-zinc-900 max-md:border-0'>
             <Image
               src='/copluk.svg'
               alt='copl.uk logo'
