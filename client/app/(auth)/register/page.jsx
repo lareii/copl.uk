@@ -21,13 +21,15 @@ import { register } from '@/lib/api/auth';
 
 const formSchema = z
   .object({
-    email: z.string().email('geçerli bir e-posta adresi girin.'),
+    email: z
+      .string({ required_error: 'e-posta boş bırakılamaz.' })
+      .email('geçerli bir e-posta adresi girin.'),
     display_name: z
-      .string()
+      .string({ required_error: 'görünen isim boş bırakılamaz.' })
       .min(1, 'görünen isminiz 1-25 karakter uzunluğunda olmalıdır.')
       .max(25, 'görünen isminiz 1-25 karakter uzunluğunda olmalıdır.'),
     username: z
-      .string()
+      .string({ required_error: 'kullanıcı adı boş bırakılamaz.' })
       .min(3, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
       .max(25, 'kullanıcı adınız 3-25 karakter uzunluğunda olmalıdır.')
       .regex(
@@ -35,7 +37,7 @@ const formSchema = z
         'kullanıcı adınız sadece harf, rakam, nokta ve alt çizgi içerebilir.'
       ),
     password: z
-      .string()
+      .string({ required_error: 'parola boş bırakılamaz.' })
       .min(8, 'parolanız 8-50 karakter uzunluğunda olmalıdır.')
       .max(50, 'parolanız 8-50 karakter uzunluğunda olmalıdır.'),
     passwordConfirmation: z.string()
@@ -95,7 +97,7 @@ export default function Page() {
       <div className='basis-1/2 mt-10'>
         <div className='text-2xl font-bold'>kayıt olun</div>
         <div className='text-sm'>
-          copl.uk{'\''}e katılmak için lütfen bilgilerinizi girin.
+          copl.uk&apos;e katılmak için lütfen bilgilerinizi girin.
         </div>
         <div className='text-muted-foreground text-xs mt-5'>
           hali hazırda bir hesabın var mı?{' '}
