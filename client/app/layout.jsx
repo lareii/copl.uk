@@ -10,8 +10,17 @@ export const metadata = {
     template: 'copl.uk - %s',
     default: 'copl.uk'
   },
-  description: 'zihin çöplüğün, kafana göre...',
-  keywords: ['copluk', 'copl.uk', 'çöplük']
+  description: 'zihin çöplüğün, kafana göre.',
+  keywords: ['copluk', 'copl.uk', 'çöplük'],
+  openGraph: {
+    type: 'website',
+    locale: 'tr_TR',
+    site_name: 'copl.uk',
+    url: 'https://copl.uk',
+    title: 'copl.uk',
+    description: 'zihin çöplüğün, kafana göre.',
+    image: '/og-image.png'
+  }
 };
 
 export default function RootLayout({ children }) {
