@@ -5,6 +5,7 @@ import { CalendarFold, Sparkle, Trash } from 'lucide-react';
 import { getUser, getUserPosts } from '@/lib/api/users';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import PostList from '@/components/app/Post/List';
 import Follows from '@/components/app/User/Follows';
@@ -82,9 +83,16 @@ export default function Page({ params }) {
           {user ? (
             <>
               <div className='mt-3 mb-5'>
-                <div className='flex justify-between'>
+                <div className='flex justify-between gap-3'>
                   <div>
-                    <div className='text-xl font-bold'>{user.display_name}</div>
+                    <div className='flex flex-wrap-reverse items-center gap-x-2'>
+                      <div className='text-xl font-bold'>
+                        {user.display_name}
+                      </div>
+                      {user.role === 'admin' && (
+                        <Badge className='rounded-sm'>admin</Badge>
+                      )}
+                    </div>
                     <div className='text-zinc-400 text-sm'>
                       @{user.username}
                     </div>

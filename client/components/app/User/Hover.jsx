@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CalendarFold } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import {
   HoverCard,
   HoverCardContent,
@@ -9,15 +10,27 @@ import {
 export default function Hover({ user }) {
   return (
     <HoverCard>
-      <HoverCardTrigger className='text-sm hover:underline' asChild>
+      <HoverCardTrigger className='text-sm hover:underline flex items-center gap-2'>
         <Link href={`/app/users/${user.username}`}>{user.display_name}</Link>
+        {user.role === 'admin' && (
+          <Badge className='rounded-sm py-[1px] px-1 pointer-events-none'>
+            admin
+          </Badge>
+        )}
       </HoverCardTrigger>
       {/* TODO: set z-index to make the hover card appear on top */}
-      <HoverCardContent className='flex flex-col' align='start'>
+      <HoverCardContent className='flex flex-col w-fit' align='start'>
         <div className='flex items-start'>
           <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
           <div className='flex flex-col'>
-            <div className='text-sm'>{user.display_name}</div>
+            <div className='flex items-center gap-2'>
+              <div className='text-sm'>{user.display_name}</div>
+              {user.role === 'admin' && (
+                <Badge className='rounded-sm py-[1px] px-1 pointer-events-none'>
+                  admin
+                </Badge>
+              )}
+            </div>
             <div className='text-xs text-zinc-400'>@{user.username}</div>
           </div>
         </div>
