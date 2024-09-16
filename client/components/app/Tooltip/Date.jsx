@@ -18,7 +18,7 @@ export default function DateTooltip({ created_at, updated_at }) {
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
             onTouchStart={() => setOpen(!open)}
-            className='text-xs text-zinc-400'
+            className='text-xs text-zinc-400 select-none'
           >
             {new Date(created_at.T * 1000).toLocaleDateString('tr-TR', {
               year: 'numeric',

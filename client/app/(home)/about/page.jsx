@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -5,11 +8,10 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 import Link from 'next/link';
-export const metadata = {
-  title: 'hakkında'
-};
 
 export default function Page() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className='my-20 text-sm'>
       <div className='text-3xl font-black'>Hakkında</div>
@@ -18,8 +20,16 @@ export default function Page() {
         absürt fikirleri paylaşabileceğiniz bir platformdur. Bu alanda kendinizi
         ifade etmekte{' '}
         <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger className='underline'>özgürsünüz</TooltipTrigger>
+          <Tooltip open={open}>
+            <TooltipTrigger
+              onClick={() => setOpen(!open)}
+              onMouseEnter={() => setOpen(true)}
+              onMouseLeave={() => setOpen(false)}
+              onTouchStart={() => setOpen(!open)}
+              className='underline select-none'
+            >
+              özgürsünüz
+            </TooltipTrigger>
             <TooltipContent className='text-xs'>
               <Link href='/content'>içerik politikasına uyduğunuz sürece</Link>
             </TooltipContent>
