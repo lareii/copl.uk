@@ -76,7 +76,7 @@ export default function UserList({ fetchUsers }) {
           daha fazla göster
         </Button>
       )} */}
-      {users.length > 10 ? (
+      {users.length > 0 ? (
         <>
           {users.map((user, index) => (
             <Card key={user.id} index={index} user={user} />
