@@ -79,13 +79,20 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
+	var sameSite string
+	if os.Getenv("MODE") == "production" {
+		sameSite = "None"
+	} else {
+		sameSite = "Strict"
+	}
+
 	newCookie := &fiber.Cookie{
 		Name:     "jwt",
 		Value:    newToken,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		HTTPOnly: true,
 		Secure:   os.Getenv("MODE") == "production",
-		SameSite: "None",
+		SameSite: sameSite,
 		Domain:   os.Getenv("COOKIE_DOMAIN"),
 	}
 	c.Cookie(newCookie)
