@@ -26,7 +26,6 @@ func main() {
 	app := fiber.New()
 
 	app.Use(recover.New())
-	app.Use(middlewares.RateLimiterMiddleware(150, 60))
 	app.Use(middlewares.LoggerMiddleware())
 	app.Use(middlewares.CORSMiddleware())
 
