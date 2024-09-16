@@ -1,11 +1,5 @@
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
 import Dropdown from '@/components/app/Comment/Dropdown';
 import LikeButton from '@/components/app/Comment/LikeButton';
 import UserInfo from '@/components/app/User/Info';
