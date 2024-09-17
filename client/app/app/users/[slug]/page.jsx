@@ -90,7 +90,9 @@ export default function Page({ params }) {
                         {user.display_name}
                       </div>
                       {user.role === 'admin' && (
-                        <Badge className='rounded-sm'>admin</Badge>
+                        <Badge className='rounded-sm pointer-events-none'>
+                          admin
+                        </Badge>
                       )}
                     </div>
                     <div className='text-zinc-400 text-sm'>

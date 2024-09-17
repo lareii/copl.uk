@@ -27,6 +27,17 @@ export async function followUser(slug) {
   }
 }
 
+export async function getFollows(slug, option, limit, offset) {
+  try {
+    const response = await api.get(`/users/${slug}/follows`, {
+      params: { option, limit, offset }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
 export async function getUserPosts(slug, limit, offset) {
   try {
     const response = await api.get(`/users/${slug}/posts`, {
