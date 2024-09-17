@@ -3,7 +3,7 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SquareArrowOutUpRight } from 'lucide-react';
 
-export default function MarkdownContent({ isPostPage, content }) {
+export default function MarkdownContent({ content }) {
   const customRenderers = {
     img: ({ src, alt }) => (
       <Link href={src} target='_blank' className='flex items-center w-fit'>

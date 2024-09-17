@@ -31,7 +31,7 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
       <div className='relative'>
-        <MarkdownContent isPostPage={isPostPage} content={content} />
+        <MarkdownContent content={content} />
         {!isPostPage && isLong && (
           <div
             onClick={() => setIsExpanded(!isExpanded)}
