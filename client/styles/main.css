@@ -10,31 +10,39 @@
 }
 
 .md h1 {
-  @apply text-3xl font-bold my-2;
+  @apply text-3xl font-bold;
 }
 
 .md h2 {
-  @apply text-2xl font-bold my-2;
+  @apply text-2xl font-bold;
 }
 
 .md h3 {
-  @apply text-xl font-bold my-2;
+  @apply text-xl font-bold;
 }
 
 .md pre {
-  @apply bg-card text-primary p-5 my-4 rounded-lg overflow-x-scroll;
+  @apply bg-card text-primary p-5 my-2 rounded-lg overflow-x-scroll;
 }
 
 .md code {
   @apply text-primary;
 }
 
-.md ul {
+.md .contains-task-list {
+  @apply list-none pl-5 my-2;
+}
+
+.md ul:not(.contains-task-list) {
   @apply list-disc pl-5 my-2;
 }
 
 .md ol {
   @apply list-decimal pl-5 my-2;
+}
+
+.md hr {
+  @apply my-5;
 }
 
 input[type='file']::file-selector-button {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Markdown from 'react-markdown';
 import Dropdown from '@/components/app/Comment/Dropdown';
 import LikeButton from '@/components/app/Comment/LikeButton';
 import UserInfo from '@/components/app/User/Info';
 import DateTooltip from '@/components/app/Tooltip/Date';
+import MarkdownContent from '@/components/app/Markdown';
 
 export default function Comment({ comment: initialComment, onDelete }) {
   const [comment, setComment] = useState(initialComment);
@@ -18,7 +18,7 @@ export default function Comment({ comment: initialComment, onDelete }) {
           onDelete={onDelete}
         />
       </div>
-      <Markdown className='md'>{comment.content}</Markdown>
+      <MarkdownContent isPostPage={true} content={comment.content} />
       <div className='mt-4 flex justify-between'>
         <LikeButton comment={comment} setComment={setComment} />
         <DateTooltip created_at={comment.created_at} updated_at={comment.updated_at} />
