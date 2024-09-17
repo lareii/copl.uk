@@ -6,6 +6,7 @@ import '@/styles/main.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
+  metadataBase: new URL('https://copl.uk'),
   title: {
     template: 'copl.uk - %s',
     default: 'copl.uk'
@@ -22,8 +23,8 @@ export const metadata = {
     images: [
       {
         url: '/og-image.png',
-        width: 1280,
-        height: 640,
+        width: 1200,
+        height: 630,
         alt: 'copl.uk'
       }
     ]
