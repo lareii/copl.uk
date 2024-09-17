@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,5 +22,11 @@ func RateLimiterMiddleware(max int, expiration time.Duration) fiber.Handler {
 		},
 	}
 
-	return limiter.New(config)
+	if os.Getenv("MODE") == "production" {
+		return limiter.New(config)
+	} else {
+		return func(c *fiber.Ctx) error {
+			return c.Next()
+		}
+	}
 }
