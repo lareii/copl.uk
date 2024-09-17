@@ -27,8 +27,8 @@ import { editComment } from '@/lib/api/comments';
 const formSchema = z.object({
   content: z
     .string()
-    .min(1, 'içerik 1-2000 karakter uzunluğunda olmalıdır.')
-    .max(500, 'içerik 1-2000 karakter uzunluğunda olmalıdır.')
+    .min(1, 'içerik 1-500 karakter uzunluğunda olmalıdır.')
+    .max(500, 'içerik 1-500 karakter uzunluğunda olmalıdır.')
 });
 
 export default function UpdateModal({ comment, setComment, setIsOpen }) {
