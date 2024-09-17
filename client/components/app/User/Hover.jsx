@@ -26,7 +26,6 @@ export default function Hover({ user }) {
           )}
         </Link>
       </HoverCardTrigger>
-      {/* TODO: set z-index to make the hover card appear on top */}
       <HoverCardContent className='flex flex-col w-fit' align='start'>
         <div className='flex items-start'>
           <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
