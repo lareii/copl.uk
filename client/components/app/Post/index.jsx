@@ -13,6 +13,17 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
   const [post, setPost] = useState(initialPost);
   const isPostPage = usePathname().includes('/app/posts/');
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const lines = post.content.split('\n');
+  const isLong = lines.length > 5 || post.content.length > 200;
+  const content =
+    isLong && !isPostPage
+      ? isExpanded
+        ? post.content
+        : lines.slice(0, 5).join('\n')
+      : post.content;
+
   return (
     <div className='p-5 bg-zinc-900 rounded-lg'>
       <div className='flex items-center justify-between mb-3'>
@@ -20,9 +31,14 @@ export default function Post({ post: initialPost, onDelete, onNewComment }) {
         <Dropdown post={post} setPost={setPost} onDelete={onDelete} />
       </div>
       <div className='relative'>
-        <MarkdownContent isPostPage={isPostPage} content={post.content} />
-        {!isPostPage && post.content.length > 200 && (
-          <div className='absolute bottom-0 right-0 bg-gradient-to-b from-transparent to-zinc-900 w-full h-full'></div>
+        <MarkdownContent isPostPage={isPostPage} content={content} />
+        {!isPostPage && isLong && (
+          <div
+            onClick={() => setIsExpanded(!isExpanded)}
+            className='text-xs cursor-pointer w-fit'
+          >
+            {isExpanded ? 'gizle' : 'devamını oku'}
+          </div>
         )}
       </div>
       <div className='mt-4 flex items-center justify-between'>

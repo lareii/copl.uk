@@ -35,9 +35,7 @@ export default function MarkdownContent({ isPostPage, content }) {
       remarkPlugins={[remarkGfm]}
       className='md'
     >
-      {isPostPage || content.length <= 200
-        ? content
-        : content.slice(0, 200) + '...'}
+      {content}
     </Markdown>
   );
 }
