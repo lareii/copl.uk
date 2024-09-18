@@ -2,8 +2,12 @@ name: Lint Client
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'client/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - 'client/**'
 jobs:
   lint:
     runs-on: ubuntu-latest
