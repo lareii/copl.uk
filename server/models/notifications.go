@@ -15,9 +15,9 @@ type Notification struct {
 	ID          primitive.ObjectID  `bson:"_id" json:"id"`
 	CreatedAt   primitive.Timestamp `bson:"created_at" json:"created_at"`
 	RecipientID primitive.ObjectID  `bson:"recipient_id" json:"recipient_id"`
-	Content     string              `bson:"content" json:"content"`
+	Type        string              `bson:"type" json:"type"`
+	TypeID      primitive.ObjectID  `bson:"type_id" json:"type_id"`
 	Read        bool                `bson:"read" json:"read"`
-	Link        string              `bson:"link" json:"link"`
 }
 
 func GetNotifications(limit, offset int64, userID primitive.ObjectID) ([]Notification, error) {
@@ -41,15 +41,15 @@ func GetNotifications(limit, offset int64, userID primitive.ObjectID) ([]Notific
 	return notifications, nil
 }
 
-func CreateNotification(notification Notification) (Notification, error) {
+func CreateNotification(notification Notification) error {
 	notification.ID = primitive.NewObjectID()
 	notification.CreatedAt = primitive.Timestamp{T: uint32(time.Now().Unix())}
 	notification.Read = false
 
 	_, err := database.Notifications.InsertOne(context.Background(), notification)
 	if err != nil {
-		return Notification{}, err
+		return fmt.Errorf("error creating notification: %v", err)
 	}
 
-	return notification, nil
+	return nil
 }
