@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import PostList from '@/components/app/Post/List';
 import Follows from '@/components/app/User/Follows';
+import Avatar from '@/components/app/Avatar';
 import { followUser } from '@/lib/api/users';
 import { useAuthStore } from '@/stores/auth';
 
@@ -78,7 +79,9 @@ export default function Page({ params }) {
         <div className='flex flex-col'>
           <div className='relative w-full h-72'>
             <div className='rounded-[var(--radius)] bg-zinc-900 h-60'></div>
-            <div className='left-14 bottom-1 absolute w-28 h-28 rounded-[var(--radius)] bg-zinc-900 outline outline-4 outline-zinc-950'></div>
+            {user && (
+              <Avatar user={user} className='left-14 bottom-1 absolute w-28 h-28 outline outline-4 outline-zinc-950' />
+            )}
           </div>
           {user ? (
             <>

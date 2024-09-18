@@ -6,6 +6,7 @@ import {
   HoverCardContent,
   HoverCardTrigger
 } from '@/components/ui/hover-card';
+import Avatar from '@/components/app/Avatar';
 
 export default function Hover({ user }) {
   return (
@@ -28,7 +29,7 @@ export default function Hover({ user }) {
       </HoverCardTrigger>
       <HoverCardContent className='flex flex-col w-fit' align='start'>
         <div className='flex items-start'>
-          <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
+          <Avatar user={user} className='mr-3 w-10 h-10' />
           <div className='flex flex-col'>
             <div className='flex items-center gap-2'>
               <div className='text-sm'>{user.display_name}</div>

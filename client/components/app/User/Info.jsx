@@ -1,9 +1,10 @@
 import Hover from '@/components/app/User/Hover';
+import Avatar from '@/components/app/Avatar';
 
 export default function UserInfo({ user }) {
   return (
     <div className='flex items-start'>
-      <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
+      <Avatar user={user} className='mr-3 w-10 h-10' />
       <div className='flex flex-col mr-2'>
         <Hover user={user} />
         <div className='text-xs text-zinc-400'>@{user.username}</div>

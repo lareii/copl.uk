@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import Avatar from '@/components/app/Avatar';
 import { useAuthStore } from '@/stores/auth';
 import { updateMe } from '@/lib/api/auth';
 
@@ -113,7 +114,7 @@ export default function Page() {
                 </div>
               </div>
             </div>
-            <div className='w-32 h-32 rounded-lg bg-zinc-800'></div>
+            <Avatar user={user} className='w-32 h-32 rounded-lg' />
           </div>
           <div className='flex flex-wrap justify-between gap-5'>
             <div className='text-sm flex flex-col justify-between'>
