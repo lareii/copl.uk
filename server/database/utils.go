@@ -9,15 +9,17 @@ import (
 )
 
 const (
-	UsersCollectionName    = "users"
-	PostsCollectionName    = "posts"
-	CommentsCollectionName = "comments"
+	UsersCollectionName         = "users"
+	PostsCollectionName         = "posts"
+	CommentsCollectionName      = "comments"
+	NofiticationsCollectionName = "notifications"
 )
 
 var (
-	Users    *mongo.Collection
-	Posts    *mongo.Collection
-	Comments *mongo.Collection
+	Users         *mongo.Collection
+	Posts         *mongo.Collection
+	Comments      *mongo.Collection
+	Notifications *mongo.Collection
 )
 
 func createDatabase(ctx context.Context, databaseName string) error {
@@ -33,7 +35,7 @@ func createDatabase(ctx context.Context, databaseName string) error {
 		}
 	}
 
-	collections := []string{UsersCollectionName, PostsCollectionName, CommentsCollectionName}
+	collections := []string{UsersCollectionName, PostsCollectionName, CommentsCollectionName, NofiticationsCollectionName}
 	for _, coll := range collections {
 		if err := Client.Database(databaseName).CreateCollection(ctx, coll); err != nil {
 			return err
@@ -48,4 +50,5 @@ func initCollections(database *mongo.Database) {
 	Users = database.Collection(UsersCollectionName)
 	Posts = database.Collection(PostsCollectionName)
 	Comments = database.Collection(CommentsCollectionName)
+	Notifications = database.Collection(NofiticationsCollectionName)
 }

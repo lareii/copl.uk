@@ -23,6 +23,7 @@ func SetupRouter(app *fiber.App) {
 	meGroup.Get("/", middlewares.AuthMiddleware(), me.User)
 	meGroup.Patch("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(10, 60), me.UpdateUser)
 	meGroup.Get("/feed", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), me.GetFeed)
+	meGroup.Get("/notifications", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), me.GetNotifications)
 
 	userGroup := app.Group("/users")
 	userGroup.Get("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), users.GetUsers)
