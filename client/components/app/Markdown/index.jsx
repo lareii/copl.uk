@@ -6,19 +6,18 @@ import { SquareArrowOutUpRight } from 'lucide-react';
 export default function MarkdownContent({ content }) {
   const customRenderers = {
     img: ({ src, alt }) => (
-      <Link href={src} target='_blank' className='flex items-center w-fit'>
+      <Link href={src} target='_blank'>
         {alt || src}
-        <SquareArrowOutUpRight className='w-3 h-3 ml-1' />
+        <SquareArrowOutUpRight className='w-3 h-3 ml-1 inline-block' />
       </Link>
     ),
     a: ({ node, children }) => (
       <Link
         href={node.properties.href}
         target='_blank'
-        className='flex items-center w-fit'
       >
         {children || node.properties.href}
-        <SquareArrowOutUpRight className='w-3 h-3 ml-1' />
+        <SquareArrowOutUpRight className='w-3 h-3 ml-1 inline-block' />
       </Link>
     ),
     table: ({ children }) => children,
