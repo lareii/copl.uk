@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import { CalendarFold, Trash, SquareArrowOutUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Hover from '@/components/app/User/Hover';
-import Link from 'next/link';
+import Avatar from '@/components/app/User/Avatar';
 
 export default function Card({ index, user }) {
   return (
@@ -19,7 +20,7 @@ export default function Card({ index, user }) {
       <div className='p-5 bg-zinc-900/85 rounded-lg'>
         <div className='flex items-center justify-between'>
           <div className='flex items-start'>
-            <div className='mr-3 w-10 h-10 rounded-lg bg-zinc-800'></div>
+            <Avatar user={user} className={`mr-3 w-10 h-10`} />
             <div className='flex flex-col mr-2'>
               <Hover user={user} />
               <div className='text-xs text-zinc-400'>@{user.username}</div>
