@@ -1,5 +1,5 @@
 import Hover from '@/components/app/User/Hover';
-import Avatar from '@/components/app/Avatar';
+import Avatar from '@/components/app/User/Avatar';
 
 export default function UserInfo({ user }) {
   return (

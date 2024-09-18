@@ -6,7 +6,7 @@ import {
   HoverCardContent,
   HoverCardTrigger
 } from '@/components/ui/hover-card';
-import Avatar from '@/components/app/Avatar';
+import Avatar from '@/components/app/User/Avatar';
 
 export default function Hover({ user }) {
   return (

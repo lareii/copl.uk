@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import PostList from '@/components/app/Post/List';
 import Follows from '@/components/app/User/Follows';
-import Avatar from '@/components/app/Avatar';
+import Avatar from '@/components/app/User/Avatar';
 import { followUser } from '@/lib/api/users';
 import { useAuthStore } from '@/stores/auth';
 

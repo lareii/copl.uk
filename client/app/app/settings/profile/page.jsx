@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import Avatar from '@/components/app/Avatar';
+import Avatar from '@/components/app/User/Avatar';
 import { useAuthStore } from '@/stores/auth';
 import { updateMe } from '@/lib/api/auth';
 
