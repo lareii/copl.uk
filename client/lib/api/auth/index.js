@@ -26,30 +26,3 @@ export async function logout() {
     return error.response;
   }
 }
-
-export async function me() {
-  try {
-    const response = await api.get('/auth/me');
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-}
-
-export async function updateMe(data) {
-  try {
-    const response = await api.patch('/auth/me', data);
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-}
-
-export async function getFeed() {
-  try {
-    const response = await api.get('/auth/me/feed');
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-}

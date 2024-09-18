@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import useLoadingStore from '@/stores/loading';
 import useAuthStore from '@/stores/auth';
-import { me } from '@/lib/api/auth';
+import { me } from '@/lib/api/me';
 
 export default function AuthProvider({ children }) {
   const setUser = useAuthStore((state) => state.setUser);

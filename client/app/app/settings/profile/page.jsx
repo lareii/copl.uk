@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import Avatar from '@/components/app/User/Avatar';
 import { useAuthStore } from '@/stores/auth';
-import { updateMe } from '@/lib/api/auth';
+import { updateMe } from '@/lib/api/me';
 
 const formSchema = z.object({
   display_name: z

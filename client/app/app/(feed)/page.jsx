@@ -1,7 +1,7 @@
 'use client';
 
 import PostList from '@/components/app/Post/List';
-import { getFeed } from '@/lib/api/auth';
+import { getFeed } from '@/lib/api/me';
 
 export default function Page() {
   const fetchPosts = async (offset) => {
