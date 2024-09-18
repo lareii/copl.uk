@@ -39,7 +39,7 @@ func CreateComment(c *fiber.Ctx) error {
 			"message": "Invalid post ID.",
 		})
 	}
-	_, err = models.GetPostByID(postID)
+	post, err := models.GetPostByID(postID)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Post not found.",
@@ -58,6 +58,14 @@ func CreateComment(c *fiber.Ctx) error {
 			"message": "Error creating comment.",
 		})
 	}
+
+	notification := models.Notification{
+		TargetUserID: post.Author,
+		SourceUserID: user.ID,
+		Type:         "comment_created",
+		TypeContent:  post.ID.Hex(),
+	}
+	_ = models.CreateNotification(notification)
 
 	return c.Status(fiber.StatusCreated).JSON(models.CommentResponse{
 		Message: "Comment created.",

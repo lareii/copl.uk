@@ -65,6 +65,15 @@ func FollowUser(c *fiber.Ctx) error {
 			"message": "User unfollowed successfully",
 		})
 	}
+
+	notification := models.Notification{
+		TargetUserID: targetUser.ID,
+		SourceUserID: user.ID,
+		Type:         "user_followed",
+		TypeContent:  user.Username,
+	}
+	_ = models.CreateNotification(notification)
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User followed successfully",
 	})

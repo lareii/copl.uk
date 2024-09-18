@@ -72,6 +72,14 @@ func UpdatePost(c *fiber.Ctx) error {
 		if *body.Like && !utils.Contains(post.Likes, user.ID) {
 			update["$addToSet"] = bson.M{"likes": user.ID}
 			if post.Author != user.ID {
+				notification := models.Notification{
+					TargetUserID: post.Author,
+					SourceUserID: user.ID,
+					Type:         "post_liked",
+					TypeContent:  post.ID.Hex(),
+				}
+				_ = models.CreateNotification(notification)
+
 				models.UpdateUser(post.Author, bson.M{"$inc": bson.M{"points": 1}})
 			}
 		} else if !*body.Like && utils.Contains(post.Likes, user.ID) {

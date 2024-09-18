@@ -51,6 +51,13 @@ func UpdateComment(c *fiber.Ctx) error {
 		})
 	}
 
+	post, err := models.GetPostByID(comment.Post)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Error fetching post.",
+		})
+	}
+
 	update := bson.M{
 		"$set": bson.M{},
 	}
@@ -72,6 +79,14 @@ func UpdateComment(c *fiber.Ctx) error {
 		if *body.Like && !utils.Contains(comment.Likes, user.ID) {
 			update["$addToSet"] = bson.M{"likes": user.ID}
 			if comment.Author != user.ID {
+				notification := models.Notification{
+					TargetUserID: post.Author,
+					SourceUserID: user.ID,
+					Type:         "comment_liked",
+					TypeContent:  post.ID.Hex(),
+				}
+				_ = models.CreateNotification(notification)
+
 				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": 1}})
 			}
 		} else if !*body.Like && utils.Contains(comment.Likes, user.ID) {

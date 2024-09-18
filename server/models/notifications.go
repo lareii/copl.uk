@@ -12,18 +12,19 @@ import (
 )
 
 type Notification struct {
-	ID          primitive.ObjectID  `bson:"_id" json:"id"`
-	CreatedAt   primitive.Timestamp `bson:"created_at" json:"created_at"`
-	RecipientID primitive.ObjectID  `bson:"recipient_id" json:"recipient_id"`
-	Type        string              `bson:"type" json:"type"`
-	TypeID      primitive.ObjectID  `bson:"type_id" json:"type_id"`
-	Read        bool                `bson:"read" json:"read"`
+	ID           primitive.ObjectID  `bson:"_id" json:"id"`
+	CreatedAt    primitive.Timestamp `bson:"created_at" json:"created_at"`
+	TargetUserID primitive.ObjectID  `bson:"target_user_id" json:"target_user_id"`
+	SourceUserID primitive.ObjectID  `bson:"source_user_id" json:"source_user_id"`
+	Type         string              `bson:"type" json:"type"`
+	TypeContent  string              `bson:"type_content" json:"type_content"`
+	Read         bool                `bson:"read" json:"read"`
 }
 
 func GetNotifications(limit, offset int64, userID primitive.ObjectID) ([]Notification, error) {
 	var notifications []Notification
 	cursor, err := database.Notifications.Find(context.Background(),
-		bson.M{"recipient_id": userID},
+		bson.M{"target_user_id": userID},
 		&options.FindOptions{
 			Limit: &limit,
 			Skip:  &offset,
