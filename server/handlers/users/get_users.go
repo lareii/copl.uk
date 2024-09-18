@@ -10,6 +10,12 @@ func GetUsers(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	offset := c.QueryInt("offset", 0)
 
+	if limit > 30 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Limit must be less than 30.",
+		})
+	}
+
 	users, err := models.GetUsers(int64(limit), int64(offset), bson.M{}, bson.M{"points": -1})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

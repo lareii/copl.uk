@@ -23,6 +23,12 @@ func GetUserPosts(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	offset := c.QueryInt("offset", 0)
 
+	if limit > 30 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Limit must be less than 30.",
+		})
+	}
+
 	posts, err := models.GetPosts(int64(limit), int64(offset), bson.M{"author": user.ID}, bson.M{"created_at": -1})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

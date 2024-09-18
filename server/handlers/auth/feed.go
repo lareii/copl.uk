@@ -16,6 +16,12 @@ func GetFeed(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 10)
 	offset := c.QueryInt("offset", 0)
 
+	if limit > 30 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Limit must be less than 30.",
+		})
+	}
+
 	user, ok := c.Locals("user").(models.User)
 	if !ok {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
