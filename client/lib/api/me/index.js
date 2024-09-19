@@ -18,9 +18,9 @@ export async function updateMe(data) {
   }
 }
 
-export async function getFeed() {
+export async function getFeed(limit, offset) {
   try {
-    const response = await api.get('/me/feed');
+    const response = await api.get('/me/feed', { params: { limit, offset } });
     return response;
   } catch (error) {
     return error.response;
