@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarFold } from 'lucide-react';
+import { CalendarFold, Sparkle, Trash } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
   HoverCard,
@@ -45,13 +45,24 @@ export default function Hover({ user }) {
         <div className='mt-3'>
           <div className='text-sm mb-2'>{user.about}</div>
           <div className='text-xs'>
-            <div className='text-zinc-400 flex items-center mb-0.5'>
-              <CalendarFold className='w-4 h-4 mr-1' />
-              {new Date(user.created_at.T * 1000).toLocaleDateString('tr-TR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+            <div className='flex items-center gap-2 text-xs text-zinc-400'>
+              <div className='flex'>
+                <CalendarFold className='w-4 h-4 mr-1' />
+                {new Date(user.created_at.T * 1000).toLocaleDateString(
+                  'tr-TR',
+                  { year: 'numeric', month: 'long', day: 'numeric' }
+                )}
+              </div>
+              {' · '}
+              <div className='text-yellow-500 relative'>
+                <Sparkle className='w-2.5 h-2.5 absolute right-10 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle1' />
+                <Sparkle className='w-2 h-2 absolute right-2 -top-1 text-yellow-500 fill-yellow-500 animate-sparkle2' />
+                <Sparkle className='w-3 h-3 absolute -right-2.5 -bottom-1 text-yellow-500 fill-yellow-500 animate-sparkle3' />
+                <div className='flex'>
+                  <Trash className='w-4 h-4 mr-1' />
+                  <div className='static'>{user.points} çöp puanı</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
