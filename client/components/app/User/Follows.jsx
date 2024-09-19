@@ -116,56 +116,54 @@ function FollowDialog({ option, user, fetchUsers }) {
             listeleniyor.
           </DialogDescription>
         </DialogHeader>
-        {users.length > 0 && (
-          <div className='flex flex-col gap-3'>
-            {loading && (
-              <>
-                <div className='flex items-center gap-3'>
-                  <Skeleton className='w-10 h-10 rounded-lg bg-zinc-800'></Skeleton>
-                  <div>
-                    <Skeleton className='w-20 h-4 mb-1' />
-                    <Skeleton className='w-10 h-4' />
-                  </div>
+        <div className='flex flex-col gap-3'>
+          {loading && (
+            <>
+              <div className='flex items-center gap-3'>
+                <Skeleton className='w-10 h-10 rounded-lg bg-zinc-800'></Skeleton>
+                <div>
+                  <Skeleton className='w-20 h-4 mb-1' />
+                  <Skeleton className='w-10 h-4' />
                 </div>
-                <div className='flex items-center gap-3'>
-                  <Skeleton className='w-10 h-10 rounded-lg bg-zinc-800'></Skeleton>
-                  <div>
-                    <Skeleton className='w-20 h-4 mb-1' />
-                    <Skeleton className='w-10 h-4' />
-                  </div>
+              </div>
+              <div className='flex items-center gap-3'>
+                <Skeleton className='w-10 h-10 rounded-lg bg-zinc-800'></Skeleton>
+                <div>
+                  <Skeleton className='w-20 h-4 mb-1' />
+                  <Skeleton className='w-10 h-4' />
                 </div>
-              </>
-            )}
-            {!loading && users.length > 0 ? (
-              <>
-                {users.map((user) => (
-                  <div
-                    key={user.id}
-                    className='flex justify-between items-center'
-                  >
-                    <UserInfo user={user} />
-                    <Button variant='ghost' size='icon' asChild>
-                      <Link href={`/app/users/${user.username}`}>
-                        <SquareArrowOutUpRight className='w-4 h-4' />
-                      </Link>
-                    </Button>
-                  </div>
-                ))}
-                {hasMoreUser && (
-                  <Button onClick={loadMoreUsers} className='w-full'>
-                    daha fazla göster
+              </div>
+            </>
+          )}
+          {!loading && users.length > 0 ? (
+            <>
+              {users.map((user) => (
+                <div
+                  key={user.id}
+                  className='flex justify-between items-center'
+                >
+                  <UserInfo user={user} />
+                  <Button variant='ghost' size='icon' asChild>
+                    <Link href={`/app/users/${user.username}`}>
+                      <SquareArrowOutUpRight className='w-4 h-4' />
+                    </Link>
                   </Button>
-                )}
-              </>
-            ) : (
-              !loading && (
-                <div className='flex flex-col items-center justify-center text-sm'>
-                  kimsecikler yok.
                 </div>
-              )
-            )}
-          </div>
-        )}
+              ))}
+              {hasMoreUser && (
+                <Button onClick={loadMoreUsers} className='w-full'>
+                  daha fazla göster
+                </Button>
+              )}
+            </>
+          ) : (
+            !loading && (
+              <div className='flex flex-col items-center justify-center text-sm'>
+                kimsecikler yok.
+              </div>
+            )
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
