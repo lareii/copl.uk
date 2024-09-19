@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import UserInfo from '@/components/app/User/Info';
@@ -19,6 +20,7 @@ function FollowDialog({ option, user, fetchUsers }) {
   const [offset, setOffset] = useState(10);
   const [hasMoreUser, setHasMoreUser] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   const loadMoreUsers = async () => {
@@ -49,32 +51,40 @@ function FollowDialog({ option, user, fetchUsers }) {
 
   useEffect(
     () => {
-      if (!isOpen) return;
+      if (isOpen) {
+        const fetchInitialUsers = async () => {
+          setLoading(true);
 
-      const fetchInitialUsers = async () => {
-        const response = await fetchUsers(option, 0);
+          const response = await fetchUsers(option, 0);
 
-        if (!response || response.status === 429) {
-          toast({
-            title: 'hay aksi, bir şeyler ters gitti!',
-            description:
-              'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
-            duration: 3000
-          });
-          return;
-        }
+          if (!response || response.status === 429) {
+            toast({
+              title: 'hay aksi, bir şeyler ters gitti!',
+              description:
+                'sunucudan yanıt alınamadı. lütfen daha sonra tekrar deneyin.',
+              duration: 3000
+            });
+            return;
+          }
 
-        const initialUsers = response.data.users || [];
+          const initialUsers = response.data.users || [];
 
-        if (initialUsers.length > 10) {
-          setUsers(initialUsers.slice(0, 10));
-        } else {
-          setUsers(initialUsers);
-          setHasMoreUser(false);
-        }
-      };
+          if (initialUsers.length > 10) {
+            setUsers(initialUsers.slice(0, 10));
+          } else {
+            setUsers(initialUsers);
+            setHasMoreUser(false);
+          }
 
-      fetchInitialUsers();
+          setLoading(false);
+        };
+
+        fetchInitialUsers();
+      } else {
+        setUsers([]);
+        setOffset(10);
+        setHasMoreUser(true);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isOpen]
@@ -101,29 +111,58 @@ function FollowDialog({ option, user, fetchUsers }) {
             {option === 'followers' ? 'takipçiler' : 'takip edilenler'}
           </DialogTitle>
           <DialogDescription>
-            {users.length > 0
-              ? `kullanıcının ${
-                  option === 'followers' ? 'takipçileri' : 'takip ettikleri'
-                } listeleniyor.`
-              : 'henüz bir kullanıcı yok.'}
+            kullanıcının{' '}
+            {option === 'followers' ? 'takipçileri' : 'takip ettikleri'}{' '}
+            listeleniyor.
           </DialogDescription>
         </DialogHeader>
         {users.length > 0 && (
           <div className='flex flex-col gap-3'>
-            {users.map((user) => (
-              <div key={user.id} className='flex justify-between items-center'>
-                <UserInfo user={user} />
-                <Button variant='ghost' size='icon' asChild>
-                  <Link href={`/app/users/${user.username}`}>
-                    <SquareArrowOutUpRight className='w-4 h-4' />
-                  </Link>
-                </Button>
-              </div>
-            ))}
-            {hasMoreUser && (
-              <Button onClick={loadMoreUsers} className='w-full'>
-                daha fazla göster
-              </Button>
+            {loading && (
+              <>
+                <div className='flex items-center gap-3'>
+                  <Skeleton className='w-10 h-10 rounded-lg bg-zinc-800'></Skeleton>
+                  <div>
+                    <Skeleton className='w-20 h-4 mb-1' />
+                    <Skeleton className='w-10 h-4' />
+                  </div>
+                </div>
+                <div className='flex items-center gap-3'>
+                  <Skeleton className='w-10 h-10 rounded-lg bg-zinc-800'></Skeleton>
+                  <div>
+                    <Skeleton className='w-20 h-4 mb-1' />
+                    <Skeleton className='w-10 h-4' />
+                  </div>
+                </div>
+              </>
+            )}
+            {!loading && users.length > 0 ? (
+              <>
+                {users.map((user) => (
+                  <div
+                    key={user.id}
+                    className='flex justify-between items-center'
+                  >
+                    <UserInfo user={user} />
+                    <Button variant='ghost' size='icon' asChild>
+                      <Link href={`/app/users/${user.username}`}>
+                        <SquareArrowOutUpRight className='w-4 h-4' />
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
+                {hasMoreUser && (
+                  <Button onClick={loadMoreUsers} className='w-full'>
+                    daha fazla göster
+                  </Button>
+                )}
+              </>
+            ) : (
+              !loading && (
+                <div className='flex flex-col items-center justify-center text-sm'>
+                  kimsecikler yok.
+                </div>
+              )
             )}
           </div>
         )}
