@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Compass, Bell } from 'lucide-react';
+import { Home, Compass } from 'lucide-react';
 import Item from '@/components/app/Navbar/Item';
 import Dropdown from '@/components/app/Navbar/Dropdown';
 import PostModal from '@/components/app/Navbar/PostModal';
+import NotificationButton from '@/components/app/Navbar/Notification';
 
 export default function Uncollapsed({ router, pathname }) {
   return (
@@ -34,12 +35,7 @@ export default function Uncollapsed({ router, pathname }) {
                 icon={Compass}
                 label='keşfet'
               />
-              <Item
-                pathname={pathname}
-                href='/app/notifications'
-                icon={Bell}
-                label='bildirimler'
-              />
+              <NotificationButton pathname={pathname} />
             </div>
             <div className='mt-5 mb-3 font-medium text-xs text-muted-foreground'>
               yaratıcılık

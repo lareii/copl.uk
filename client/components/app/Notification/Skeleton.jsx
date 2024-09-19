@@ -12,5 +12,5 @@ export default function NotificationSkeleton() {
       </div>
       <Skeleton className='mt-3 w-1/2 h-4'></Skeleton>
     </div>
-  )
+  );
 }

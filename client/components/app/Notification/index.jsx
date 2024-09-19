@@ -5,6 +5,7 @@ import UserInfo from '@/components/app/User/Info';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { updateNotification } from '@/lib/api/me';
+import { useNotificationStore } from '@/stores/notification';
 
 function typeContent(notification) {
   switch (notification.type) {
@@ -33,6 +34,12 @@ function typeContent(notification) {
 
 export default function Notification({ notification }) {
   const [isRead, setIsRead] = useState(notification.read);
+  const notificationCount = useNotificationStore(
+    (state) => state.notificationCount
+  );
+  const setNotificationCount = useNotificationStore(
+    (state) => state.setNotificationCount
+  );
   const { toast } = useToast();
 
   const markAsRead = async ({ read }) => {
@@ -51,6 +58,7 @@ export default function Notification({ notification }) {
     }
 
     setIsRead(!read);
+    setNotificationCount(!read ? notificationCount - 1 : notificationCount + 1);
   };
 
   return (
@@ -69,7 +77,12 @@ export default function Notification({ notification }) {
               <Mail className='w-4 h-4' />
             )}
           </Button>
-          <Button variant='ghost' size='icon' asChild>
+          <Button
+            variant='ghost'
+            size='icon'
+            onClick={() => markAsRead({ read: isRead })}
+            asChild
+          >
             <Link href={typeContent(notification).href}>
               <SquareArrowOutUpRight className='w-4 h-4' />
             </Link>
