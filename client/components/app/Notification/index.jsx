@@ -91,8 +91,7 @@ export default function Notification({ notification }) {
       </div>
       <div className='text-sm text-muted-foreground'>
         <span className='text-primary'>
-          {notification.source_user.display_name} (
-          {notification.source_user.username})
+          {notification.source_user.display_name}
         </span>{' '}
         {typeContent(notification).message}
       </div>
