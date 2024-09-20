@@ -59,13 +59,15 @@ func CreateComment(c *fiber.Ctx) error {
 		})
 	}
 
-	notification := models.Notification{
-		TargetUserID: post.Author,
-		SourceUserID: user.ID,
-		Type:         "comment_created",
-		TypeContent:  post.ID.Hex(),
+	if user.ID != post.Author {
+		notification := models.Notification{
+			TargetUserID: post.Author,
+			SourceUserID: user.ID,
+			Type:         "comment_created",
+			TypeContent:  post.ID.Hex(),
+		}
+		_ = models.CreateNotification(notification)
 	}
-	_ = models.CreateNotification(notification)
 
 	return c.Status(fiber.StatusCreated).JSON(models.CommentResponse{
 		Message: "Comment created.",
