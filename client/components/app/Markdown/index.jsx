@@ -8,22 +8,7 @@ import { SquareArrowOutUpRight } from 'lucide-react';
 export default function MarkdownContent({ content }) {
   const isPostPage = usePathname().includes('/app/posts/');
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const contentLines = content.split('\n');
-  const contentLength = content.length;
-  const lineCount = contentLines.length;
-
-  const isLong = lineCount > 5 || contentLength > 500;
-
-  const truncatedContent =
-    lineCount > 5
-      ? contentLines.slice(0, 5).join('\n') + '...'
-      : contentLength > 500
-      ? content.substring(0, 500) + '...'
-      : content;
-
-  const contentToShow = isExpanded || isPostPage ? content : truncatedContent;
+  const [isExpanded, setIsExpanded] = useState(isPostPage);
 
   const customRenderers = {
     img: ({ src, alt }) => (
@@ -51,12 +36,11 @@ export default function MarkdownContent({ content }) {
       <Markdown
         components={customRenderers}
         remarkPlugins={[remarkGfm]}
-        className='md'
+        className={`md ${isExpanded ? 'line-clamp-none' : 'line-clamp-5'}`}
       >
-        {contentToShow}
+        {content}
       </Markdown>
-
-      {!isPostPage && isLong && (
+      {!isPostPage && (
         <div
           onClick={() => setIsExpanded(!isExpanded)}
           className='text-xs cursor-pointer w-fit'
