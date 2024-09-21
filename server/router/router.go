@@ -50,7 +50,7 @@ func setupPostGroup(app *fiber.App) fiber.Router {
 	return g
 }
 
-func setupCommentGroup(postGroup fiber.Router) {
+func setupCommentGroup(postGroup fiber.Router) fiber.Router {
 	g := postGroup.Group("/:post_id/comments")
 	g.Get("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), posts.GetPostComments)
 	g.Post("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(5, 60), comments.CreateComment)
