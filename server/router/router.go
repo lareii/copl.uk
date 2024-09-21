@@ -11,14 +11,15 @@ import (
 	"github.com/lareii/copl.uk/server/middlewares"
 )
 
-func setupAuthGroup(app *fiber.App) {
+func setupAuthGroup(app *fiber.App) fiber.Router {
 	g := app.Group("/auth")
 	g.Post("/register", middlewares.RateLimiterMiddleware(1, 300), auth.Register)
 	g.Post("/login", auth.Login)
 	g.Post("/logout", auth.Logout)
+	return g
 }
 
-func setupMeGroup(app *fiber.App) {
+func setupMeGroup(app *fiber.App) fiber.Router {
 	g := app.Group("/me")
 	g.Get("/", middlewares.AuthMiddleware(), me.User)
 	g.Patch("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(10, 60), me.UpdateUser)
@@ -26,33 +27,37 @@ func setupMeGroup(app *fiber.App) {
 	g.Get("/notifications", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), me.GetNotifications)
 	g.Patch("/notifications/:id", middlewares.AuthMiddleware(), me.UpdateNotification)
 	g.Get("/notifications/unread", middlewares.AuthMiddleware(), me.GetUnreadNotifications)
+	return g
 }
 
-func setupUserGroup(app *fiber.App) {
+func setupUserGroup(app *fiber.App) fiber.Router {
 	g := app.Group("/users")
 	g.Get("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), users.GetUsers)
 	g.Get("/:slug", middlewares.AuthMiddleware(), users.GetUser)
 	g.Get("/:slug/follows", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), users.Follows)
 	g.Post("/:slug/follows", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(10, 60), users.FollowUser)
 	g.Get("/:slug/posts", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), users.GetUserPosts)
+	return g
 }
 
-func setupPostGroup(app *fiber.App) {
+func setupPostGroup(app *fiber.App) fiber.Router {
 	g := app.Group("/posts")
 	g.Get("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), posts.GetPosts)
 	g.Post("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(5, 60), posts.CreatePost)
 	g.Get("/:id", middlewares.AuthMiddleware(), posts.GetPost)
 	g.Delete("/:id", middlewares.AuthMiddleware(), posts.DeletePost)
 	g.Patch("/:id", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(10, 60), posts.UpdatePost)
+	return g
 }
 
-func setupCommentGroup(app *fiber.App) {
+func setupCommentGroup(postGroup fiber.Router) {
 	g := postGroup.Group("/:post_id/comments")
 	g.Get("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(20, 60), posts.GetPostComments)
 	g.Post("/", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(5, 60), comments.CreateComment)
 	g.Get("/:id", middlewares.AuthMiddleware(), comments.GetComment)
 	g.Delete("/:id", middlewares.AuthMiddleware(), comments.DeleteComment)
 	g.Patch("/:id", middlewares.AuthMiddleware(), middlewares.RateLimiterMiddleware(10, 60), comments.UpdateComment)
+	return g
 }
 
 func SetupRouter(app *fiber.App) {
@@ -62,6 +67,6 @@ func SetupRouter(app *fiber.App) {
 	setupAuthGroup(app)
 	setupMeGroup(app)
 	setupUserGroup(app)
-	setupPostGroup(app)
-	setupCommentGroup(app)
+	postGroup := setupPostGroup(app)
+	setupCommentGroup(postGroup)
 }
