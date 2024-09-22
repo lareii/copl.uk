@@ -1,11 +1,12 @@
 package comments
 
 import (
+	"slices"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
-	"github.com/lareii/copl.uk/server/utils"
+	"github.com/lareii/copl.uk/server/validate"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -30,7 +31,7 @@ func UpdateComment(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := utils.Validate.Struct(&body); err != nil {
+	if err := validate.Struct(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Missing or invalid fields.",
 		})
@@ -76,7 +77,7 @@ func UpdateComment(c *fiber.Ctx) error {
 	}
 
 	if body.Like != nil {
-		if *body.Like && !utils.Contains(comment.Likes, user.ID) {
+		if *body.Like && !slices.Contains(comment.Likes, user.ID) {
 			update["$addToSet"] = bson.M{"likes": user.ID}
 			if comment.Author != user.ID {
 				notification := models.Notification{
@@ -89,7 +90,7 @@ func UpdateComment(c *fiber.Ctx) error {
 
 				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": 1}})
 			}
-		} else if !*body.Like && utils.Contains(comment.Likes, user.ID) {
+		} else if !*body.Like && slices.Contains(comment.Likes, user.ID) {
 			update["$pull"] = bson.M{"likes": user.ID}
 			if comment.Author != user.ID {
 				models.UpdateUser(comment.Author, bson.M{"$inc": bson.M{"points": -1}})

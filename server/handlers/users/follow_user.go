@@ -1,9 +1,10 @@
 package users
 
 import (
+	"slices"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
-	"github.com/lareii/copl.uk/server/utils"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -35,7 +36,7 @@ func FollowUser(c *fiber.Ctx) error {
 
 	var updateTarget, updateUser bson.M
 
-	isFollowing := utils.Contains(user.Following, targetUser.ID)
+	isFollowing := slices.Contains(user.Following, targetUser.ID)
 	if isFollowing {
 		updateTarget = bson.M{"$pull": bson.M{"followers": user.ID}}
 		updateUser = bson.M{"$pull": bson.M{"following": targetUser.ID}}
