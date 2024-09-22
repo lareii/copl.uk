@@ -1,5 +1,4 @@
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import Link from 'next/link';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -7,8 +6,6 @@ import { SquareArrowOutUpRight } from 'lucide-react';
 
 export default function MarkdownContent({ content }) {
   const isPostPage = usePathname().includes('/app/posts/');
-
-  const [isExpanded, setIsExpanded] = useState(isPostPage);
 
   const customRenderers = {
     img: ({ src, alt }) => (
@@ -36,18 +33,10 @@ export default function MarkdownContent({ content }) {
       <Markdown
         components={customRenderers}
         remarkPlugins={[remarkGfm]}
-        className={`md ${isExpanded ? 'line-clamp-none' : 'line-clamp-5'}`}
+        className={`md ${isPostPage ? 'line-clamp-none' : 'line-clamp-5'}`}
       >
         {content}
       </Markdown>
-      {!isPostPage && (
-        <div
-          onClick={() => setIsExpanded(!isExpanded)}
-          className='text-xs cursor-pointer w-fit'
-        >
-          {isExpanded ? 'gizle' : 'devamını oku'}
-        </div>
-      )}
     </div>
   );
 }

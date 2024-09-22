@@ -18,7 +18,7 @@ export default function Comment({ comment: initialComment, onDelete }) {
           onDelete={onDelete}
         />
       </div>
-      <MarkdownContent isPostPage={true} content={comment.content} />
+      <MarkdownContent content={comment.content} />
       <div className='mt-4 flex justify-between'>
         <LikeButton comment={comment} setComment={setComment} />
         <DateTooltip created_at={comment.created_at} updated_at={comment.updated_at} />
