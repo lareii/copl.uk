@@ -1,4 +1,4 @@
-package utils
+package validate
 
 import (
 	"regexp"
@@ -6,7 +6,11 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-var Validate *validator.Validate
+var validate *validator.Validate
+
+func Struct(s interface{}) error {
+	return validate.Struct(s)
+}
 
 func usernameValidator(fl validator.FieldLevel) bool {
 	regex := regexp.MustCompile("^[a-zA-Z0-9._]+$")
@@ -14,6 +18,6 @@ func usernameValidator(fl validator.FieldLevel) bool {
 }
 
 func init() {
-	Validate = validator.New()
-	Validate.RegisterValidation("username_valid", usernameValidator)
+	validate = validator.New()
+	validate.RegisterValidation("username_valid", usernameValidator)
 }

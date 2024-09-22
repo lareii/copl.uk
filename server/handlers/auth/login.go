@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 	"github.com/lareii/copl.uk/server/models"
-	"github.com/lareii/copl.uk/server/utils"
+	"github.com/lareii/copl.uk/server/validate"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -25,7 +25,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := utils.Validate.Struct(&body); err != nil {
+	if err := validate.Struct(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Missing or invalid fields.",
 		})

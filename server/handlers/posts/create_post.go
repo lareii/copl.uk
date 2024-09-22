@@ -3,7 +3,7 @@ package posts
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/lareii/copl.uk/server/models"
-	"github.com/lareii/copl.uk/server/utils"
+	"github.com/lareii/copl.uk/server/validate"
 )
 
 type NewPostBody struct {
@@ -25,7 +25,7 @@ func CreatePost(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := utils.Validate.Struct(&body); err != nil {
+	if err := validate.Struct(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Missing or invalid fields.",
 		})
